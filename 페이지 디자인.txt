@@ -1,0 +1,50 @@
+메인페이지 		: main.jsp
+
+- 회원가입 		: join.jsp
+- 로그인			: login.jsp
+- header.jsp
+	- 홈				: main.jsp
+	
+	- 공지사항			: notice.jsp
+		- 게시판		
+			- 글보기 	: notice_article.jsp
+				- 수정	: notice_article_u.jsp =>> notice_article.jsp
+				- 삭제	: notice_article_d.jsp =>> notice.jsp
+				- 리스트 	: notice.jsp
+			- 등록	: notice_create.jsp
+				
+	- 방소개			: room.jsp
+		- 룸선택		: room_article.jsp
+			- 수정	: room_article_u.jsp =>> notice_article.jsp
+			- 삭제	: room_article_d.jsp =>> notice.jsp
+			- 리스트 	: room.jsp
+			- 글보기	: notice_create.jsp
+		- 리뷰 		: review.jsp
+			- 리뷰작성 : review_c_ok.jsp
+			- 리뷰수정 : review_u_ok.jsp
+			- 리뷰삭제 : review_d_ok.jsp
+	
+	- 일정			: schedule.jsp
+		- 달력		: 
+			- 예약	: reserve.jsp (파라미터 : 날짜, 방번호)
+			- 날짜활성화 : 
+	
+	
+	- 예약			: reserve.jsp
+		==>> 결제 	: pay.jsp
+		==>> 확인 	: confirm.jsp
+	
+	
+	- 고객문의			: qna.jsp
+		- FAQ 		: 
+		- 게시판			
+			- 검색	: qna_search.jsp
+			- 등록	: qna_c.jsp
+			- 글보기 	: qna_article.jsp
+				- 등록 	: 					=>> qna.jsp
+				- 수정	: qna_article_u.jsp =>> qna_article.jsp
+				- 삭제	: qna_article_d.jsp =>> qna.jsp
+				- 리스트 	: qna.jsp
+			
+			
+-footer.jsp	
