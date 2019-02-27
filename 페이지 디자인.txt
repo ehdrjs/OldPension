@@ -14,6 +14,8 @@
 				--> 삭제 파라미터 : 페이지 번호, 공지사항번호
 				- 리스트 	: notice.jsp
 			- 등록	: notice_create.jsp
+				--> 등록 파라미터 : notice.jsp => notice_create.jsp : 페이지 번호
+				--> 등록 파라미터 : notice_create.jsp => notice.jsp : 페이지 번호
 				
 	- 방소개			: room.jsp
 		- 룸선택		: room_article.jsp
