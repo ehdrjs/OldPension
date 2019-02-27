@@ -42,13 +42,13 @@
 	- 고객문의			: qna.jsp
 		- FAQ 		: 
 		- 게시판			
-			- 검색	: qna_search.jsp
-			- 등록	: qna_c.jsp
-			- 글보기 	: qna_article.jsp
-				- 등록 	: 					=>> qna.jsp
-				- 수정	: qna_article_u.jsp =>> qna_article.jsp
-				- 삭제	: qna_article_d.jsp =>> qna.jsp
-				- 리스트 	: qna.jsp
+			- 검색	: qna_search.jsp (파라미터:검색키, 검색값)
+			- 등록	: qna_c.jsp (파라미터: 제목, 글쓴이, 내용, 패스워드)
+			- 글보기 	: qna_article.jsp (파라미터: 페이지번호, 글번호)
+				- 등록 	: (파라미터:제목, 글쓴이, 내용, 패스워드)	=>> qna.jsp
+				- 수정	: qna_article_u.jsp =>> qna_article.jsp (파라미터:제목, 글쓴이, 내용, 패스워드,글번호, 페이지번호)
+				- 삭제	: qna_article_d.jsp =>> qna.jsp (글번호, 페이지번호)
+				- 리스트 	: qna.jsp (글번호, 페이지번호, 검색키, 검색값)
 			
 			
 -footer.jsp	
