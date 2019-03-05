@@ -17,7 +17,25 @@
 </div>
 
 <div class="container">
-작업하기
+<div>
+
+<h3><span>|</span>고객문의 게시판</h3>
+</div>
+	<table>
+		<tr>
+			<th>번호</th>
+			<th>제목</th>
+			<th>작성자</th>
+			<th>작성일</th>
+			<th>조회수</th>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
 </div>
 
 <div class="footer">
