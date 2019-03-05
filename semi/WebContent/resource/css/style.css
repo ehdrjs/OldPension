@@ -1,0 +1,24 @@
+@CHARSET "UTF-8";
+
+	#container {
+		position:relative;
+		width:100%;
+		height:720px;
+		overflow:hidden;
+		white-space:nowrap;
+		border:1px solid #000;
+	}
+	#container ul#contain {
+		list-style:none;
+		margin:0;
+		padding:0;
+	}
+	#container ul li {
+		position:absolute;
+		width:100%;
+		height:720px;
+	}
+	#container ul li img {
+		width:100%;
+		height:720px;
+	}
