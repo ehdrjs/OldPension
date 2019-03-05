@@ -65,6 +65,7 @@ function sendOk(){
 		return;
 	}
 	
+	
 	f.submit();
 	
 }
