@@ -24,7 +24,6 @@
 			<select id="room">
 				<option value="room1">방1</option>
 				<option value="room2">방2</option>
-				<option value="room3">방3</option>
 			</select>
 		</ul>
 		<ul>
