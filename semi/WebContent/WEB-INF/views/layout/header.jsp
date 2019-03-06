@@ -24,7 +24,7 @@
 					<li><a href="#">예약확인/취소</a></li>
 				</ul>
 			</li>
-			<li><a href="#">고객문의</a></li>
+			<li><a href="<%=cp%>/qna/qna.do">고객문의</a></li>
 		</ul>
 	</div>
 	<div class="loginInfo">

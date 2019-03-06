@@ -138,3 +138,6 @@
 
 .tb_basic thead .week th:first-child{color:red}
 .tb_basic thead .week th:last-child{color:blue}
+
+.qna > .container {width:47%;}
+.qna > .container  .list-group li{border-left:none; border-right:none; width:90px; text-align:center}
