@@ -32,7 +32,7 @@
 	</table>
 	<table>
 		<tr>
-			<td></td>
+			<td>1</td>
 			<td></td>
 		</tr>
 	</table>
