@@ -39,15 +39,15 @@
 				</h5>
 			</div>
 			<div class="row">
-			<div class="col-md-12">
-			<ul>
-				<li style="display:inline" >글/페이지</li>
-				<li style="float:right; list-style:none">
-					<button type="button" class="btn btn-info btn-sm"
-						onclick="javascript:location.href='<%=cp%>/qna/created.do';">글작성</button>
-				</li>
-			</ul>
-			</div>
+				<div class="col-md-12">
+					<ul>
+						<li style="display: inline">글/페이지</li>
+						<li style="float: right; list-style: none">
+							<button type="button" class="btn btn-info btn-sm"
+								onclick="javascript:location.href='<%=cp%>/qna/created.do';">글작성</button>
+						</li>
+					</ul>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
@@ -60,23 +60,25 @@
 					</ul>
 				</div>
 			</div>
-			
+
 			<div class="row">
-			<div class="col-md-3"></div>
-			<div class="col-md-9">
-						<form class="form-group" name="qnaSearchForm"
-							action="<%=cp%>/qna/qna.do" method="post">
-							<select class="form-control col-md-2" name="qnaSearchKey" style="float:left; margin-right:5px"
-								class="qnaSelectField">
-								<option value="qnaSubject">제목</option>
-								<option value="qnaContent">내용</option>
-								<option value="qnaUserName">작성자</option>
-								<option value="qnaCreated">등록일</option>
-							</select> <input type="text" class="form-control col-md-4" style="float:left; margin-right:5px" name="qnaSearchValue">
-							<button type="button" class="btn btn-info btn-sm" style="margin-top:3px"
-								onclick="qnaSearchList()">검색</button>
-						</form>
-				</div></div>
+				<div class="col-md-3"></div>
+				<div class="col-md-9">
+					<form class="form-group" name="qnaSearchForm"
+						action="<%=cp%>/qna/qna.do" method="post">
+						<select class="form-control col-md-2" name="qnaSearchKey"
+							style="float: left; margin-right: 5px" class="qnaSelectField">
+							<option value="qnaSubject">제목</option>
+							<option value="qnaContent">내용</option>
+							<option value="qnaUserName">작성자</option>
+							<option value="qnaCreated">등록일</option>
+						</select> <input type="text" class="form-control col-md-4"
+							style="float: left; margin-right: 5px" name="qnaSearchValue">
+						<button type="button" class="btn btn-info btn-sm"
+							style="margin-top: 3px" onclick="qnaSearchList()">검색</button>
+					</form>
+				</div>
+			</div>
 		</div>
 
 		<div class="footer">

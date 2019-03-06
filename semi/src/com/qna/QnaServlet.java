@@ -27,7 +27,7 @@ public class QnaServlet extends MyServlet {
 			qna(req, resp);
 		}else if(uri.indexOf("created.do")!=-1) {
 			createdForm(req,resp);
-		}else if(uri.indexOf("created_ok")!=-1) {
+		}else if(uri.indexOf("created_ok.do")!=-1) {
 			createdSubmit(req, resp);
 		}
 	}
@@ -53,13 +53,16 @@ public class QnaServlet extends MyServlet {
 		}
 		
 		HttpSession session=req.getSession();
-		SessionInfo info=(SessionInfo)session.getAttribute("membet");
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
 		QnaDAO dao=new QnaDAO();
 		QnaDTO dto=new QnaDTO();
 		dto.setSubject(req.getParameter("subject"));
 		dto.setSubject(req.getParameter("content"));
 		dto.setUserId(info.getUserId());
+		
+		dao.insertQna(dto, "created");
+		resp.sendRedirect(cp+"/qna/qna.do");
 		
 	
 	}

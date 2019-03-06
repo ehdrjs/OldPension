@@ -141,3 +141,5 @@
 
 .qna > .container {width:47%;}
 .qna > .container  .list-group li{border-left:none; border-right:none; width:90px; text-align:center}
+
+.qna_created > .container {width:47%;}

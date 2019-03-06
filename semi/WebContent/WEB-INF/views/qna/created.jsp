@@ -41,23 +41,24 @@
 			return;
 		}
 		
-		f.action="<%=cp%>/qna/{$mode}_ok.do";
+		f.action="<%=cp%>/qna/${mode}_ok.do";
 		
 		f.submit();
 	}
 </script>
 </head>
 <body>
+<div class=qna_created>
 	<jsp:include page="/WEB-INF/views/layout/import.jsp"></jsp:include>
 	<div class="header">
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	</div>
 	<div class="container">
-		<div>
-			<h3>
-				<span>|</span>고객문의 게시판
-			</h3>
-		</div>
+			<div>
+				<h5 style="font-weight: bold">
+					<span>|&nbsp;</span>고객문의 게시판
+				</h5>
+			</div>
 		<div>
 			<form name="qnaForm" method="post">
 				<table>
@@ -68,7 +69,7 @@
 					</tr>
 					<tr>
 						<td>작성자</td>
-						<td></td>
+						<td>${sessionScope.member.userName}</td>
 					</tr>
 					<tr>
 					<td>내용</td>
@@ -79,6 +80,7 @@
 					<tr>
 						<td>
 						<button type="button" onclick="sendOk();">등록하기</button>
+						<button type="button" onclick="javascript:location.href='<%=cp%>/qna/qna.do';">등록취소</button>
 						</td>
 					</tr>
 				</table>
@@ -88,6 +90,7 @@
 	</div>
 	<div class="footer">
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+	</div>
 	</div>
 </body>
 </html>
