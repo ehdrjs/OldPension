@@ -14,6 +14,13 @@ a {
 	text-decoration: none;
 }
 
+.w100p{width:100%;}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
 .header {
 	padding: 20px 0;
 	text-align: center;
