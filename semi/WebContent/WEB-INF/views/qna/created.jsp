@@ -71,7 +71,7 @@
 							<td><input type="text" name="subject" placeholder="제목을 입력하세요" value="${dto.subject}"></td>
 						</tr>
 						<tr>
-							<td>작성자</td>
+							<td>작성ID</td>
 							<td>${sessionScope.member}</td>
 						</tr>
 						<tr>

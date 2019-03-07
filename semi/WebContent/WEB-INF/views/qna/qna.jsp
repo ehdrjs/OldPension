@@ -54,7 +54,7 @@
 					<ul class="list-group list-group-horizontal">
 						<li class="list-group-item">번호</li>
 						<li class="list-group-item" style="width: 340px">제목</li>
-						<li class="list-group-item">작성자</li>
+						<li class="list-group-item">작성ID</li>
 						<li class="list-group-item">작성일</li>
 						<li class="list-group-item">조회수</li>
 					</ul>
@@ -66,14 +66,21 @@
 				<div class="col-md-12">
 					<ul class="list-group list-group-horizontal">
 						<li class="list-group-item">${dto.listNum}</li>
-						<li class="list-group-item" style="width: 340px">${dto.subject}</li>
+						<li class="list-group-item" style="width: 340px; text-align:left;">${dto.subject}</li>
 						<li class="list-group-item">${dto.userId}</li>
 						<li class="list-group-item">${dto.created}</li>
-						<li class="list-group-item">${dto.qnaCount}</li>
+						<li class="list-group-item">${dto.count}</li>
 					</ul>
 				</div>
 			</div>
 			</c:forEach>
+			
+			<nav aria-label="Page navigation example">
+			  <ul class="pagination">
+			        <li class="page-item"><c:if test="${dataCount==0}">등록된 게시물이 없습니다.</c:if></li>
+			        <li class="page-item"><c:if test="${dataCount!=0}">${paging}</c:if></li>
+		 	 </ul>
+			</nav>
 			
 			<div class="row">
 				<div class="col-md-3"></div>
@@ -84,7 +91,7 @@
 							style="float: left; margin-right: 5px" class="qnaSelectField">
 							<option value="qnaSubject">제목</option>
 							<option value="qnaContent">내용</option>
-							<option value="qnaUserId">작성자</option>
+							<option value="qnaUserId">작성ID</option>
 							<option value="qnaDate">등록일</option>
 						</select> <input type="text" class="form-control col-md-4"
 							style="float: left; margin-right: 5px" name="qnaSearchValue">

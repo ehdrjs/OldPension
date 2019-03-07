@@ -2,6 +2,8 @@ package com.qna;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -78,8 +80,37 @@ public class QnaServlet extends MyServlet {
 			list = dao.listQna(start, end, searchKey, searchValue);
 		}
 		
+		int listNum, n=0;
+		Iterator<QnaDTO> it = list.iterator();
+		while(it.hasNext()) {
+			QnaDTO	dto = it.next();
+			listNum = dataCount - (start + n -1);
+			dto.setListNum(listNum);
+			n++;
+		}
+		
+		String query ="";
+		if(searchValue.length() !=0) {
+			query ="searchKey=" + searchKey + "&searchValue"+ URLEncoder.encode(searchValue, "utf-8"); 
+		}
+		
+		String listUrl = cp + "qna/qna.do";
+		String articleUrl= cp+ "qna/article.do?page=" + current_page;
+		if(query.length()!=0) {
+			listUrl += "?" + query;
+			articleUrl += "&" + query;
+		}
+		
+		String paging = util.paging(current_page, total_page, listUrl);
+		
+		req.setAttribute("list", list);
+		req.setAttribute("dataCount", dataCount);
+		req.setAttribute("page", current_page);
+		req.setAttribute("total_page", total_page);
+		req.setAttribute("aricleUrl", articleUrl);
+		req.setAttribute("paging", paging);
+		
 		forward(req, resp, "/WEB-INF/views/qna/qna.jsp");
-
 	}
 	
 	private void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{

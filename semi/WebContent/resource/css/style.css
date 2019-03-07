@@ -30,27 +30,7 @@
 	margin: 20px auto;
 }
 
-.contents .paging {
-	width: 100%;
-	margin: 10px auto;
-	text-align: center;
-	font-size: 26px;
-	margin: 30px auto;
-}
 
-.contents .paging .paging2 {
-	display: inline-block;
-}
-
-.contents .paging .paging2 a{
-	border: 1px solid #c4c4c4;
-    margin-right: 10px;
-}
-
-.contents .paging .paging2 ul li {
-	list-style: none;
-	float: left;
-}
 
 .contents .tb {
 	width: 100%;
