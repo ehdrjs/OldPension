@@ -1,0 +1,94 @@
+@CHARSET "UTF-8";
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+a {
+	color: #333333;
+	text-decoration: none;
+}
+
+.w100p{width:100%;}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.header {
+	padding: 20px 0;
+	text-align: center;
+	min-width:1100px;
+}
+
+.header .logo {
+	float: left;
+	width: 80px;
+	height: 80px;
+}
+
+.header .gnb {
+	display: inline-block;
+	margin: 0px auto;
+	height: 35px;
+	font-size: 24px;
+}
+
+.header .gnb ul li {
+	float: left;
+	list-style: none;
+	margin: 0px 12px;
+	padding: 1px 10px;
+}
+
+.header .gnb ul li ul {
+	font-size: 17px;
+	visibility: hidden;
+	position: absolute;
+	top: 55px;
+	transition: .3s;
+	z-index: 2;
+}
+
+.header .gnb ul li:hover ul {
+	visibility: visible;
+}
+
+.header .gnb ul li ul li {
+	float: left;
+}
+
+.header .loginInfo {
+	float: right;
+	margin: 25px 15px 0px 0px;
+}
+
+.reserve_body {
+	margin:50px auto;
+}
+
+.reserve_body ul li {
+	
+	list-style: none;
+}
+
+.footer {
+	padding: 20px 0;
+	border-bottom: 1px solid #c4c4c4;
+	text-align: center;
+}
+
+.footer .links {
+	display: inline-block;
+}
+
+.footer .links ul li {
+	float: left;
+	list-style: none;
+}
