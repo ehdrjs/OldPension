@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
-   String cp = request.getContextPath();
+	String cp = request.getContextPath();
 %>
 <!DOCTYPE html>
 <html>
@@ -89,22 +89,39 @@ function article(){
 	</div>
 	
 	<form name = "noticeList "method="post" action="<%=cp%>/notice/created.do">
-		<div class="list-row">
-				<ul>
-					<li class="num" >번호</li>
-					<li class="subject" onclick="article();">제목 2...</li>
-					<li class="name">스프링</li>
-					<li class="created">2015-10-10</li>	
-					<li class="download" onclick="">이미지</li>
-				</ul>
-		</div>
-		<div align="right" style="margin-top: 10">
-			<button type="button" name = "createdBtn">등록하기</button>
-		</div>
+		
+			<div class="list-row">
+			<c:forEach var = "dto" items="${list }">
+					<ul>
+						<li class="num" >${dto.rnum }</li>
+						<li class="subject" onclick="javascript:location.href='<%=cp%>/notice/article.do?page=${page }'">${dto.noticeSubject }</li>
+						<li class="name">${dto.userId }</li>
+						<li class="created">${dto.noticeDate }</li>
+						<c:if test = "${not empty dto.saveFileName}">
+							<li class="download" onclick="">이미지</li>
+						</c:if>
+						<c:if test = "${empty dto.saveFileName}">
+							<li class="download"></li>
+						</c:if>		
+					</ul>
+			</c:forEach>
+			</div>
+			
 		
 	</form>
+		<c:if test = "${sessionScope.member.userRole.equals('admin')}">
+		<div align="right" style="margin-top: 10">
+			<button type="button" name = "createdBtn" onclick = "javascript:location.href ='<%=cp%>/notice/created.do?page=${page }'">등록하기</button>
+		</div>
+		</c:if>
 	<div align="center">
-	 	페이징
+		<c:if test="${dataCount == 0 }">
+			게시물 없다.
+		</c:if>
+		<c:if test="${dataCount != 0 }">
+			 ${paging }
+		</c:if>
+	
 	</div>
 	
 		
