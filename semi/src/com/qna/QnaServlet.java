@@ -58,7 +58,7 @@ public class QnaServlet extends MyServlet {
 		QnaDAO dao=new QnaDAO();
 		QnaDTO dto=new QnaDTO();
 		dto.setSubject(req.getParameter("subject"));
-		dto.setSubject(req.getParameter("content"));
+		dto.setContent(req.getParameter("content"));
 		dto.setUserId(info.getUserId());
 		
 		dao.insertQna(dto, "created");
