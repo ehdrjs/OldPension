@@ -36,9 +36,9 @@ public class QnaDAO {
 				dto.setDepth(0);
 				dto.setParent(0);
 		}
-			sql = "INSERT INTO qna(qnaNum, userId, qnasubject, qnacontent, ";
-			sql += " groupNum, depth, orderNo, parent) ";
-			sql += " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+			sql = "INSERT INTO qna(qnaNum, userId, qnaSubject, qnaContent, ";
+			sql += " groupNum, depth, orderNo, parent, qnaPwd) ";
+			sql += " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, dto.getNum());
@@ -49,6 +49,7 @@ public class QnaDAO {
 			pstmt.setInt(6, dto.getDepth());
 			pstmt.setInt(7, dto.getOrderNo());
 			pstmt.setInt(8, dto.getParent());
+			pstmt.setString(9, dto.getPwd());
 			
 			result=pstmt.executeUpdate();
 			

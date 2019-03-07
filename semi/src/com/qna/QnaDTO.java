@@ -5,7 +5,6 @@ public class QnaDTO {
 	private String subject;
 	private String content;
 	private int	date;
-	private String name;
 	private String pwd;
 	private int	count;
 	private int parent;
@@ -39,12 +38,6 @@ public class QnaDTO {
 	}
 	public void setDate(int date) {
 		this.date = date;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public String getPwd() {
 		return pwd;

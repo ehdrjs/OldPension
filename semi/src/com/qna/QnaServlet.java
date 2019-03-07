@@ -21,7 +21,7 @@ public class QnaServlet extends MyServlet {
 		req.setCharacterEncoding("utf-8");
 		
 		
-		String uri=req.getRequestURI();  //http://localhost:8080/project/list.jsp 以묒뿉 /project/list.jsp瑜� 媛��졇�샂
+		String uri=req.getRequestURI();  
 		
 		if(uri.indexOf("qna.do")!=-1) {
 			qna(req, resp);
@@ -58,7 +58,8 @@ public class QnaServlet extends MyServlet {
 		QnaDAO dao=new QnaDAO();
 		QnaDTO dto=new QnaDTO();
 		dto.setSubject(req.getParameter("subject"));
-		dto.setSubject(req.getParameter("content"));
+		dto.setContent(req.getParameter("content"));
+		dto.setPwd(req.getParameter("pwd"));
 		dto.setUserId(info.getUserId());
 		
 		dao.insertQna(dto, "created");
