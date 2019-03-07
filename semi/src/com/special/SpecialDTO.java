@@ -11,6 +11,8 @@ public class SpecialDTO {
 	private String specialEnd;
 	private int specialCount;
 	private String fileNum;
+	private String imageFileName;
+	private int imageFileSize;
 	
 	
 	public int getListNum() {
@@ -72,6 +74,18 @@ public class SpecialDTO {
 	}
 	public void setFileNum(String fileNum) {
 		this.fileNum = fileNum;
+	}
+	public String getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+	public int getImageFileSize() {
+		return imageFileSize;
+	}
+	public void setImageFileSize(int imageFileSize) {
+		this.imageFileSize = imageFileSize;
 	}
 	
 }

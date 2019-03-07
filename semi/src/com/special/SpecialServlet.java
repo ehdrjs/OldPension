@@ -1,7 +1,6 @@
 package com.special;
 
 import java.io.IOException;
-import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,13 +36,15 @@ public class SpecialServlet extends MyServlet {
 		String uri = req.getRequestURI();
 
 		if (uri.indexOf("s_calendar.do") != -1) {
-			calendar(req, resp);
-		} else if (uri.indexOf("") != -1) {
-			
+			list(req, resp);
+		} else if (uri.indexOf("s_created.do") != -1) {
+			createdForm(req, resp);
+		} else if (uri.indexOf("s_created_ok.do")!= -1){
+			createdSubmit(req, resp);
 		}
 	}
 
-	protected void calendar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+/*	protected void calendar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 날짜
 
 		// String cp = req.getContextPath();
@@ -79,6 +80,13 @@ public class SpecialServlet extends MyServlet {
 		
 		forward(req, resp, "/WEB-INF/views/special/s_calendar.jsp");
 	}
+	*/
+	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리스트
+		
+	}
+	
+	
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 		req.setAttribute("mode", "created");
@@ -90,12 +98,16 @@ public class SpecialServlet extends MyServlet {
 		
 		String cp = req.getContextPath();
 		
+		
+		
+		
+		
 		resp.sendRedirect(cp+"/special/s_calendar.do");
 		
 	}
 	
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String cp = req.getContextPath();
+		// String cp = req.getContextPath();
 		
 		
 	}

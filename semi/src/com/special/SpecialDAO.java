@@ -1,6 +1,7 @@
 package com.special;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,38 @@ public class SpecialDAO {
 	// ±Û Ãß°¡
 	public int insertSpecial(SpecialDTO dto) {
 		int result = 0;
+		PreparedStatement pstm = null;
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			sb.append("INSERT ALL");
+			sb.append("	INTO imageFile(fileNum, imageFileName, imageFileSize)");
+			sb.append("		VALUES(file_seq.NEXTVAL, ?, ?");
+			sb.append("	INTO special(specialNum, specialSubject, specialContent, ");
+			sb.append("		specialStart, specialEnd, userId) VALUES (special_seq.NEXTVAL, ?, ?, ?, ?, ?)");
+			sb.append("SELECT * FROM dual");
+			
+			pstm = conn.prepareStatement(sb.toString());
+			pstm.setString(1, dto.getImageFileName());
+			pstm.setInt(2, dto.getImageFileSize());
+			pstm.setString(3, dto.getSpecialSubject());
+			pstm.setString(4, dto.getSpecialContent());
+			pstm.setString(5, dto.getSpecialStart());
+			pstm.setString(6, dto.getSpecialEnd());
+			pstm.setString(7, dto.getUserId());
+			
+			pstm.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(pstm!=null) {
+				try {
+					pstm.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
 
 		return result;
 	}

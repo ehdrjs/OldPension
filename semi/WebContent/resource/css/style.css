@@ -138,3 +138,101 @@
 
 .tb_basic thead .week th:first-child{color:red}
 .tb_basic thead .week th:last-child{color:blue}
+
+
+.special {
+	width: 800px;
+	margin: 40px auto;
+}
+.special .h_special{
+	border-bottom: 1px solid black;
+	font-size: 40px;
+	padding: 20px;
+}
+
+.special .b_special{
+	width: 100%;
+	margin-top: 40px;
+	border: 1px solid black;
+}
+
+.special .b_special .tb tr th{
+	background: #eeeeee;
+
+}
+
+.special .b_special .tb{
+	font-size: 20px;
+	text-align: center;
+	width: 100%
+}
+
+.special .b_special .tb tr{
+	height: 50px;
+}
+
+.special .b_special .tb .content{
+	border-top: 1px solid gray;
+}
+
+
+.special .paging{
+	text-align: center;
+	margin-top: 25px;
+	font-size: 20px;
+}
+
+.special .paging ul li{
+	list-style: none;
+	float: center;
+	display: inline;
+	margin: 20px;
+}
+
+.special .f_special{
+	text-align: right;
+	font-size: 20px;
+}
+
+.special .f_special .btn{
+	padding: 5px 10px;
+	border-radius: 3px;
+	border: 1px solid gray;
+    background: #eeeeee;
+}
+
+.special .c_footer{
+	margin-top: 20px;
+	text-align: right;
+}
+
+.special .c_footer .btn{
+	padding: 5px 10px;
+	border-radius: 3px;
+	border: 1px solid gray;
+    background: #eeeeee;
+}
+
+.special .b_special .c_tb {
+	width: 100%;
+	font-size: 18px;
+}
+
+.special .b_special .c_tb tr{
+	height: 50px;	
+}
+
+
+.special .b_special .c_tb tr .boxTF{
+	padding: 4px 5px 5px;
+	margin: 10px 10px;
+	width: 88%;
+} 
+
+.special .b_special .c_tb tr .boxTA{
+	height: 150px;
+	width: 90%;
+	margin: 10px 10px;
+	border-radius: 4px;
+}
+	
