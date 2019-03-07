@@ -29,20 +29,18 @@
 		var f = document.qnaForm;
 		var sv = f.subject.value;
 		if(!sv) {
-			alert("제목을 입력하세요");
 			f.subject.focus();
 			return;
 		}
 		
 		sv= f.content.value;
 		if(!sv) {
-			alert("내용을 입력하세요.");
 			f.content.focus();
-			return;
+			return;	
 		}
 		
-		if(!sv) {
-			alert("비밀번호를 입력하세요.");
+		sv= f.pwd.value;
+		if(!(/\d{4}/).test(sv)) {
 			f.pwd.focus();
 			return;
 		}
@@ -70,18 +68,18 @@
 					<table>
 						<tr>
 							<td>제목</td>
-							<td><input type="text" name="subject" value="${dto.subject}"></td>
+							<td><input type="text" name="subject" placeholder="제목을 입력하세요" value="${dto.subject}"></td>
 						</tr>
 						<tr>
 							<td>작성자</td>
-							<td>${sessionScope.member.userName}</td>
+							<td>${sessionScope.member}</td>
 						</tr>
 						<tr>
 							<td>내용</td>
-							<td><textarea name="content" rows="12">${dto.content}</textarea></td>
+							<td><textarea name="content" rows="12" placeholder="내용을 입력하세요">${dto.content}</textarea></td>
 						</tr>
 						<tr>
-							<td><input type="password" name="pwd" value="${dto.pwd}">
+							<td><input type="password" name="pwd" placeholder="비밀번호(숫자4자리)" value="${dto.pwd}">
 							</td>
 						</tr>
 					</table>

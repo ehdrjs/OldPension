@@ -13,8 +13,14 @@ public class QnaDTO {
 	private int groupNum;
 	private String userId;
 	private int listNum;
+	private String created;
 	
-	
+	public String getCreated() {
+		return created;
+	}
+	public void setCreated(String created) {
+		this.created = created;
+	}
 	public int getNum() {
 		return num;
 	}

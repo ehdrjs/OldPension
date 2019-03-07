@@ -60,7 +60,21 @@
 					</ul>
 				</div>
 			</div>
-
+			
+				<c:forEach var="dto" items="${list}">
+			<div class="row">
+				<div class="col-md-12">
+					<ul class="list-group list-group-horizontal">
+						<li class="list-group-item">${dto.listNum}</li>
+						<li class="list-group-item" style="width: 340px">${dto.subject}</li>
+						<li class="list-group-item">${dto.userId}</li>
+						<li class="list-group-item">${dto.created}</li>
+						<li class="list-group-item">${dto.qnaCount}</li>
+					</ul>
+				</div>
+			</div>
+			</c:forEach>
+			
 			<div class="row">
 				<div class="col-md-3"></div>
 				<div class="col-md-9">
@@ -70,8 +84,8 @@
 							style="float: left; margin-right: 5px" class="qnaSelectField">
 							<option value="qnaSubject">제목</option>
 							<option value="qnaContent">내용</option>
-							<option value="qnaUserName">작성자</option>
-							<option value="qnaCreated">등록일</option>
+							<option value="qnaUserId">작성자</option>
+							<option value="qnaDate">등록일</option>
 						</select> <input type="text" class="form-control col-md-4"
 							style="float: left; margin-right: 5px" name="qnaSearchValue">
 						<button type="button" class="btn btn-info btn-sm"

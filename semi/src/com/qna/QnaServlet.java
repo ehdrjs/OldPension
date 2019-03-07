@@ -1,6 +1,8 @@
 package com.qna;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.member.SessionInfo;
 import com.util.MyServlet;
+import com.util.MyUtil;
 
 @WebServlet("/qna/*")
 public class QnaServlet extends MyServlet {
@@ -33,7 +36,47 @@ public class QnaServlet extends MyServlet {
 	}
 
 	private void qna(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		MyUtil util=new MyUtil();
+		QnaDAO dao=new QnaDAO();
 		String cp=req.getContextPath();
+		
+		String page=req.getParameter("page");
+		int current_page=1;
+		if(page !=null) {
+			current_page = Integer.parseInt(page);
+		}
+		
+		String searchKey = req.getParameter("qnaSearchKey");
+		String searchValue = req.getParameter("qnaSearchValue");
+		if(searchKey==null) {
+			searchKey="qnaSubject";
+			searchValue="";
+		}
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			searchValue=URLDecoder.decode(searchValue,"utf-8");
+		}
+		
+		int dataCount;
+		if(searchValue.length()==0)
+			dataCount = dao.dataCount();
+		else
+			dataCount=dao.dataCount(searchKey, searchValue);
+		
+		int rows = 5;
+		int total_page=util.pageCount(rows, dataCount);
+		if(current_page > total_page) {
+			current_page = total_page;
+		}
+		
+		int start = (current_page -1)* rows +1;
+		int end = current_page * rows;
+		
+		List<QnaDTO> list;
+		if(searchValue.length()==0) {
+			list=dao.listQna(start, end);
+		}else {
+			list = dao.listQna(start, end, searchKey, searchValue);
+		}
 		
 		forward(req, resp, "/WEB-INF/views/qna/qna.jsp");
 
