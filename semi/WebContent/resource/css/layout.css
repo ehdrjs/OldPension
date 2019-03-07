@@ -14,6 +14,13 @@ a {
 	text-decoration: none;
 }
 
+table{border-collapse:collapse;border-spacing:0;}
+
+.mt10{margin-top:10px;}
+.mt20{margin-top:10px;}
+.mb10{margin-bottom:10px;}
+.mb20{margin-bottom:20px;}
+
 .header {
 	padding: 20px 0;
 	text-align: center;
@@ -53,23 +60,44 @@ a {
 	visibility: visible;
 }
 
-.header .gnb ul li ul li {
-	float: left;
-}
-
 .header .loginInfo {
 	float: right;
 	margin: 25px 15px 0px 0px;
 }
 
-.reserve_body {
-	margin:50px auto;
+.reserve {
+	width: 700px;
+	margin:70px auto;
 }
 
-.reserve_body ul li {
-	
-	list-style: none;
+.reserve div p {
+	font-weight: bold; 
+	font-size:20px;
+	margin:10px 0;
 }
+.reserve div table {
+	width: 100%;
+}
+.reserve_btn {
+	text-align: center;	
+	margin: 20px 0;
+}
+
+.reserve_btn button{
+	padding: 7px;
+	border-collapse: collapse;
+	border: 1px solid #aaaaaa;
+	background: white;
+	width: 200px;
+	cursor: pointer;
+}
+
+.reserve_btn button:hover, .reserve_btn button:active {
+	background-color: #4c4c4c;
+	font-weight: bold;
+	color: #ffffff;
+	outline: none;
+} 
 
 .footer {
 	padding: 20px 0;
