@@ -21,16 +21,16 @@ function sendOk() {
 		return;
 	}
 	
-	var str = f.start.value;
+	var str = f.specialStart.value;
 	if(!str){
-		f.start.focus();
+		f.specialStart.focus();
 		return;
 	}
 	
 	
-	var str = f.end.value;
+	var str = f.specialEnd.value;
 	if(!str){
-		f.end.focus();
+		f.specialEnd.focus();
 		return;
 	}
 	
@@ -64,7 +64,7 @@ function sendOk() {
 	<div class="h_special">
 		| 스페셜 등록
 	</div>
-		<form name="specialForm" method="post">
+		<form name="specialForm" method="post" enctype="multipart/form-data">
 			<div class="b_special">
 				<table class="tb_basic_row" style="width:100%">
 					<tr>
@@ -73,9 +73,9 @@ function sendOk() {
 					</tr>
 					<tr>
 						<th>시작일자</th>
-						<td><input type="text" class="boxTF" name="start" placeholder="예) 1992-02-25"/></td>
+						<td><input type="text" class="boxTF" name="specialStart" placeholder="예) 1992-02-25"/></td>
 						<th>종료일자</th>
-						<td><input type="text" class="boxTF" name="end" placeholder="예) 1992-02-25"/></td>
+						<td><input type="text" class="boxTF" name="specialEnd" placeholder="예) 1992-02-25"/></td>
 					</tr>
 					<tr>
 						<th>내용</th>
@@ -87,12 +87,13 @@ function sendOk() {
 					</tr>
 				</table>
 			</div>
-		</form>
-	<div class="c_footer">
+			<div class="c_footer">
 		<button type="reset" class="btn">다시쓰기</button>
 		<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/special/s_calendar.do';">등록취소</button>
 		<button type="button" class="btn" onclick="sendOk();">등록하기</button>
 	</div>
+		</form>
+	
 
 </div>
 

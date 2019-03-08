@@ -1,12 +1,18 @@
 package com.special;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.member.SessionInfo;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.util.FileManager;
 import com.util.MyServlet;
 
 @WebServlet("/special/*")
@@ -14,101 +20,91 @@ public class SpecialServlet extends MyServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	/*@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		process(req, resp);
-	}
+	private String pathname; // 서버에 저장될 경로
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		process(req, resp);
-	}
-
-	protected void forward(HttpServletRequest req, HttpServletResponse resp, String path)
-			throws ServletException, IOException {
-		RequestDispatcher rd = req.getRequestDispatcher(path);
-		rd.forward(req, resp);
-	}
-*/
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
-
 		String uri = req.getRequestURI();
+
+		HttpSession session = req.getSession();
+
+		// 웹서버 환경에 저장
+		// 이미지를 저장할 경로
+		String root = session.getServletContext().getRealPath("/");
+		pathname = root + "uploads" + File.separator + "photo";
+		File f = new File(pathname);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
 
 		if (uri.indexOf("s_calendar.do") != -1) {
 			list(req, resp);
 		} else if (uri.indexOf("s_created.do") != -1) {
 			createdForm(req, resp);
-		} else if (uri.indexOf("s_created_ok.do")!= -1){
+		} else if (uri.indexOf("s_created_ok.do") != -1) {
 			createdSubmit(req, resp);
 		}
 	}
 
-/*	protected void calendar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 날짜
-
-		// String cp = req.getContextPath();
-		
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-
-		// 클라이언트로부터 넘어온 연도와 월이 존재
-		// 존재하지 않으면 시스템 연도와 월
-		String sy = req.getParameter("year");
-		String sm = req.getParameter("month");
-
-		if (sy != null) {
-			year = Integer.parseInt(sy);
-		}
-		if (sm != null) {
-			month = Integer.parseInt(sm);
-		}
-
-		// 1일로 설정
-		cal.set(year, month, 1);
-		year = cal.get(Calendar.YEAR);
-		month = cal.get(Calendar.MONTH) + 1; // month에 +1
-		// 요일...
-		int week = cal.get(Calendar.DAY_OF_WEEK);
-		int e = cal.getActualMaximum(Calendar.DATE); // 해당월의 마지막 날짜
-		
-		req.setAttribute("year", year);
-		req.setAttribute("month", month);
-		req.setAttribute("week", week);
-		req.setAttribute("e", e);
-		
-		forward(req, resp, "/WEB-INF/views/special/s_calendar.jsp");
-	}
-	*/
-	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 리스트
-		
-	}
-	
-	
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 		req.setAttribute("mode", "created");
 		forward(req, resp, "/WEB-INF/views/special/s_created.jsp");
 	}
-	
-	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 		// 글 저장
-		
+
 		String cp = req.getContextPath();
-		
-		
-		
-		
-		
-		resp.sendRedirect(cp+"/special/s_calendar.do");
-		
+		String encType = "UTF-8";
+		int maxFileSize = 10 * 1024 * 1024;
+
+		// 세션받아옴
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		SpecialDAO dao = new SpecialDAO();
+		SpecialDTO dto = new SpecialDTO();
+		MultipartRequest mreq = new MultipartRequest(req, pathname, maxFileSize, encType,
+				new DefaultFileRenamePolicy());
+		// request, 서버에 저장될 경로, 최대크기, 파라미터타입, 동일파일명보호
+
+		// admin만 글을 등록할 수 있도록 함
+		if (!info.getUserRole().equals("admin")) {
+			resp.sendRedirect(cp + "/special/s_calendar.do");
+		}
+
+		if (mreq.getFile("upload") != null) {
+			dto.setUserId(info.getUserId());
+
+			String saveFileName = mreq.getFilesystemName("upload");
+			saveFileName = FileManager.doFilerename(pathname, saveFileName);
+			dto.setImageFileName(saveFileName);
+			dto.setImageFileSize(mreq.getFile("upload").length());
+
+			dto.setSpecialSubject(mreq.getParameter("subject"));
+			dto.setSpecialContent(mreq.getParameter("content"));
+			dto.setSpecialStart(mreq.getParameter("specialStart"));
+			dto.setSpecialEnd(mreq.getParameter("specialEnd"));
+
+			// 파라미터 넘김
+			dao.insertSpecial(dto); 
+		}
+
+		// 리스트로 리다이렉트
+		resp.sendRedirect(cp + "/special/s_calendar.do");
+
 	}
+	
+	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리스트
+		forward(req, resp, "/WEB-INF/views/special/s_calendar.jsp");
+	}
+
 	
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// String cp = req.getContextPath();
-		
-		
+
 	}
 }

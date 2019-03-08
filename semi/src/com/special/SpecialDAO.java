@@ -20,21 +20,21 @@ public class SpecialDAO {
 		try {
 			sb.append("INSERT ALL");
 			sb.append("	INTO imageFile(fileNum, imageFileName, imageFileSize)");
-			sb.append("		VALUES(file_seq.NEXTVAL, ?, ?");
+			sb.append("		VALUES(file_seq.NEXTVAL, ?, ?)");
 			sb.append("	INTO special(specialNum, specialSubject, specialContent, ");
-			sb.append("		specialStart, specialEnd, userId) VALUES (special_seq.NEXTVAL, ?, ?, ?, ?, ?)");
+			sb.append("		specialStart, specialEnd, userId, fileNum) VALUES (special_seq.NEXTVAL, ?, ?, ?, ?, ?, file_seq.CURRVAL)");
 			sb.append("SELECT * FROM dual");
 			
 			pstm = conn.prepareStatement(sb.toString());
 			pstm.setString(1, dto.getImageFileName());
-			pstm.setInt(2, dto.getImageFileSize());
+			pstm.setLong(2, dto.getImageFileSize());
 			pstm.setString(3, dto.getSpecialSubject());
 			pstm.setString(4, dto.getSpecialContent());
 			pstm.setString(5, dto.getSpecialStart());
 			pstm.setString(6, dto.getSpecialEnd());
 			pstm.setString(7, dto.getUserId());
 			
-			pstm.executeUpdate();
+			result=pstm.executeUpdate();
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -63,7 +63,7 @@ public class SpecialDAO {
 		return result;
 	}
 
-	// 달력 리스트
+	// 리스트
 	public List<SpecialDTO> listSpecial(int start, int end) {
 		List<SpecialDTO> list = new ArrayList<>();
 

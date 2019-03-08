@@ -28,7 +28,14 @@
 		</ul>
 	</div>
 	<div class="loginInfo">
-		<a href="<%=cp%>/WEB-INF/login/login.jsp" style="color: black;">로그인 | </a> 
-		<a href="#" style="color: black;">회원가입</a>
+		<c:if test="${empty sessionScope.member}">
+			<a href="<%=cp%>/member/login.do" style="color: black;">로그인 | </a> 
+			<a href="<%=cp%>/member/member.do" style="color: black;">회원가입</a>
+		</c:if>
+		<c:if test="${not empty sessionScope.member}">
+			<span> ${sessionScope.member.userName} </span> 님 | 
+			<a href="<%=cp%>/member/logout.do" style="color: black;">로그아웃</a>
+		</c:if>
+		
 	</div>
 

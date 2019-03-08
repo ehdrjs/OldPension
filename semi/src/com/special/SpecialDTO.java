@@ -10,9 +10,9 @@ public class SpecialDTO {
 	private String specialStart;
 	private String specialEnd;
 	private int specialCount;
-	private String fileNum;
+	private int fileNum;
 	private String imageFileName;
-	private int imageFileSize;
+	private long imageFileSize;
 	
 	
 	public int getListNum() {
@@ -69,10 +69,10 @@ public class SpecialDTO {
 	public void setSpecialCount(int specialCount) {
 		this.specialCount = specialCount;
 	}
-	public String getFileNum() {
+	public int getFileNum() {
 		return fileNum;
 	}
-	public void setFileNum(String fileNum) {
+	public void setFileNum(int fileNum) {
 		this.fileNum = fileNum;
 	}
 	public String getImageFileName() {
@@ -81,10 +81,10 @@ public class SpecialDTO {
 	public void setImageFileName(String imageFileName) {
 		this.imageFileName = imageFileName;
 	}
-	public int getImageFileSize() {
+	public long getImageFileSize() {
 		return imageFileSize;
 	}
-	public void setImageFileSize(int imageFileSize) {
+	public void setImageFileSize(long imageFileSize) {
 		this.imageFileSize = imageFileSize;
 	}
 	
