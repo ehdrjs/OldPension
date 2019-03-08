@@ -113,6 +113,11 @@ function sendOk(){
 			// alert(price);
 		}
 	}
+	
+	function roomPrice(){
+		var num = $("form select[name=room]").val();
+		document.getElementById("roomPrice").innerHTML = num + "원";
+	}
 </script>
 </head>
 
@@ -133,14 +138,14 @@ function sendOk(){
 					</colgroup>
 					<tr>
 						<th>객실명</th>
-						<td><select id="room">
+						<td><select id="room" name="room" onchange="roomPrice();">
 								<option value="">선택</option>
-								<option value="room1">방1</option>
-								<option value="room2">방2</option>
-								<option value="room3">방3</option>
+								<option value="100000">방1</option>
+								<option value="120000">방2</option>
+								<option value="200000">방3</option>
 						</select></td>
 						<th>가격</th>
-						<td>0원</td>
+						<td id="roomPrice">0원</td>
 					</tr>
 				</table>
 				<p class="mt10 mb10">예약 날짜</p>

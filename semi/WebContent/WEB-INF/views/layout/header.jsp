@@ -20,7 +20,7 @@
 			<li><a href="<%=cp%>/schedule/calendar.do">일정</a></li>
 			<li><a href="#">예약</a>
 				<ul class="list1">
-					<li><a href="<%=cp%>/reserve/reserve.jsp">실시간예약</a></li>
+					<li><a href="<%=cp%>/reserve/reserve.do">실시간예약</a></li>
 					<li><a href="#">예약확인/취소</a></li>
 				</ul>
 			</li>
