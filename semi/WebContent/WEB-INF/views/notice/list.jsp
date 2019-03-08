@@ -94,11 +94,13 @@ function article(){
 			<c:forEach var = "dto" items="${list }">
 					<ul>
 						<li class="num" >${dto.rnum }</li>
-						<li class="subject" onclick="javascript:location.href='<%=cp%>/notice/article.do?page=${page }'">${dto.noticeSubject }</li>
+						<li class="subject" onclick="javascript:location.href='<%=cp%>/notice/article.do?page=${page }&listNum=${dto.noticeNum }'">${dto.noticeSubject }</li>
 						<li class="name">${dto.userId }</li>
 						<li class="created">${dto.noticeDate }</li>
 						<c:if test = "${not empty dto.saveFileName}">
-							<li class="download" onclick="">이미지</li>
+							<li class="download" onclick="javascript:location.href = '<%=cp%>/notice/download_ok.do?page=${page}&listNum=${dto.noticeNum }'">
+								<img alt="실패" src="<%=cp %>/img/download.png" style="width:20px; height: 20px">
+							</li>
 						</c:if>
 						<c:if test = "${empty dto.saveFileName}">
 							<li class="download"></li>

@@ -2,6 +2,7 @@ package com.notice;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,10 @@ import javax.servlet.http.HttpSession;
 import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.util.FileManager;
 import com.util.MyServlet;
 import com.util.MyUtil;
+
 
 @WebServlet("/notice/*")
 public class NoticeServlet extends MyServlet{
@@ -137,8 +140,15 @@ public class NoticeServlet extends MyServlet{
 	
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String page = req.getParameter("page");
+		int listNum = Integer.parseInt(req.getParameter("listNum")); 
+		NoticeDAO dao = new NoticeDAO();
+		NoticeDTO dto = dao.readNotice(listNum);
 		
-		forward(req, resp, "/WEB-INF/views/notice/article.jsp?page="+page);
+		req.setAttribute("page", page);
+		req.setAttribute("dto", dto);
+		req.setAttribute("listNum", listNum);
+		
+		forward(req, resp, "/WEB-INF/views/notice/article.jsp");
 	}
 	
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -155,7 +165,34 @@ public class NoticeServlet extends MyServlet{
 	}
 	
 	protected void download(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
+		NoticeDAO dao=new NoticeDAO();
+		String cp=req.getContextPath();
+		
+		if(info==null) {
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		int listNum= Integer.parseInt(req.getParameter("listNum"));
+		String page=req.getParameter("page");
+		
+		NoticeDTO dto=dao.readNotice(listNum);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/notice/list.do"+page);
+			return;
+		}
+		
+		boolean b = FileManager.doFiledownload(dto.getSaveFileName(), dto.getOriginalFileName(), pathname, resp);
+		
+		if(!b) {
+			resp.setContentType("text/html);charset=utf-8");
+			PrintWriter pw = resp.getWriter();
+			pw.print("<script>alert('다운로드 실패');history.back();</script>");
+	    	return;
+		}
 	}
 	
 	

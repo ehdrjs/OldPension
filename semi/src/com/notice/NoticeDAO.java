@@ -137,4 +137,52 @@ public class NoticeDAO {
 		}
 		
 	}
+	
+	public NoticeDTO readNotice(int listNum) {
+		NoticeDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try {
+			sql = "SELECT noticenum, noticesubject, noticecontent, noticedate, savefilename, " + 
+					"    originalfilename, filesize, noticecount, userid" + 
+					"    FROM notice WHERE noticenum = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, listNum);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new NoticeDTO();
+				dto.setUserId(rs.getString("userid"));
+				dto.setNoticeNum(rs.getInt("noticenum"));
+				dto.setNoticeSubject(rs.getString("noticesubject"));
+				dto.setNoticeContent(rs.getString("noticecontent"));
+				dto.setNoticeDate(rs.getDate("noticedate").toString());
+				dto.setOriginalFileName(rs.getString("originalfilename"));
+				dto.setFileSize(rs.getLong("filesize"));
+				dto.setNoticeCount(rs.getInt("noticecount"));
+				dto.setSaveFileName(rs.getString("savefilename"));
+			}
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		return dto;
+	}
 }
