@@ -72,7 +72,7 @@
 						</tr>
 						<tr>
 							<td>작성ID</td>
-							<td>${sessionScope.member}</td>
+							<td>${sessionScope.member.userId}</td>
 						</tr>
 						<tr>
 							<td>내용</td>

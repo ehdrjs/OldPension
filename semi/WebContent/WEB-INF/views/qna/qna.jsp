@@ -74,14 +74,15 @@
 				</div>
 			</div>
 			</c:forEach>
-			
-			<nav aria-label="Page navigation example">
-			  <ul class="pagination">
-			        <li class="page-item"><c:if test="${dataCount==0}">등록된 게시물이 없습니다.</c:if></li>
-			        <li class="page-item"><c:if test="${dataCount!=0}">${paging}</c:if></li>
-		 	 </ul>
-			</nav>
-			
+				
+				<div class="">
+					<nav aria-label="Page navigation example">
+					  	<ul class="pagination" style="display:list-item">
+					        <li class="page-item"><c:if test="${dataCount==0}">등록된 게시물이 없습니다.</c:if></li>
+					        <li class="page-item"><c:if test="${dataCount!=0}">${paging}</c:if></li>
+				 	 	</ul>
+					</nav>
+			</div>
 			<div class="row">
 				<div class="col-md-3"></div>
 				<div class="col-md-9">

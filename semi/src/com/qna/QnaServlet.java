@@ -94,15 +94,13 @@ public class QnaServlet extends MyServlet {
 			query ="searchKey=" + searchKey + "&searchValue"+ URLEncoder.encode(searchValue, "utf-8"); 
 		}
 		
-		String listUrl = cp + "qna/qna.do";
-		String articleUrl= cp+ "qna/article.do?page=" + current_page;
+		String listUrl = cp + "/qna/qna.do";
+		String articleUrl= cp+ "/qna/article.do?page=" + current_page;
 		if(query.length()!=0) {
 			listUrl += "?" + query;
 			articleUrl += "&" + query;
 		}
-		
 		String paging = util.paging(current_page, total_page, listUrl);
-		
 		req.setAttribute("list", list);
 		req.setAttribute("dataCount", dataCount);
 		req.setAttribute("page", current_page);
