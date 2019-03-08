@@ -34,13 +34,13 @@ public class MemberServlet extends MyServlet{
 		}
 	}
 	
-	// ·Î±×ÀÎ  Æû
+	// ë¡œê·¸ì¸  í¼
 	private void loginForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path="/WEB-INF/views/member/login.jsp";
 	
 		forward(req, resp, path);
 	}
-	//·Î±×ÀÎ ½ÇÇà
+	//ë¡œê·¸ì¸ ì‹¤í–‰
 	private void loginSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		MemberDAO dao = new MemberDAO();
@@ -66,13 +66,13 @@ public class MemberServlet extends MyServlet{
 			}
 		}
 			
-			String msg="¾ÆÀÌµğ ¶Ç´Â ÆĞ½º¿öµå°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.";
+			String msg="ì•„ì´ë”” ë˜ëŠ” íŒ¨ìŠ¤ì›Œë“œê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.";
 			req.setAttribute("message", msg);
 			
 			forward(req, resp, "/WEB-INF/views/member/login.jsp");
 		
 	}
-	//·Î±×¾Æ¿ô
+	//ë¡œê·¸ì•„ì›ƒ
 	private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		String cp = req.getContextPath();
@@ -82,16 +82,16 @@ public class MemberServlet extends MyServlet{
 		
 		resp.sendRedirect(cp);
 	}
-	//È¸¿ø°¡ÀÔ Æû
+	//íšŒì›ê°€ì… í¼
 	private void signInForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = "/WEB-INF/views/member/member.jsp";
 		
-		req.setAttribute("title", "È¸¿ø°¡ÀÔ");
+		req.setAttribute("title", "íšŒì›ê°€ì…");
 		req.setAttribute("mode", "created");
 		
 		forward(req, resp, path);
 	}
-	//È¸¿ø°¡ÀÔ
+	//íšŒì›ê°€ì…
 	private void signIn(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		MemberDAO dao = new MemberDAO();
@@ -110,9 +110,9 @@ public class MemberServlet extends MyServlet{
 		
 		int result = dao.insertMember(dto);
 		if(result == 0) {
-			req.setAttribute("message", "È¸¿ø°¡ÀÔ¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+			req.setAttribute("message", "íšŒì›ê°€ì…ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		}else {
-			req.setAttribute("message", "È¸¿ø°¡ÀÔ¿¡ ¼º°øÇß½À´Ï´Ù.");
+			req.setAttribute("message", "íšŒì›ê°€ì…ì— ì„±ê³µí–ˆìŠµë‹ˆë‹¤.");
 		}
 
 		forward(req, resp, "/WEB-INF/views/member/login.jsp");

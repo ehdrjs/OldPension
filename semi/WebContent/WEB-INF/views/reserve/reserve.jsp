@@ -98,20 +98,13 @@ function sendOk(){
 		return;
 	}
 	
-	f.action = "<%=cp%>/reserve/reserve_detail.do";
+	f.action = "<%=cp%>/reserve/reserveSubmit.do";
 	f.submit();
 	}
 
 	function price() {
-		var num1 = $("form select[name=barbecue1]").val();
-		var price1 = 10000;
-		var sum1 = price1 * num1;
-		document.getElementById("bar01").innerHTML = sum1 + "원";
-
-		var num2 = $("form select[name=barbecue2]").val();
-		var price2 = 20000;
-		var sum2 = price2 * num2;
-		document.getElementById("bar02").innerHTML = sum2 + "원";
+		var num = $("form select[name=barbecue1]").val();
+		document.getElementById("bar01").innerHTML = num + "원";
 	}
 
 	function price2() {
@@ -211,26 +204,15 @@ function sendOk(){
 					</thead>
 					<tbody>
 						<tr>
-							<td>바베큐1인/2인</td>
+							<td>바베큐2인</td>
 							<td><select id="barbecue1" name="barbecue1" onchange="price();">
 							<option value="0">안함</option>
-							<option value="1">1개</option>
-							<option value="2">2개</option>
-							<option value="3">3개</option>
+							<option value="20000">1개</option>
+							<option value="40000">2개</option>
+							<option value="60000">3개</option>
 						</select></td>
 							<td>0원</td>
 							<td id="bar01">0원</td>
-						</tr>
-						<tr>
-							<td>바베큐3인/4인</td>
-							<td><select id="barbecue2" name="barbecue2" onchange="price2();">
-							<option value="0">안함</option>
-							<option value="1">1개</option>
-							<option value="2">2개</option>
-							<option value="3">3개</option>
-						</select></td>
-							<td>0원</td>
-							<td id="bar02">0원</td>
 						</tr>
 					</tbody>
 				</table>
@@ -259,10 +241,14 @@ function sendOk(){
 						<td><input type="password" name="reserve_pwd"></td>
 					</tr>
 					<tr>
+						<th>이메일</th>
+						<td colspan="3"><input type="text" name="reserve_email" style="width:520px;"></td>
+					</tr>
+					<tr>
 						<th>연락처</th>
 						<td><input type="text" name="reserve_tel"></td>
 						<th>입금 은행</th>
-						<td><select id="bank">
+						<td><select id="bank" name="bank">
 							<option value="">선택</option>
 							<option>농협</option>
 							<option>국민은행</option>
@@ -272,7 +258,7 @@ function sendOk(){
 					</tr>
 					<tr>
 						<th>요청사항</th>
-						<td colspan="3"><textarea name="reserve_memo" style="width:100%"></textarea></td>
+						<td colspan="3"><textarea name="reserve_memo" style="width:520px"></textarea></td>
 					</tr>
 				</table>
 				<div class="reserve_btn">

@@ -9,7 +9,28 @@ public class ReserveDTO {
 	private String reserveDate;
 	private String startDay;
 	private String endDay;
+	private int price;
+	private String barbecue;
+	private String bank;
 	
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public String getBarbecue() {
+		return barbecue;
+	}
+	public void setBarbecue(String barbecue) {
+		this.barbecue = barbecue;
+	}
+	public String getBank() {
+		return bank;
+	}
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
 	public String getReserveNum() {
 		return reserveNum;
 	}

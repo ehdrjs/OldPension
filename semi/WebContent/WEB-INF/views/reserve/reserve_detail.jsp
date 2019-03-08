@@ -53,7 +53,7 @@
 				</colgroup>
 				<tr>
 					<th>객실명</th>
-					<td><%=room %></td>
+					<td>OO방</td>
 				</tr>
 			</table>
 			<p class="mt10 mb10">예약 날짜</p>
@@ -143,7 +143,7 @@
 						<th>예약번호</th>
 						<td>20OOOOOO0001</td>
 						<th>예약자 이름</th>
-						<td><%=name %></td>
+						<td>홍길동</td>
 					</tr>
 					<tr>
 						<th>연락처</th>
