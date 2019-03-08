@@ -2,10 +2,13 @@ package com.special;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.util.DBConn;
+
+import oracle.net.aso.p;
 
 public class SpecialDAO {
 
@@ -49,6 +52,68 @@ public class SpecialDAO {
 
 		return result;
 	}
+	
+	// 리스트
+		public List<SpecialDTO> listSpecial(int start, int end) {
+			List<SpecialDTO> list = new ArrayList<>();
+			PreparedStatement pstm = null;
+			ResultSet rs = null;
+			StringBuffer sb = new StringBuffer();
+			
+			try {
+				sb.append("SELECT * FROM (");
+				sb.append("	SELECT ROWNUM rnum, tb.* FROM (");
+				sb.append("		SELECT specialSubject, specialDate, specialStart, specialEnd ");
+				sb.append("		FROM special");
+				sb.append("		ORDER BY specialNum DESC");
+				sb.append("	) tb WHERE ROWNUM <= ?");
+				sb.append(") WHERE rnum >= ?");
+				
+				pstm = conn.prepareStatement(sb.toString());
+				pstm.setInt(1, end);
+				pstm.setInt(2, start);
+				
+				rs = pstm.executeQuery();
+				
+				while(rs.next()) {
+					SpecialDTO dto = new SpecialDTO();
+					
+					dto.setSpecialSubject(rs.getString("specialSubject"));
+					dto.setSpecialDate(rs.getString("specialDate"));
+					dto.setSpecialStart(rs.getString("specialStart"));
+					dto.setSpecialEnd(rs.getString("specialEnd"));
+
+					list.add(dto);
+				}
+				
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			} finally {
+				if(rs !=null) {
+					try {
+						rs.close();
+					} catch (Exception e2) {
+					}
+				}
+				if(pstm != null) {
+					try {
+						pstm.close();
+					} catch (Exception e2) {
+						
+					}
+				}
+			}
+			
+			return list;
+		}
+	
+	// 공지글
+		public List<SpecialDTO> listSpecial(){
+			List<SpecialDTO> list = new ArrayList<>();
+			
+			return list;
+		}
+		
 
 	// 글 수정
 	public int updateSpecial(SpecialDTO dto, String userId) {
@@ -63,13 +128,7 @@ public class SpecialDAO {
 		return result;
 	}
 
-	// 리스트
-	public List<SpecialDTO> listSpecial(int start, int end) {
-		List<SpecialDTO> list = new ArrayList<>();
-
-		return list;
-	}
-
+	
 	// 게시물 보기
 	public SpecialDTO readSpecial(int specialNum) {
 		SpecialDTO dto = null;

@@ -46,6 +46,11 @@ public class SpecialServlet extends MyServlet {
 		}
 	}
 
+	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리스트
+		forward(req, resp, "/WEB-INF/views/special/s_calendar.jsp");
+	}	
+	
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 		req.setAttribute("mode", "created");
@@ -97,11 +102,7 @@ public class SpecialServlet extends MyServlet {
 
 	}
 	
-	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 리스트
-		forward(req, resp, "/WEB-INF/views/special/s_calendar.jsp");
-	}
-
+	
 	
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// String cp = req.getContextPath();
