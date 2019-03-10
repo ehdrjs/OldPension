@@ -67,7 +67,7 @@ public class NoticeServlet extends MyServlet{
 		String cp = req.getContextPath();
 		
 		MyUtil util = new MyUtil();
-		//ÆäÀÌÂ¡ Ã³¸® 
+		//ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½ 
 		int dataCount = dao.dataCount();
 		int rows = 2;
 		int total_page = util.pageCount(rows, dataCount);
@@ -99,6 +99,7 @@ public class NoticeServlet extends MyServlet{
 		String page = req.getParameter("page");
 		
 		req.setAttribute("page", page);
+		req.setAttribute("mode", "created");
 		
 		forward(req, resp, "/WEB-INF/views/notice/created.jsp");
 	}
@@ -123,7 +124,10 @@ public class NoticeServlet extends MyServlet{
 		MultipartRequest mreq = new MultipartRequest(req, pathname, maxFilesize, encType, new DefaultFileRenamePolicy());
 		
 		dto.setUserId(info.getUserId());
-		dto.setNoticeContent(mreq.getParameter("content"));
+		
+		String content = mreq.getParameter("content");
+		content = content.replaceAll("\r\n", "<br>");
+		dto.setNoticeContent(content);
 		dto.setNoticeCount(0); 
 		dto.setNoticeSubject(mreq.getParameter("subject"));
 		if(mreq.getFile("upload") != null) {
@@ -152,7 +156,16 @@ public class NoticeServlet extends MyServlet{
 	}
 	
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		NoticeDAO dao = new NoticeDAO();
+		String page = req.getParameter("page");
+		int listNum = Integer.parseInt(req.getParameter("listNum")); 
+		NoticeDTO dto = dao.readNotice(listNum);
 		
+		req.setAttribute("mode", "update");
+		req.setAttribute("dto", dto);
+		req.setAttribute("listNum", listNum);
+		
+		forward(req, resp, "/WEB-INF/views/notice/created.jsp?page="+page);
 	}
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
@@ -190,7 +203,7 @@ public class NoticeServlet extends MyServlet{
 		if(!b) {
 			resp.setContentType("text/html);charset=utf-8");
 			PrintWriter pw = resp.getWriter();
-			pw.print("<script>alert('´Ù¿î·Îµå ½ÇÆÐ');history.back();</script>");
+			pw.print("<script>alert('ï¿½Ù¿ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½');history.back();</script>");
 	    	return;
 		}
 	}

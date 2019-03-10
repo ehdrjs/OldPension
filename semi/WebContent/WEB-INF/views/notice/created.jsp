@@ -60,6 +60,8 @@ body{
 </div>
 
 <h3>|공지사항 등록하기</h3>
+
+<c:if test="${mode=='created' }">
 <form name = "ncreatedForm" method="post" action="<%=cp%>/notice/created_ok.do?page=${page}" enctype="multipart/form-data">
 <div class = "createN">
 	<ul>
@@ -87,8 +89,48 @@ body{
 	<button type="submit">등록하기</button>
 </div>
 </form>
+</c:if>
 
+
+<c:if test="${mode=='update' }">
+<form name = "nupdateForm" method="post" action="" enctype="multipart/form-data">
+
+<c:if test="${sessionScope.member.userId != dto.userId }">
+<p>잘못 입력하셨습니다.</p>
+</c:if> 
+<div class = "createN">
+	<ul>
+		<li class = "nN">공지 제목</li>
+		<li class = "nT"><input type = "text" name = "subject" style="width: 594px" value = "${dto.noticeSubject}"></li>
+	</ul>
+	<ul>
+		<li class = "nN">작성자</li>
+		<li class = "nT">${sessionScope.member.userId }</li>
+	</ul>
+
+	<ul>
+		<li class = "nN" style="height: 500px">공지 내용</li>
+		<li class = "nT" style="height: 500px; width:594px">
+			<textarea  name = "content" style="height: 500px; width:594px">${dto.noticeContent }</textarea>
+		</li>
+	</ul>
+	<ul>
+		<li class = "nN">업로드 파일</li>
+		<c:if test="${empty dto.originalFileName }">
+			<li class = "nT"><input type = "file" name = "upload" size = "53"></li>
+		</c:if>
+		<c:if test="${not empty dto.originalFileName }">
+			<li class = "nT"><input type = "file" name = "upload" size = "53" value = "${dto.originalFileName }"></li>
+		</c:if>
+		
+	</ul>
 	
+</div>
+<div>
+	<button type="submit">수정하기</button>
+</div>
+</form>
+</c:if>	
 <div class = "footer">
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </div>

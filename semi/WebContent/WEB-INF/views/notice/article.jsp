@@ -66,11 +66,25 @@ body{
 	border-right: 1px solid black;
 	width : 795px;
 	border-bottom: 1px solid black;
+	height: 300px
+}
+.nFiles ul{
+	clear: both;
+	list-style: none;
+	align-content: center;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	width : 795px;
 }
 
 </style>
 
 <script type="text/javascript">
+function deleteOk(num){
+
+	
+}
 </script>
 </head>
 <body>
@@ -100,6 +114,12 @@ body{
 		<ul style = "border-bottom: 1px solid black">
 			<li>${dto.noticeContent }</li>
 		</ul>
+		
+	
+		
+		
+	</div>
+	<div class = "nFiles">
 		<c:if test="${not empty dto.noticeSubject}">
 		<ul>
 			<li>
@@ -107,15 +127,14 @@ body{
 			</li>
 		</ul>
 		</c:if>
-		
-		
 	</div>
 	
 	<c:if test="${sessionScope.member.userRole.equals('admin')}">
 	
 		<div align="right" style="padding-top: 20px">
-			<button class = "nBtn" >수정</button>
-			<button class = "nBtn">삭제</button>
+			<button class = "nBtn" onclick = "javascript:location.href='<%=cp%>/notice/update.do?page=${page }&listNum=${listNum }'">수정</button>
+			
+			<button class = "nBtn" onclick = "deleteOk(${listNum});">삭제</button>
 		</div>
 		
 	</c:if>
