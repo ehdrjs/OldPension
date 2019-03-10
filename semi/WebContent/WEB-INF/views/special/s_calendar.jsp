@@ -18,7 +18,7 @@
 
 <div class="special">
 	<div class="h_special">
-		| 스페셜
+		| 스페셜 <span style="font-size: 15px;"> ${dataCount}개 (${page} / ${total_page}페이지)  </span>
 	</div>
 	
 	<div class="b_special">
@@ -30,24 +30,27 @@
 				<th>등록일자</th>
 				<th>조회수</th>
 			</tr>
+			
+		<c:forEach var="dto" items="${list}">	
 			<tr class="content">
-				<td>1</td>
-				<td>축제다</td>
-				<td>2000-02-20 ~ 2000-02-25</td>
-				<td>2000-02-02</td>
-				<td>11</td>
+				<td>${dto.listNum}</td>
+				<td>${dto.specialSubject}</td>
+				<td>${dto.specialStart} ~ ${dto.specialEnd}</td>
+				<td>${dto.specialDate}</td>
+				<td>${dto.specialCount}</td>
 			</tr>
+		</c:forEach>
 		</table>
 	</div>
 	
 	<div class="paging">
-		<ul>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-			<li>4</li>
-			<li>5</li>
-		</ul>
+		<c:if test="${dataCount==0}">
+			등록된 게시물이 없습니다.
+		</c:if>
+		
+		<c:if test="${dataCount!= 0}">
+			${paging}		
+		</c:if>
 	</div>
 	<div class="f_special">	
 		<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/special/s_created.do'">등록하기</button>

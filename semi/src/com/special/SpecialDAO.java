@@ -8,8 +8,6 @@ import java.util.List;
 
 import com.util.DBConn;
 
-import oracle.net.aso.p;
-
 public class SpecialDAO {
 
 	private Connection conn = DBConn.getConnection();
@@ -17,34 +15,35 @@ public class SpecialDAO {
 	// 글 추가
 	public int insertSpecial(SpecialDTO dto) {
 		int result = 0;
-		PreparedStatement pstm = null;
+		PreparedStatement pstmt = null;
 		StringBuffer sb = new StringBuffer();
-		
+
 		try {
 			sb.append("INSERT ALL");
 			sb.append("	INTO imageFile(fileNum, imageFileName, imageFileSize)");
 			sb.append("		VALUES(file_seq.NEXTVAL, ?, ?)");
 			sb.append("	INTO special(specialNum, specialSubject, specialContent, ");
-			sb.append("		specialStart, specialEnd, userId, fileNum) VALUES (special_seq.NEXTVAL, ?, ?, ?, ?, ?, file_seq.CURRVAL)");
+			sb.append(
+					"		specialStart, specialEnd, userId, fileNum) VALUES (special_seq.NEXTVAL, ?, ?, ?, ?, ?, file_seq.CURRVAL)");
 			sb.append("SELECT * FROM dual");
-			
-			pstm = conn.prepareStatement(sb.toString());
-			pstm.setString(1, dto.getImageFileName());
-			pstm.setLong(2, dto.getImageFileSize());
-			pstm.setString(3, dto.getSpecialSubject());
-			pstm.setString(4, dto.getSpecialContent());
-			pstm.setString(5, dto.getSpecialStart());
-			pstm.setString(6, dto.getSpecialEnd());
-			pstm.setString(7, dto.getUserId());
-			
-			result=pstm.executeUpdate();
-			
+
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, dto.getImageFileName());
+			pstmt.setLong(2, dto.getImageFileSize());
+			pstmt.setString(3, dto.getSpecialSubject());
+			pstmt.setString(4, dto.getSpecialContent());
+			pstmt.setString(5, dto.getSpecialStart());
+			pstmt.setString(6, dto.getSpecialEnd());
+			pstmt.setString(7, dto.getUserId());
+
+			result = pstmt.executeUpdate();
+
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		} finally {
-			if(pstm!=null) {
+			if (pstmt != null) {
 				try {
-					pstm.close();
+					pstmt.close();
 				} catch (Exception e2) {
 				}
 			}
@@ -52,69 +51,104 @@ public class SpecialDAO {
 
 		return result;
 	}
-	
-	// 리스트
-		public List<SpecialDTO> listSpecial(int start, int end) {
-			List<SpecialDTO> list = new ArrayList<>();
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			StringBuffer sb = new StringBuffer();
-			
-			try {
-				sb.append("SELECT * FROM (");
-				sb.append("	SELECT ROWNUM rnum, tb.* FROM (");
-				sb.append("		SELECT specialSubject, specialDate, specialStart, specialEnd ");
-				sb.append("		FROM special");
-				sb.append("		ORDER BY specialNum DESC");
-				sb.append("	) tb WHERE ROWNUM <= ?");
-				sb.append(") WHERE rnum >= ?");
-				
-				pstm = conn.prepareStatement(sb.toString());
-				pstm.setInt(1, end);
-				pstm.setInt(2, start);
-				
-				rs = pstm.executeQuery();
-				
-				while(rs.next()) {
-					SpecialDTO dto = new SpecialDTO();
-					
-					dto.setSpecialSubject(rs.getString("specialSubject"));
-					dto.setSpecialDate(rs.getString("specialDate"));
-					dto.setSpecialStart(rs.getString("specialStart"));
-					dto.setSpecialEnd(rs.getString("specialEnd"));
 
-					list.add(dto);
-				}
-				
-			} catch (Exception e) {
-				System.out.println(e.toString());
-			} finally {
-				if(rs !=null) {
-					try {
-						rs.close();
-					} catch (Exception e2) {
-					}
-				}
-				if(pstm != null) {
-					try {
-						pstm.close();
-					} catch (Exception e2) {
-						
-					}
+	// 리스트
+	public List<SpecialDTO> listSpecial(int start, int end) {
+		List<SpecialDTO> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuffer sb = new StringBuffer();
+
+		try {
+			sb.append("SELECT * FROM (");
+			sb.append("	SELECT ROWNUM rnum, tb.* FROM (");
+			sb.append("		SELECT specialSubject, specialDate, specialStart, specialEnd, specialCount ");
+			sb.append("		FROM special");
+			sb.append("		ORDER BY specialNum DESC");
+			sb.append("	) tb WHERE ROWNUM <= ?");
+			sb.append(") WHERE rnum >= ?");
+
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, end);
+			pstmt.setInt(2, start);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				SpecialDTO dto = new SpecialDTO();
+
+				dto.setSpecialSubject(rs.getString("specialSubject"));
+				dto.setSpecialDate(rs.getString("specialDate"));
+				// dto.setSpecialStart(rs.getDate("specialStart").toString());
+				dto.setSpecialStart(rs.getString("specialStart"));
+				// dto.setSpecialEnd(rs.getDate("specialEnd").toString());
+				dto.setSpecialEnd(rs.getString("specialEnd"));
+				dto.setSpecialCount(rs.getInt("specialCount"));
+
+				list.add(dto);
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
 				}
 			}
-			
-			return list;
-		}
-	
-	// 공지글
-		public List<SpecialDTO> listSpecial(){
-			List<SpecialDTO> list = new ArrayList<>();
-			
-			return list;
-		}
-		
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
 
+				}
+			}
+		}
+
+		return list;
+	}
+
+
+	// 데이터 개수
+	public int dataCount() {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM special";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+
+				}
+			}
+		}
+
+		return result;
+	}
+
+	
 	// 글 수정
 	public int updateSpecial(SpecialDTO dto, String userId) {
 		int result = 0;
@@ -128,17 +162,10 @@ public class SpecialDAO {
 		return result;
 	}
 
-	
 	// 게시물 보기
 	public SpecialDTO readSpecial(int specialNum) {
 		SpecialDTO dto = null;
 		return dto;
-	}
-
-	// 데이터 개수
-	public int dataCount() {
-		int result = 0;
-		return result;
 	}
 
 	// 조회수 증가

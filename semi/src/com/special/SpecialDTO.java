@@ -14,13 +14,13 @@ public class SpecialDTO {
 	private String imageFileName;
 	private long imageFileSize;
 	
-	private int gap;
+	private long gap;
 	
 	
-	public int getGap() {
+	public long getGap() {
 		return gap;
 	}
-	public void setGap(int gap) {
+	public void setGap(long gap) {
 		this.gap = gap;
 	}
 	public int getListNum() {
