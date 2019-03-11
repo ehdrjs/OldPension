@@ -120,7 +120,7 @@ body{
 			<li class = "nT"><input type = "file" name = "upload" size = "53"></li>
 		</c:if>
 		<c:if test="${not empty dto.originalFileName }">
-			<li class = "nT"><input type = "file" name = "upload" size = "53" value = "${dto.originalFileName }"></li>
+			<li class = "nT"> <input type = "file" name = "upload" size = "53"></li>
 		</c:if>
 		
 	</ul>
