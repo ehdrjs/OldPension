@@ -16,7 +16,7 @@
 	<div class="gnb">
 		<ul>
 			<li><a href="#">공지사항</a></li>
-			<li><a href="#">방소개</a></li>
+			<li><a href="<%=cp%>/room/room.do">방소개</a></li>
 			<li><a href="<%=cp%>/schedule/calendar.do">일정</a></li>
 			<li><a href="#">예약</a>
 				<ul class="list1">
@@ -24,7 +24,7 @@
 					<li><a href="#">예약확인/취소</a></li>
 				</ul>
 			</li>
-			<li><a href="#">고객문의</a></li>
+			<li><a href="<%=cp%>/qna/qna.do">고객문의</a></li>
 		</ul>
 	</div>
 	<div class="loginInfo">

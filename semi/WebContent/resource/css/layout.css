@@ -13,7 +13,7 @@ a {
 	color: #333333;
 	text-decoration: none;
 }
-
+.w100p{width:100%;}
 table{border-collapse:collapse;border-spacing:0;}
 
 .mt10{margin-top:10px;}
@@ -59,28 +59,17 @@ table{border-collapse:collapse;border-spacing:0;}
 .header .gnb ul li:hover ul {
 	visibility: visible;
 }
+.header .gnb ul li ul li {
+	float: left;
+}
 
 .header .loginInfo {
 	float: right;
 	margin: 25px 15px 0px 0px;
 }
 
-.reserve {
-	width: 700px;
-	margin:70px auto;
-}
-
-.reserve div p {
-	font-weight: bold; 
-	font-size:20px;
-	margin:10px 0;
-}
-.reserve div table {
-	width: 100%;
-}
-.reserve_btn {
-	text-align: center;	
-	margin: 20px 0;
+.reserve_body {
+	margin:50px auto;
 }
 
 .reserve_btn button{
