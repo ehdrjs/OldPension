@@ -123,7 +123,7 @@ function deleteOk(num){
 		<c:if test="${not empty dto.noticeSubject}">
 		<ul>
 			<li>
-				<a href = "<%=cp %>/notice/download_ok.do?listNum=${listNum }&page=${page}">${dto.saveFileName }</a>		
+				<a href = "<%=cp %>/notice/download_ok.do?listNum=${listNum }&page=${page}">${dto.originalFileName }</a>		
 			</li>
 		</ul>
 		</c:if>

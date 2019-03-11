@@ -53,9 +53,10 @@ public class NoticeServlet extends MyServlet{
 			updateSubmit(req, resp);
 		}else if(uri.indexOf("delete.do") != -1) {
 			delete(req, resp);
-			deleteFile(req, resp);
 		}else if(uri.indexOf("download_ok.do") != -1) {
 			download(req, resp);
+		}else if(uri.indexOf("deleteFile.do") != -1) {
+			deleteFile(req, resp);
 		}
 		
 	}
@@ -164,8 +165,9 @@ public class NoticeServlet extends MyServlet{
 		req.setAttribute("mode", "update");
 		req.setAttribute("dto", dto);
 		req.setAttribute("listNum", listNum);
+		req.setAttribute("page", page);
 		
-		forward(req, resp, "/WEB-INF/views/notice/created.jsp?page="+page);
+		forward(req, resp, "/WEB-INF/views/notice/created.jsp");
 	}
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
@@ -173,7 +175,40 @@ public class NoticeServlet extends MyServlet{
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 	}
+	//파일 삭제 했을 때
 	protected void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		NoticeDAO dao=new NoticeDAO();
+		String cp=req.getContextPath();
+		
+		int listNum=Integer.parseInt(req.getParameter("listNum"));
+		String page=req.getParameter("page");
+		
+		NoticeDTO dto=dao.readNotice(listNum);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/notice/list.do?page="+page);
+			return;
+		}
+		
+		if(info==null || ! info.getUserId().equals(dto.getUserId())) {
+			resp.sendRedirect(cp+"/notice/list.do?page="+page);
+			return;
+		}
+		
+		FileManager.doFiledelete(pathname, dto.getSaveFileName());
+		dto.setOriginalFileName("");
+		dto.setSaveFileName("");
+		dto.setFileSize(0);
+		
+		dao.updateNotice(dto);
+		
+		req.setAttribute("page", page);
+		req.setAttribute("mode", "update");
+		req.setAttribute("listNum", listNum);
+		
+		forward(req, resp, "/WEB-INF/views/notice/created.jsp");
 		
 	}
 	
@@ -207,6 +242,7 @@ public class NoticeServlet extends MyServlet{
 	    	return;
 		}
 	}
+	
 	
 	
 }

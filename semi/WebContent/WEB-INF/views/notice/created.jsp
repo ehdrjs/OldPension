@@ -50,9 +50,26 @@ body{
 	width: 594px
 	
 }
+a:hover, a:active {
+	color: tomato;
+	text-decoration: underline;
+}
 
 </style>
-<script type="text/javascript"></script>
+<script type="text/javascript">
+
+function deleteFile(listNum){
+	if(confirm("정말 삭제하시겠습니까?")){
+		 var url="<%=cp%>/notice/deleteFile.do?listNum=${listNum}&page=${page}";
+	 	 location.href=url;
+	}	
+}
+function sendUpdate(listNum){
+	
+}
+
+
+</script>
 </head>
 <body>
 <div class = "header">
@@ -114,20 +131,28 @@ body{
 			<textarea  name = "content" style="height: 500px; width:594px">${dto.noticeContent }</textarea>
 		</li>
 	</ul>
-	<ul>
-		<li class = "nN">업로드 파일</li>
-		<c:if test="${empty dto.originalFileName }">
-			<li class = "nT"><input type = "file" name = "upload" size = "53"></li>
-		</c:if>
-		<c:if test="${not empty dto.originalFileName }">
-			<li class = "nT"> <input type = "file" name = "upload" size = "53"></li>
-		</c:if>
-		
-	</ul>
+		<ul id = "noticeFileUpload">
+			
+				<li class = "nN">업로드 파일</li>
+				<c:if test="${empty dto.originalFileName }">
+					<li style="border: 1px solid black; width: 594px">
+					<input type = "file" name = "upload" size = "53">
+					</li>
+				</c:if>
+				<c:if test="${not empty dto.originalFileName }">
+					<li style="border: 1px solid black;width: 594px">
+					<a href="<%=cp%>/notice/download_ok.do?page=${page}&listNum=${listNum}">${dto.originalFileName }</a>
+					<button type="button" onclick="deleteFile('${listNum}')">파일삭제</button> 
+					</li>
+					
+				</c:if>
+			
+		</ul>
+	
 	
 </div>
 <div>
-	<button type="submit">수정하기</button>
+	<button type="button" onclick="sendUpdate('${listNum}');">수정하기</button>
 </div>
 </form>
 </c:if>	
