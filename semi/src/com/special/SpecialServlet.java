@@ -48,6 +48,8 @@ public class SpecialServlet extends MyServlet {
 			createdForm(req, resp);
 		} else if (uri.indexOf("s_created_ok.do") != -1) {
 			createdSubmit(req, resp);
+		} else if (uri.indexOf("s_article.do") != -1) {
+			article(req, resp);
 		}
 	}
 
@@ -185,7 +187,28 @@ public class SpecialServlet extends MyServlet {
 	}
 
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// String cp = req.getContextPath();
-
+		 String cp = req.getContextPath();
+		 SpecialDAO dao = new SpecialDAO();
+		 
+		 int specialNum = Integer.parseInt(req.getParameter("specialNum"));
+		 String page = req.getParameter("page");
+		 
+		 //조회수 증가
+		 dao.hitCountUpdate(specialNum);
+		 
+		 // 게시글 불러오기
+		 SpecialDTO dto = dao.readSpecial(specialNum);
+		 if(dto == null) {
+			 resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
+			 return;
+		 }
+		 
+		 dto.setSpecialContent(dto.getSpecialContent().replaceAll("\n", "<br>"));
+		 
+		 
+		 req.setAttribute("dto", dto);
+		 req.setAttribute("page", page);
+		 
+		 forward(req, resp, "/WEB-INF/views/special/s_article.jsp");
 	}
 }

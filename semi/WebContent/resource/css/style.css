@@ -45,12 +45,13 @@
 }
 
 /* Table_style */
-.tb_basic{position:relative;border-top:1px solid #b9bdc0;border-bottom:1px solid #b9bdc0;background-color:#fff;}
-.tb_basic th, .tb_basic td{padding:8px 5px;text-align:center !important;}
+.tb_basic{position:relative;table-layout:fixed;1px solid #b9bdc0;border-bottom:1px solid #b9bdc0;background-color:#fff;}
+.tb_basic th, .tb_basic td{padding:10px 15px;text-align:center !important;}
 .tb_basic thead th:first-child{border-left:none;}
 .tb_basic thead .tb_firstL:first-child, .tb_basic tbody .tb_firstL:first-child {border-left: 1px solid #c4c4c4;}
 .tb_basic thead th{background-color:#f4f4f4;color:#2c2e2f;border-bottom:1px solid #b9bdc0;}
-.tb_basic tbody th, .tb_basic tbody td{border-top:1px solid #c4c4c4;}
+.tb_basic tbody tr, .tb_basic tbody tr{border-top:1px solid #c4c4c4;}
+/* .tb_basic tbody th, .tb_basic tbody td{border-top:1px solid #c4c4c4;} */
 .tb_basic thead .tb_basicLeft:first-child, .tb_basic tbody .tb_basicLeft:first-child{border-left:1px solid #c4c4c4;}
 .tb_basic thead .tb_basicBLeft:first-child, .tb_basic tbody .tb_basicBLeft:first-child{border-left:2px solid #8f8f8f;}
 .tb_basic tbody th:first-child, .tb_basic tbody td:first-child{border-left:none;}
@@ -128,12 +129,15 @@
 	border-bottom: 1px solid black;
 	font-size: 40px;
 	padding: 20px;
+	width: 80%;
+	margin: 20px auto;
 }
 
 .special .b_special{
-	width: 100%;
+	width: 80%;
 	margin-top: 40px;
 	border: 1px solid black;
+	margin: 20px auto;
 }
 
 .special .b_special .tb tr th{
@@ -172,6 +176,7 @@
 .special .f_special{
 	text-align: right;
 	font-size: 20px;
+	width: 90%;
 }
 
 .special .f_special .btn{
@@ -184,6 +189,7 @@
 .special .c_footer{
 	margin-top: 20px;
 	text-align: right;
+	width: 90%;
 }
 
 .special .c_footer .btn{
@@ -443,4 +449,3 @@
 	.review_page_none {
 		background-color: #ffffff;
 	}
->>>>>>> branch 'main_code' of https://github.com/ehdrjs/OldPension.git

@@ -9,6 +9,9 @@
 <html>
 <head>
 	<jsp:include page="/WEB-INF/views/layout/import.jsp"></jsp:include>
+	<style type="text/css">
+		.txt_overflow{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+	</style>
 </head>
 <body>
 
@@ -22,24 +25,35 @@
 	</div>
 	
 	<div class="b_special">
-		<table class="tb">
-			<tr>
-				<th>글번호</th>
-				<th>제목</th>
-				<th>축제일자</th>
-				<th>등록일자</th>
-				<th>조회수</th>
-			</tr>
+		<table class="tb_basic" style="width:100%;">
+			<colgroup>
+				<col style="width:80px">
+				<col>
+				<col style="width:220px">
+				<col style="width:130px">
+				<col style="width:80px">
+			</colgroup>
+			<thead>
+				<tr>
+					<th>글번호</th>
+					<th>제목</th>
+					<th>축제일자</th>
+					<th>등록일자</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
 			
-		<c:forEach var="dto" items="${list}">	
-			<tr class="content">
-				<td>${dto.listNum}</td>
-				<td>${dto.specialSubject}</td>
-				<td>${dto.specialStart} ~ ${dto.specialEnd}</td>
-				<td>${dto.specialDate}</td>
-				<td>${dto.specialCount}</td>
-			</tr>
-		</c:forEach>
+			<tbody>
+				<c:forEach var="dto" items="${list}">	
+					<tr class="content">
+						<td>${dto.listNum}</td>
+						<td class="txt_overflow" style=";text-align:left !important;"><a href="${articleUrl}&listNum=${dto.listNum}">${dto.specialSubject}</a></td>
+						<td>${dto.specialStart} ~ ${dto.specialEnd}</td>
+						<td>${dto.specialDate}</td>
+						<td>${dto.specialCount}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
 		</table>
 	</div>
 	

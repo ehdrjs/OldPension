@@ -165,13 +165,80 @@ public class SpecialDAO {
 	// 게시물 보기
 	public SpecialDTO readSpecial(int specialNum) {
 		SpecialDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			sb.append("SELECT specialSubject, specialContent, specialDate,");
+			sb.append(" specialCount, specialStart, specialEnd, userId, imageFileName");
+			sb.append("FROM special s ");
+			sb.append("JOIN imageFile i ON s.fileNum = i.fileNum");
+			sb.append("WHERE specialNum = ? ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, specialNum);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				dto = new SpecialDTO();
+				
+				dto.setSpecialSubject(rs.getString("specialSubject"));
+				dto.setSpecialContent(rs.getString("specialContent"));
+				dto.setSpecialDate(rs.getDate("specialDate").toString());
+				dto.setSpecialCount(rs.getInt("specialCount"));
+				dto.setSpecialStart(rs.getDate("specialStart").toString());
+				dto.setSpecialEnd(rs.getDate("specialDate").toString());
+				dto.setUserId(rs.getString("userId"));
+				dto.setImageFileName(rs.getString("imageFileName"));
+				
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+					
+				}
+			} if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		} 
+		
 		return dto;
 	}
 
 	// 조회수 증가
 	public int hitCountUpdate(int specialNum) {
 		int result = 0;
-
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE special SET specialCount = specialCount + 1 WHERE specialNum = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, specialNum);
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
+		
 		return result;
 	}
 
