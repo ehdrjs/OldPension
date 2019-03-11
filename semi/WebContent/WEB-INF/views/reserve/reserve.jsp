@@ -4,78 +4,28 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String cp = request.getContextPath();
-	
-	 
-	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <jsp:include page="/WEB-INF/views/layout/import.jsp"></jsp:include>
 
-<script src="<%=cp%>/resource/js/jquery-1.11.0.min.js"></script>
-<script src="<%=cp%>/resource/js/util.js"></script>
+<link rel="stylesheet" href="<%=cp%>/resource/js/jquery-ui.css" type="text/css">
+<script type="text/javascript" src="<%=cp%>/resource/js/jquery-1.12.4.min.js"></script>
+
+<%-- <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script> --%>
+
 
 <script type="text/javascript">
-/* $(function() {
-	$("form input[name=startDay]").datepicker({
+$(function() {
+	$("#startDay").datepicker({
 		showMonthAfterYear: true
-		,defaultDate: "2019-03-07"
-		// ,minDate: 0, maxDate: "+5D"
-		//,minDate: -3, maxDate: "+1M+5D"
-		,minDate: 0, maxDate: "+2M"
+		,showOn: "button"
+		,buttonImage: "<%=cp %>/resource/images/calendar.gif"
+		,buttonImageOnly: true
 	});
-	
-}); */
-
-function dateToYYYYMMDD(date){
-    function pad(num) {
-        num = num + '';
-        return num.length < 2 ? '0' + num : num;
-    }
-    return date.getFullYear() + pad(date.getMonth()+1) + pad(date.getDate());
-} 
-
-function getDate(){
-	var f = document.reserve_form1;
-	var day = new Date();
-	
-	day = dateToYYYYMMDD(day);      // 오늘날짜 
-	
-	day = parseInt(day);            // 날짜 정수 변환
-	
-	var val = f.startDay.value;     // 입력 날짜
-	var regexp=/(\.)|(\-)|(\/)/g;
-	val = val.replace(regexp, "");  // 입력날짜 '-' 제거
-	
-	val = parseInt(val);            // 입력날짜 정수 변환
-	
-	
-	
-	if(! val){
-		alert("체크인 날짜를 선택해주세요.");
-		return;
-	}
-	
-	var val2 = f.endDay.value;     // 입력 날짜
-	val2 = val2.replace(regexp, "");  // 입력날짜 '-' 제거
-	
-	val2 = parseInt(val2);            // 입력날짜 정수 변환
-	if(val2<val || val2<day){
-		alert("체크아웃 날짜를 다시 선택해주세요.");
-		$("#endDay").val("");
-		return;
-	}
-	
-	val = f.endDay.value;
-	if(! val){
-		alert("체크아웃 날짜를 선택해주세요.");
-		return;
-	}
-	
-	sendOk();
-	
-}
+	$(".ui-datepicker-trigger").css({position: "relative", top:"3px", left:"3px"});
+});
 
 function sendOk(){
 	var f = document.reserve_form1;
@@ -158,12 +108,12 @@ function sendOk(){
 					</colgroup>
 					<tr>
 						<th>체크인 날짜</th>
-						<td><input type="date" id="startDay" name="startDay"></td>
+						<td><input type="text" id="startDay" name="startDay" readonly="readonly"></td>
 
 					</tr>
 					<tr>
 						<th>체크아웃 날짜</th>
-						<td><input type="date" id="endDay" name="endDay"></td>
+						<td><input type="text" id="endDay" name="endDay" readonly="readonly"></td>
 
 					</tr>
 				</table>
@@ -276,8 +226,8 @@ function sendOk(){
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	</div>
 
-	<script type="text/javascript" src="<%=cp%>/resource/js/jquery-ui.js"></script>
-	<script type="text/javascript"
-		src="<%=cp%>/resource/js/jquery.ui.datepicker-ko.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/js/jquery-ui.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/js/jquery.ui.datepicker-ko.js"></script>
+	
 </body>
 </html>

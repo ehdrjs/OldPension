@@ -70,11 +70,28 @@ table{border-collapse:collapse;border-spacing:0;}
 	float: right;
 	margin: 25px 15px 0px 0px;
 }
+.reserve {
+	width: 700px;
+	margin:70px auto;
+}
+
 
 .reserve_body {
 	margin:50px auto;
 }
+.reserve div p {
+	font-weight: bold; 
+	font-size:20px;
+	margin:10px 0;
+}
+.reserve div table {
+	width: 100%;
+}
 
+.reserve_btn {
+	text-align: center;	
+	margin: 20px 0;
+}
 .reserve_btn button{
 	padding: 7px;
 	border-collapse: collapse;

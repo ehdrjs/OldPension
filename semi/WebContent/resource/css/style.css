@@ -118,7 +118,7 @@
 .tb_basic thead .week th:first-child{color:red}
 .tb_basic thead .week th:last-child{color:blue}
 
-<<<<<<< HEAD
+
 
 .special {
 	width: 800px;
@@ -216,7 +216,7 @@
 	border-radius: 4px;
 }
 	
-=======
+
 .qna > .container {width:47%;}
 .qna > .container  .list-group li{border-left:none; border-right:none; width:100%; text-align:center; padding-right: 0px;
     padding-left: 0px;}
@@ -676,7 +676,7 @@
 		color : #ffffff;
 	}
 	
-	/* --------------------- /room/list.jsp & /review/list.jsp -------------------------- */
+/* --------------------- /room/list.jsp & /review/list.jsp -------------------------- */
 	
 	.review_page {
 		color: #333333;
