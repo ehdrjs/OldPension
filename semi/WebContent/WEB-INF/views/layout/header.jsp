@@ -16,13 +16,8 @@
 	<div class="gnb">
 		<ul>
 			<li><a href="#">공지사항</a></li>
-<<<<<<< HEAD
-			<li><a href="#">방소개</a></li>
 			<li><a href="<%=cp%>/special/s_calendar.do">스페셜</a></li>
-=======
 			<li><a href="<%=cp%>/room/room.do">방소개</a></li>
-			<li><a href="<%=cp%>/schedule/calendar.do">일정</a></li>
->>>>>>> branch 'main_code' of https://github.com/ehdrjs/OldPension.git
 			<li><a href="#">예약</a>
 				<ul class="list1">
 					<li><a href="<%=cp%>/reserve/reserve.jsp">실시간예약</a></li>
