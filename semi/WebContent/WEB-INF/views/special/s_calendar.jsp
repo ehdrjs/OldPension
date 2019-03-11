@@ -53,7 +53,9 @@
 		</c:if>
 	</div>
 	<div class="f_special">	
+	<c:if test="${sessionScope.member.userRole == 'admin' }">
 		<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/special/s_created.do'">등록하기</button>
+	</c:if>
 	</div>
 	
 </div> 

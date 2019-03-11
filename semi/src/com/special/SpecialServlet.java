@@ -157,8 +157,9 @@ public class SpecialServlet extends MyServlet {
 		// request, 서버에 저장될 경로, 최대크기, 파라미터타입, 동일파일명보호
 
 		// admin만 글을 등록할 수 있도록 함
-		if (!info.getUserRole().equals("admin") ) {
+		if (info==null||!info.getUserRole().equals("admin")) {
 			resp.sendRedirect(cp + "/special/s_calendar.do");
+			return;
 		} 
 
 		if (mreq.getFile("upload") != null) {
