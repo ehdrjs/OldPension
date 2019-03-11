@@ -65,7 +65,9 @@ function deleteFile(listNum){
 	}	
 }
 function sendUpdate(listNum){
-	
+	var f = document.nupdateForm;
+	f.action = "<%=cp%>/notice/update_ok.do?page=${page}&listNum=listNum";
+	f.submit();
 }
 
 
@@ -110,11 +112,9 @@ function sendUpdate(listNum){
 
 
 <c:if test="${mode=='update' }">
+
 <form name = "nupdateForm" method="post" action="" enctype="multipart/form-data">
 
-<c:if test="${sessionScope.member.userId != dto.userId }">
-<p>잘못 입력하셨습니다.</p>
-</c:if> 
 <div class = "createN">
 	<ul>
 		<li class = "nN">공지 제목</li>
@@ -122,7 +122,7 @@ function sendUpdate(listNum){
 	</ul>
 	<ul>
 		<li class = "nN">작성자</li>
-		<li class = "nT">${sessionScope.member.userId }</li>
+		<li class = "nT">${dto.userId }</li>
 	</ul>
 
 	<ul>
@@ -155,6 +155,8 @@ function sendUpdate(listNum){
 	<button type="button" onclick="sendUpdate('${listNum}');">수정하기</button>
 </div>
 </form>
+
+
 </c:if>	
 <div class = "footer">
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

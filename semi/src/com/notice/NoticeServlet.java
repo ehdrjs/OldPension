@@ -52,7 +52,8 @@ public class NoticeServlet extends MyServlet{
 		}else if(uri.indexOf("update_ok.do") != -1) {
 			updateSubmit(req, resp);
 		}else if(uri.indexOf("delete.do") != -1) {
-			delete(req, resp);
+			deleteFile(req, resp);
+			delete(req, resp);	
 		}else if(uri.indexOf("download_ok.do") != -1) {
 			download(req, resp);
 		}else if(uri.indexOf("deleteFile.do") != -1) {
@@ -170,9 +171,50 @@ public class NoticeServlet extends MyServlet{
 		forward(req, resp, "/WEB-INF/views/notice/created.jsp");
 	}
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+		HttpSession session = req.getSession();
+		NoticeDAO dao = new NoticeDAO();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		int listNum = Integer.parseInt(req.getParameter("listNum"));
+		String page = req.getParameter("page");
+		NoticeDTO dto = dao.readNotice(listNum);
 		
+		if(info.getUserId() != dto.getUserId()) {
+			return;
+		}
+		
+		dto = new NoticeDTO();
+		
+		String encType = "utf-8";
+		int maxFileSize = 10*1024*1024;
+		MultipartRequest mreq = new MultipartRequest(req, pathname, maxFileSize, encType, new DefaultFileRenamePolicy());
+
+		String subject = mreq.getParameter("subject");
+		String content = mreq.getParameter("content");
+		dto.setNoticeSubject(subject);
+		dto.setNoticeContent(content);
+		dto.setNoticeNum(listNum);
+		if(mreq.getFile("upload") != null) {
+			dto.setOriginalFileName(mreq.getOriginalFileName("upload")); 
+			dto.setFileSize(mreq.getFile("upload").length()); 
+			dto.setSaveFileName(mreq.getFilesystemName("upload"));
+		}
+		
+		//수정
+		dao.updateNotice(dto);
+		
+		req.setAttribute("page", page);
+		req.setAttribute("listNum", listNum);
+		forward(req, resp, cp + "/notice/article.do");
 	}
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		String page = req.getParameter("page");
+		int listNum = Integer.parseInt(req.getParameter("listNum"));
+		
+		
 		
 	}
 	//파일 삭제 했을 때

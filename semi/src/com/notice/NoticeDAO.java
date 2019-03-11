@@ -217,4 +217,48 @@ public class NoticeDAO {
 			}
 		}
 	}
+	
+	public void deleteNotice(int listNum) {
+		PreparedStatement pstmt = null;
+		String sql = "";
+		
+		try {
+			sql = "DELETE FROM notice WHERE noticenum = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, listNum);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+	}
+	
+	public void noticeHitCount(int listNum) {
+		PreparedStatement pstmt = null;
+		String sql = "";
+		
+		try {
+			sql = "UPDATE notice SET noticeCount = noticeCount + 1 WHERE noticeNum = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+	}
 }

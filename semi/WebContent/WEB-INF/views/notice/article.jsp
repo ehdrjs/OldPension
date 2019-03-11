@@ -82,8 +82,10 @@ body{
 
 <script type="text/javascript">
 function deleteOk(num){
-
-	
+	if(confirm("게시물을 삭제하시겠습니까?")){
+		var url = "<%=cp%>/notice/delete.do?page${page}&listNum=num";
+		location.href = url;
+	}
 }
 </script>
 </head>
@@ -132,9 +134,9 @@ function deleteOk(num){
 	<c:if test="${sessionScope.member.userRole.equals('admin')}">
 	
 		<div align="right" style="padding-top: 20px">
-			<button class = "nBtn" onclick = "javascript:location.href='<%=cp%>/notice/update.do?page=${page }&listNum=${listNum }'">수정</button>
+			<button type = "button" class = "nBtn" onclick = "javascript:location.href='<%=cp%>/notice/update.do?page=${page }&listNum=${listNum }'">수정</button>
 			
-			<button class = "nBtn" onclick = "deleteOk(${listNum});">삭제</button>
+			<button type = "button" class = "nBtn" onclick = "ndeleteOk('${listNum}');">삭제</button>
 		</div>
 		
 	</c:if>
