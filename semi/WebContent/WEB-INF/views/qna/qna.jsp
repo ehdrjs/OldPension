@@ -41,7 +41,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<ul>
-						<li style="display: inline">글/페이지</li>
+						<li style="display: inline">총${dataCount}글<span>|</span>페이지</li>
 						<li style="float: right; list-style: none">
 							<button type="button" class="btn btn-info btn-sm"
 								onclick="javascript:location.href='<%=cp%>/qna/created.do';">글작성</button>
@@ -52,11 +52,11 @@
 			<div class="row">
 				<div class="col-md-12">
 					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item">번호</li>
-						<li class="list-group-item" style="width: 340px">제목</li>
-						<li class="list-group-item">작성ID</li>
-						<li class="list-group-item">작성일</li>
-						<li class="list-group-item">조회수</li>
+						<li class="list-group-item" style="width: 15%">번호</li>
+						<li class="list-group-item" style="width: 40%">제목</li>
+						<li class="list-group-item" style="width: 20%">작성ID</li>
+						<li class="list-group-item" style="width: 15%">작성일</li>
+						<li class="list-group-item" style="width: 10%">조회수</li>
 					</ul>
 				</div>
 			</div>
@@ -65,11 +65,11 @@
 			<div class="row">
 				<div class="col-md-12">
 					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item">${dto.listNum}</li>
-						<li class="list-group-item" style="width: 340px; text-align:left;">${dto.subject}</li>
-						<li class="list-group-item">${dto.userId}</li>
-						<li class="list-group-item">${dto.created}</li>
-						<li class="list-group-item">${dto.count}</li>
+						<li class="list-group-item" style="width: 15%">${dto.listNum}</li>
+						<li class="list-group-item" style="width: 40%; text-align:left;">${dto.subject}</li>
+						<li class="list-group-item" style="width: 20%">${dto.userId}</li>
+						<li class="list-group-item" style="width: 15%">${dto.created}</li>
+						<li class="list-group-item" style="width: 10%">${dto.count}</li>
 					</ul>
 				</div>
 			</div>

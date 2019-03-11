@@ -13,6 +13,9 @@ a {
 	color: #333333;
 	text-decoration: none;
 }
+input[type=text], textarea{width:100%;padding:8px;border:1px solid #c4c4c4;border-radius:4px;box-sizing:border-box;}
+textarea{resize:none;}
+
 .w100p{width:100%;}
 table{border-collapse:collapse;border-spacing:0;}
 

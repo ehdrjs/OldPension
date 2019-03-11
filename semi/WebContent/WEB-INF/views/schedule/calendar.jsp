@@ -20,9 +20,9 @@
 	<div class="paging">
 		<div class="paging2">	
 			<ul>
-			<li><a href = "calendar.jsp?year=${year}&month=${month-1}">◀</a></li>
+			<li><a href = "calendar.do?year=${year}&month=${month-1}">◀</a></li>
 			<li>${year}년 ${month}월</li>
-			<li><a href = "calendar.jsp?year=${year}&month=${month+1}">▶</a></li>
+			<li><a href = "calendar.do?year=${year}&month=${month+1}">▶</a></li>
 			</ul>
 		</div>
 	</div>	
@@ -50,8 +50,8 @@
 				</c:forEach> 
 				
 				<c:forEach var="b" begin="1" end="${e}" step="1">
-					<td>${b}</td>
 					<c:set var="col" value="${col+=1}"/>
+					<td>${b}</td>
 					<c:if test="${col % 7 ==0  && b != e}">
 						<c:out value="</tr><tr>" escapeXml="false"/>
 						<c:set var="col" value="0"/>						
@@ -63,9 +63,6 @@
 				<td>&nbsp;</td>
 			</c:forEach>
 			</tr>
-				
-				
-				
 			</tbody>
 		</table>
 	</div>
