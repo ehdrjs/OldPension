@@ -24,6 +24,12 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function qnaSearchList() {
+		var f = document.qnaSearchForm;
+		f.submit();
+	}
+</script>
 
 </head>
 <body>
@@ -41,7 +47,8 @@
 			<div class="row">
 				<div class="col-md-12">
 					<ul>
-						<li style="display: inline">총${dataCount}글<span>|</span>페이지</li>
+						<li style="display: inline">총${dataCount}글&nbsp;<span>|&nbsp;${page}/${total_page}</span>페이지
+						</li>
 						<li style="float: right; list-style: none">
 							<button type="button" class="btn btn-info btn-sm"
 								onclick="javascript:location.href='<%=cp%>/qna/created.do';">글작성</button>
@@ -49,6 +56,42 @@
 					</ul>
 				</div>
 			</div>
+			<div id="accordion" role="tablist">
+				<div class="card">
+					<div class="card-header" role="tab" id="headingOne">
+						<h6 class="mb-0">
+							<a data-toggle="collapse" href="#collapseOne"
+								aria-expanded="true" aria-controls="collapseOne"> #1 입/퇴실 안내
+							</a>
+						</h6>
+					</div>
+
+					<div id="collapseOne" class="collapse" role="tabpanel"
+						aria-labelledby="headingOne" data-parent="#accordion">
+						<div class="card-body">입/퇴실안내<br> 입실 : 15:00 <br>퇴실 : 11:00 <br>
+							<br>픽업안내<br>
+							마트픽업 픽업 가능-청평터미널 인근 365마트, 레몬마트 1인기준 15,000원 이상 물품 구매시 마트픽업가능 /<br>
+							펜션문의 여행시 필요한 물품을 다른곳에서 구매하지 않고 해당마트에서 모두 구매시 픽업 가능 <br>365마트
+							031-585-8051, 레몬마트 031-584-6684 픽업 시간: ~17:00</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" role="tab" id="headingTwo">
+						<h6 class="mb-0">
+							<a class="collapsed" data-toggle="collapse" href="#collapseTwo"
+								aria-expanded="false" aria-controls="collapseTwo">#2 취사 안내 </a>
+						</h6>
+					</div>
+					<div id="collapseTwo" class="collapse" role="tabpanel"
+						aria-labelledby="headingTwo" data-parent="#accordion">
+						<div class="card-body">
+							숯+그릴 이용: 2인 기준 10,000원 / 3~4인 기준 20,000원 / 5~6인기준 30,000원 <br>동절기,
+							우천시 사용 가능한 개별테라스바베큐장, 공동 실내 바베큐장 구비 <br>7인 이상 이용시 별도문의 현장결제
+							및 추가비용 펜션 문의
+						</div>
+					</div>
+				</div>
+				</div>
 			<div class="row">
 				<div class="col-md-12">
 					<ul class="list-group list-group-horizontal">
@@ -60,28 +103,28 @@
 					</ul>
 				</div>
 			</div>
-			
-				<c:forEach var="dto" items="${list}">
-			<div class="row">
-				<div class="col-md-12">
-					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item" style="width: 15%">${dto.listNum}</li>
-						<li class="list-group-item" style="width: 40%; text-align:left;">${dto.subject}</li>
-						<li class="list-group-item" style="width: 20%">${dto.userId}</li>
-						<li class="list-group-item" style="width: 15%">${dto.created}</li>
-						<li class="list-group-item" style="width: 10%">${dto.count}</li>
-					</ul>
+
+			<c:forEach var="dto" items="${list}">
+				<div class="row">
+					<div class="col-md-12">
+						<ul class="list-group list-group-horizontal">
+							<li class="list-group-item" style="width: 15%">${dto.listNum}</li>
+							<li class="list-group-item" style="width: 40%; text-align: left;">${dto.subject}</li>
+							<li class="list-group-item" style="width: 20%">${dto.userId}</li>
+							<li class="list-group-item" style="width: 15%">${dto.created}</li>
+							<li class="list-group-item" style="width: 10%">${dto.count}</li>
+						</ul>
+					</div>
 				</div>
-			</div>
 			</c:forEach>
-				
-				<div class="">
-					<nav aria-label="Page navigation example">
-					  	<ul class="pagination" style="display:list-item">
-					        <li class="page-item"><c:if test="${dataCount==0}">등록된 게시물이 없습니다.</c:if></li>
-					        <li class="page-item"><c:if test="${dataCount!=0}">${paging}</c:if></li>
-				 	 	</ul>
-					</nav>
+
+			<div class="">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination" style="display: list-item">
+						<li class="page-item"><c:if test="${dataCount==0}">등록된 게시물이 없습니다.</c:if></li>
+						<li class="page-item"><c:if test="${dataCount!=0}">${paging}</c:if></li>
+					</ul>
+				</nav>
 			</div>
 			<div class="row">
 				<div class="col-md-3"></div>
@@ -92,7 +135,7 @@
 							style="float: left; margin-right: 5px" class="qnaSelectField">
 							<option value="qnaSubject">제목</option>
 							<option value="qnaContent">내용</option>
-							<option value="qnaUserId">작성ID</option>
+							<option value="userId">작성ID</option>
 							<option value="qnaDate">등록일</option>
 						</select> <input type="text" class="form-control col-md-4"
 							style="float: left; margin-right: 5px" name="qnaSearchValue">

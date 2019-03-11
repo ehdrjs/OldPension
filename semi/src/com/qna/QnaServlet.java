@@ -34,6 +34,8 @@ public class QnaServlet extends MyServlet {
 			createdForm(req,resp);
 		}else if(uri.indexOf("created_ok.do")!=-1) {
 			createdSubmit(req, resp);
+		}else if(uri.indexOf("article.do")!=-1) {
+			article(req,resp);
 		}
 	}
 
@@ -91,7 +93,7 @@ public class QnaServlet extends MyServlet {
 		
 		String query ="";
 		if(searchValue.length() !=0) {
-			query ="searchKey=" + searchKey + "&searchValue"+ URLEncoder.encode(searchValue, "utf-8"); 
+			query ="qnaSearchKey=" + searchKey + "&qnaSearchValue="+ URLEncoder.encode(searchValue, "utf-8"); 
 		}
 		
 		String listUrl = cp + "/qna/qna.do";
@@ -137,9 +139,42 @@ public class QnaServlet extends MyServlet {
 		dao.insertQna(dto, "created");
 		resp.sendRedirect(cp+"/qna/qna.do");
 		
+	}
+	
+	private void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		QnaDAO dao = new QnaDAO();
+		String cp = req.getContextPath();
+		
+		int qnaNum= Integer.parseInt(req.getParameter("qnaNum"));
+		String page=req.getParameter("page");
+		
+		String searchKey=req.getParameter("searchKey");
+		String searchValue=req.getParameter("searchValue");
+		if(searchKey==null) {
+			searchKey="subject";
+			searchValue="";
+		}
+		
+		String query="page="+page;
+		if(searchValue.length()!=0) {
+			query+="&searchKey="+searchKey+"&searchValue="+URLEncoder.encode(searchValue,"utf-8");
+		}
+		
+		dao.updateQnaCount(qnaNum);
+		QnaDTO dto = dao.readQna(qnaNum);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/qna/qna.do?"+query);
+			return;
+		}
+		
+		MyUtil util= new MyUtil();
+		dto.setContent(util.htmlSymbols(dto.getContent()));
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("query", query);
+		req.setAttribute("page", page);
+		
+		forward(req, resp, "/WEB-INF/views/board/article.jsp");
 	
 	}
-
-	
-	
 }
