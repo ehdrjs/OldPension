@@ -16,6 +16,12 @@
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 
+<div class="special">
+	<div class="h_special">
+		| 스페셜 글
+	</div>
+
+</div>
 
 
 

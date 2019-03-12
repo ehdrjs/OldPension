@@ -9,9 +9,23 @@
 <html>
 <head>
 	<jsp:include page="/WEB-INF/views/layout/import.jsp"></jsp:include>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.css"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	$("#specialStart").datepicker({
+		showMonthAfterYear : true
+	});
 	
 	
+	$("#specialEnd").datepicker({
+		showMonthAfterYear : true
+	});
+	
+	
+	$(".ui-datapicker-trigger").css({position:"relative", top:"10px", left:"5px"});
+});
+
 function sendOk() {
 	var f = document.specialForm;
 	
@@ -73,9 +87,9 @@ function sendOk() {
 					</tr>
 					<tr>
 						<th>시작일자</th>
-						<td><input type="text" class="boxTF" name="specialStart" placeholder="예) 1992-02-25"/></td>
+						<td><input type="text" class="boxTF" name="specialStart" id="specialStart" readonly="readonly" placeholder="예) 1992-02-25"/></td>
 						<th>종료일자</th>
-						<td><input type="text" class="boxTF" name="specialEnd" placeholder="예) 1992-02-25"/></td>
+						<td><input type="text" class="boxTF" name="specialEnd" id="specialEnd" readonly="readonly" placeholder="예) 1992-02-25"/></td>
 					</tr>
 					<tr>
 						<th>내용</th>
@@ -100,5 +114,7 @@ function sendOk() {
 <div class="footer">
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </div>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-ui.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
 </body>
 </html>
