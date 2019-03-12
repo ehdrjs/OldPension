@@ -216,7 +216,8 @@
 	border-radius: 4px;
 }
 	
-=======
+/* --------------------- /qna/qna.jsp -------------------------- */
+
 .qna > .container {width:47%;}
 .qna > .container  .list-group li{border-left:none; border-right:none; width:100%; text-align:center; padding-right: 0px;
     padding-left: 0px;}
@@ -246,7 +247,17 @@
 		width:100%;
 		height:720px;
 	}
-	
+/* --------------------- /qna/created.jsp -------------------------- */
+.c_menu {width:700px;}
+.c_menu li{border-left:none; border-right:none; width:100%; text-align:left; padding-right: 0px;
+    padding-left: 0px; list-style:none;}
+    
+.c_menuA { border:1px solid; padding:10px;  border-radius: 10px; margin: 15px 0px;}
+.c_menu .c_menuA .title {font-size:14pt}
+.c_menu .c_menuA #pwd {border-radius: 10px;}
+
+
+
 	/* --------------------- /room/room.jsp -------------------------- */
 	
 	.review_container {

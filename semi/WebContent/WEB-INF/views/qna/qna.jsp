@@ -61,7 +61,7 @@
 					<div class="card-header" role="tab" id="headingOne">
 						<h6 class="mb-0">
 							<a data-toggle="collapse" href="#collapseOne"
-								aria-expanded="true" aria-controls="collapseOne"> #1 입/퇴실 안내
+								aria-expanded="true" aria-controls="collapseOne" style="text-decoration: none;"> #1 입/퇴실 안내
 							</a>
 						</h6>
 					</div>
@@ -79,7 +79,7 @@
 					<div class="card-header" role="tab" id="headingTwo">
 						<h6 class="mb-0">
 							<a class="collapsed" data-toggle="collapse" href="#collapseTwo"
-								aria-expanded="false" aria-controls="collapseTwo">#2 취사 안내 </a>
+								aria-expanded="false" aria-controls="collapseTwo" style="text-decoration: none;">#2 취사 안내 </a>
 						</h6>
 					</div>
 					<div id="collapseTwo" class="collapse" role="tabpanel"
