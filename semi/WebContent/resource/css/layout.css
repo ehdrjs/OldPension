@@ -13,16 +13,16 @@ a {
 	color: #333333;
 	text-decoration: none;
 }
-
 input[type=text], textarea{width:100%;padding:8px;border:1px solid #c4c4c4;border-radius:4px;box-sizing:border-box;}
 textarea{resize:none;}
 
 .w100p{width:100%;}
+table{border-collapse:collapse;border-spacing:0;}
 
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
+.mt10{margin-top:10px;}
+.mt20{margin-top:10px;}
+.mb10{margin-bottom:10px;}
+.mb20{margin-bottom:20px;}
 
 .header {
 	padding: 20px 0;
@@ -62,7 +62,6 @@ table {
 .header .gnb ul li:hover ul {
 	visibility: visible;
 }
-
 .header .gnb ul li ul li {
 	float: left;
 }
@@ -71,15 +70,43 @@ table {
 	float: right;
 	margin: 25px 15px 0px 0px;
 }
+.reserve {
+	width: 700px;
+	margin:70px auto;
+}
+
 
 .reserve_body {
 	margin:50px auto;
 }
-
-.reserve_body ul li {
-	
-	list-style: none;
+.reserve div p {
+	font-weight: bold; 
+	font-size:20px;
+	margin:10px 0;
 }
+.reserve div table {
+	width: 100%;
+}
+
+.reserve_btn {
+	text-align: center;	
+	margin: 20px 0;
+}
+.reserve_btn button{
+	padding: 7px;
+	border-collapse: collapse;
+	border: 1px solid #aaaaaa;
+	background: white;
+	width: 200px;
+	cursor: pointer;
+}
+
+.reserve_btn button:hover, .reserve_btn button:active {
+	background-color: #4c4c4c;
+	font-weight: bold;
+	color: #ffffff;
+	outline: none;
+} 
 
 .footer {
 	padding: 20px 0;
@@ -95,192 +122,3 @@ table {
 	float: left;
 	list-style: none;
 }
-
-
-	/* --------------------- /room/room.jsp -------------------------- */
-	
-	.room_bodyContainer{
-		width : 400px; 
-		height : 50px;
-		margin-top : 20px; 
-	}
-	
-	
-	.review_container {
-		height: 700px;
-		width: 100%;
-		margin: 0px auto;
-	}
-	
-	.review_iframelayout {
-		height : 700px;
-		border : none;
-		float : left;
-	}
-	
-	.review_mid_line {
-		height:698px; 	width: 25px;
-		float : left;
-	}
-	
-	/* --------------------- /room/list.jsp -------------------------- */
-	
-	.review_page_admin {
-		width: 20px; height: 20px;
-		margin-top: -1px; margin-left: 0px;
-		padding: 3px 3px 3px;
-	}	
-	
-		
-	.room_form {
-		height : 600px; width : 695px ; 
-		padding : 0px;
-		margin : 0px;
-		float: left;
-	}
-	
-	.room_sidePhoto {
-		height : 600px ; width : 130px;
-		padding : 0px;
-		margin : -1px -1px -1px 15px;
-		float:left;
-	}
-	
-	.room_articleForm {
-		height : 600px ; width : 530px;
-		padding : 0px;
-		margin-left : 10px;
-		float:left;
-		border-collapse: collapse;
-	}
-	
-	.room_miniPhoto {
-		height : 100px ; width : 100px;
-		padding : 9px;
-		margin : 0px;
-	}
-	
-	.room_mini {
-		height : 100px; width : 100px;
-	}
-	
-	.room_mainPhoto {
-		height : 158px ; width : 210px;
-		padding : 9px;
-		margin : 0px;
-	}
-	
-	.room_article {
-		height : 540px; width : 233px ; 
-		padding : 10px;
-		margin : 20px 10px 10px 0px;
-		float : left;
-	}
-	
-	.roomTitle {
-	    margin : 5px; 
-	    padding: 10px 3px 5px 0px;
-	}
-	
-	.roomSelect{
-		-webkit-appearance: menulist;
-	    box-sizing: inherit;
-	    align-items: center;
-	    white-space: normal;
-	    -webkit-rtl-ordering: logical;
-	}
-	
-	/* --------------------- /room/write.jsp -------------------------- */
-		
-	.room_blank {
-		width : 150px; height : 12px;
-	}
-	
-	.roomContent {
-		height:500px; width: 228px;
-		padding-top:0px; 
-	}
-	
-	/* --------------------- /review/list.jsp -------------------------- */
-	
-	.review_list {
-	 	height : 600px;
-	 	float: left;
-	}
-	
-	.review_view {
-		height : 500px;
-		max-height : 501px;
-		margin-top : -2px;
-		overflow:auto;
-	}
-	
-	.review_layout {
-		width: 380px; 
-		min-height: 100px;
-		margin-top : 5px;
-		padding : 0px;
-	}
-	
-	.review_input {
-		width: 398px ; height:118px;
-		margin-top: -1px;
-		padding : 0px;
-	}
-	
-	.review_content {
-		max-width: 280px ; 
-		min-width: 150px ;
-		margin: 5px 0px 0px 5px;
-		padding : 10px;
-		float : left;
-	}
-	
-	.review_ud {
-		margin-top : 4px;
-	}
-	
-	.review_bar {
-		margin-top : 4px;
-	}
-	
-	.review_content_info {
-		width: 360px ; 
-		margin: 0px 10px -3px 10px;
-	}
-	
-	.review_reply {
-		max-width: 280px ; min-width: 150px ;
-		margin: 5px 5px 0px 0px;
-		padding : 10px;
-		float : right;
-	}
-	
-	.review_inputText {
-		height : 100px; width : 300px;
-	}
-	
-	.review_btn {
-	    margin-top : 5px; 
-	    padding:3px 10px 5px;
-	}
-	
-	/* --------------------- /room/list.jsp & /review/list.jsp -------------------------- */
-	
-	.review_page {
-		width: 20px; height: 20px;
-		margin-top: -1px; margin-left: 0px;
-		padding: 5px 3px 3px 3px;
-	}
-	
-	.review_page_np {
-		width: 20px; height: 20px;
-		margin-top: 0px; margin-left: 0px;
-		padding: 5px 5px 3px 3px;
-	}
-	
-	.review_page_none {
-		width: 20px; height: 15px;
-		margin-top: 0px; margin-left: 0px;
-	}
-	
