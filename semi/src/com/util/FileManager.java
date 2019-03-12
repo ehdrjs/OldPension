@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class FileManager {
 	/**
-	 * ÆÄÀÏ ´Ù¿î·Îµå ¸Ş¼Òµå
-	 * @param saveFilename ¼­¹ö¿¡ÀúÀåµÈÆÄÀÏ¸í
-	 * @param originalFilename Å¬¶óÀÌ¾ğÆ®°¡¾÷·ÎµåÇÑÆÄÀÏ¸í
-	 * @param pathname ¼­¹ö¿¡ÀúÀåµÈ°æ·Î
-	 * @param resp HttpServletResponse °´Ã¼
-	 * @return ´Ù¿î·Îµå¼º°ø¿©ºÎ
+	 * íŒŒì¼ ë‹¤ìš´ë¡œë“œ ë©”ì†Œë“œ
+	 * @param saveFilename ì„œë²„ì—ì €ì¥ëœíŒŒì¼ëª…
+	 * @param originalFilename í´ë¼ì´ì–¸íŠ¸ê°€ì—…ë¡œë“œí•œíŒŒì¼ëª…
+	 * @param pathname ì„œë²„ì—ì €ì¥ëœê²½ë¡œ
+	 * @param resp HttpServletResponse ê°ì²´
+	 * @return ë‹¤ìš´ë¡œë“œì„±ê³µì—¬ë¶€
 	 */
 	public static boolean doFiledownload(String saveFilename, String originalFilename, String pathname, HttpServletResponse resp) {
 		boolean flag=false;
@@ -26,37 +26,38 @@ public class FileManager {
 		}
 		
 		try {
-			originalFilename=new String(
-					originalFilename.getBytes("euc-kr"), "8859_1"); //¼­¹öÈ¯°æ¿¡µû¶ó euc-krÀ» ¼öÁ¤ÇÑ´Ù
+			originalFilename=new String(originalFilename.getBytes("euc-kr"), "8859_1"); //ì„œë²„ê°€ í´ë¼ì´ì–¸íŠ¸ì—ê²Œ íŒŒì¼ì„ ì „ì†¡í•  ë•Œ ìŠ¤íŠ¸ë¦¼ì„ ìœë‹¤.
+					//ìŠ¤íŠ¸ë¦¼ì„ ì „ì†¡í•˜ê¸° ìœ„í•´ì„œ "application/octet-stream"ìœ¼ë¡œ settingí•´ì¤€ë‹¤.
+					//8859-1(web browserê°€ ì•Œì•„ì„œ ë°”ê¿”ì¤€ë‹¤.)ë¡œ ë°”ê¿”ì¤˜ì•¼ í•œë‹¤.
 			pathname=pathname+File.separator+saveFilename;
 			File f=new File(pathname);
 			if(! f.exists()) {
 				return flag;
 			}
 			
-			// Å¬¶óÀÌ¾ğÆ®¿¡°Ô Àü¼ÛÇÒ ¹®¼­Å¸ÀÔÀÌ ½ºÆ®¸²ÀÌ¶ó°í ¼³Á¤
-			resp.setContentType("application/octet-stream"); //ÆÄÀÏÀº ½ºÆ®¸²À¸·Î ½÷¾ßÇÑ´Ù
+			// í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ì „ì†¡í•  ë¬¸ì„œíƒ€ì…ì´ ìŠ¤íŠ¸ë¦¼ì´ë¼ê³  ì„¤ì •
+			resp.setContentType("application/octet-stream");
 			
-			// ÆÄÀÏ¸íÀº Çì´õ¿¡ ³Ö¾î¼­ Àü¼Û
+			// íŒŒì¼ëª…ì€ í—¤ë”ì—(íŒŒì¼ì´ë¦„ì„ ë¨¼ì € ì „ì†¡í•´ì¤€ë‹¤.)
 			resp.setHeader("Content-disposition",
 					"attachment;filename="+originalFilename);
 			
-			// Å¬¶óÀÌ¾ğÆ®¿¡°Ô ÆÄÀÏÀÇ ³»¿ëÀ» Àü¼Û
+			// í´ë¼ì´ì–¸íŠ¸ì—ê²Œ íŒŒì¼ì˜ ë‚´ìš©ì„ ì „ì†¡
 			byte[] b=new byte[1024];
 			BufferedInputStream bis=
 					new BufferedInputStream(
-							new FileInputStream(f));  //f´Â ³» ÆÄÀÏ¸í
+							new FileInputStream(f));
 			
-			// Å¬¶óÀÌ¾ğÆ®¿¡°Ô Àü¼ÛÇÒ Ãâ·Â ½ºÆ®¸²(Å¬¶óÀÌ¾ğÆ®¿¡°Ô Àü¼Û)
+			// í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ì „ì†¡í•  ì¶œë ¥ ìŠ¤íŠ¸ë¦¼(PrintStreamì€ ì¸ì½”ë”© ëœ ê²ƒì´ë¯€ë¡œ ì‚¬ìš©í•˜ê²Œ ë˜ë©´ ê¹¨ì§„ë‹¤.), OutputStreamì„ ì‚¬ìš©í•´ì„œ í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë³´ë‚´ì•¼í•œë‹¤.ã„´
 			OutputStream os=resp.getOutputStream();
 			
 			int n;
 			while((n=bis.read(b, 0, b.length))!=-1) {
 				os.write(b, 0, n);
 			}
-			os.flush();
-			os.close();//ÀÔ·Â ½ºÆ®¸² ´İ±â
-			bis.close();//Ãâ·Â ½ºÆ®¸² ´İ±â
+			os.flush();	
+			os.close();	//writeì‹œ ë‹«ì•„ì¤˜ì•¼í•œë‹¤.
+			bis.close();//writeì‹œ ë‹«ì•„ì¤˜ì•¼í•œë‹¤.
 			
 			flag=true;
 		} catch (Exception e) {
@@ -67,17 +68,17 @@ public class FileManager {
 	}
 	
 	/**
-	 * ÆÄÀÏ ÀÌ¸§ º¯°æ(³â¿ùÀÏ½ÃºĞÃÊ³ª³ëÃÊ)
-	 * @param pathname ÆÄÀÏÀÌÀúÀåµÈ °æ·Î
-	 * @param filename º¯°æÇÒ ÆÄÀÏ¸í
-	 * @return »õ·Î¿îÆÄÀÏ¸í
+	 * íŒŒì¼ ì´ë¦„ ë³€ê²½(ë…„ì›”ì¼ì‹œë¶„ì´ˆë‚˜ë…¸ì´ˆ)
+	 * @param pathname íŒŒì¼ì´ì €ì¥ëœ ê²½ë¡œ
+	 * @param filename ë³€ê²½í•  íŒŒì¼ëª…
+	 * @return ìƒˆë¡œìš´íŒŒì¼ëª…
 	 */
 	public static String doFilerename(String pathname, String filename) {
 		String newname="";
 		
     	String fileExt = filename.substring(
     			       filename.lastIndexOf("."));
-    	String s = String.format(//³â¿ùÀÏ½ÃºĞ³ª³ëÃÊ·Î Áßº¹ È¸ÇÇ
+    	String s = String.format(
     			"%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", 
 				 Calendar.getInstance());
     	s += System.nanoTime();
@@ -86,7 +87,7 @@ public class FileManager {
     	try {
 	    	File f1=new File(pathname+File.separator+filename);
 	    	File f2=new File(pathname+File.separator+s);
-	    	f1.renameTo(f2); //ÀÌ¸§¹Ù²Ù±â
+	    	f1.renameTo(f2);
 	    	
 	    	newname = s;
     	}catch(Exception e) {
@@ -96,10 +97,10 @@ public class FileManager {
 	}
 	
 	/**
-	 * ÆÄÀÏ »èÁ¦
-	 * @param pathname ÆÄÀÏÀÌ ÀúÀåµÈ °æ·Î
-	 * @param filename »èÁ¦ÇÒ ÆÄÀÏ¸í
-	 * @return ÆÄÀÏ »èÁ¦ ¼º°ø ¿©ºÎ
+	 * íŒŒì¼ ì‚­ì œ
+	 * @param pathname íŒŒì¼ì´ ì €ì¥ëœ ê²½ë¡œ
+	 * @param filename ì‚­ì œí•  íŒŒì¼ëª…
+	 * @return íŒŒì¼ ì‚­ì œ ì„±ê³µ ì—¬ë¶€
 	 */
 	public static boolean doFiledelete(String pathname, String filename) {
 		String path=pathname+File.separator+filename;
@@ -107,7 +108,7 @@ public class FileManager {
 		try {
 			File f=new File(path);
 			
-			if(! f.exists()) // ÆÄÀÏÀÌ ¾øÀ¸¸é
+			if(! f.exists()) // íŒŒì¼ì´ ì—†ìœ¼ë©´
 				return false;
 			
 			f.delete();
