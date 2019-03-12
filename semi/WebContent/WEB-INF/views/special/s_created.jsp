@@ -9,7 +9,8 @@
 <html>
 <head>
 	<jsp:include page="/WEB-INF/views/layout/import.jsp"></jsp:include>
-<script type="text/javascript" src="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.css"></script>
+
+<link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.css" type="text/css"></link>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -60,10 +61,21 @@ function sendOk() {
 		return;
 	}
 	
-	f.action = "<%=cp%>/special/s_created_ok.do";
+	// 이미지파일만 가능하게 유효성검사 
+	
+	var mode = "${mode}";
+	if(mode == "created") {
+		f.action = "<%=cp%>/special/s_created_ok.do";
+	}
+	else if(mode == "update") {
+		f.action = "<%=cp%>/special/s_update_ok.do";
+	}
+	
 	f.submit();
 	
 }
+
+
 
 
 </script>
@@ -76,35 +88,43 @@ function sendOk() {
 
 <div class="special">
 	<div class="h_special">
-		| 스페셜 등록
+		| 스페셜 ${mode=='update' ? '수정하기' : '글쓰기'}
 	</div>
 		<form name="specialForm" method="post" enctype="multipart/form-data">
 			<div class="b_special">
 				<table class="tb_basic_row" style="width:100%">
 					<tr>
 						<th>제목</th>
-						<td colspan="3"><input type="text" class="boxTF" name="subject" placeholder="제목을 입력해주세요."/></td>
+						<td colspan="3"><input type="text" class="boxTF" name="subject" placeholder="제목을 입력해주세요." value="${dto.specialSubject}"></td>
 					</tr>
 					<tr>
 						<th>시작일자</th>
-						<td><input type="text" class="boxTF" name="specialStart" id="specialStart" readonly="readonly" placeholder="예) 1992-02-25"/></td>
+						<td><input type="text" class="boxTF" name="specialStart" id="specialStart" readonly="readonly" placeholder="예) 1992-02-25" value="${dto.specialStart}"></td>
 						<th>종료일자</th>
-						<td><input type="text" class="boxTF" name="specialEnd" id="specialEnd" readonly="readonly" placeholder="예) 1992-02-25"/></td>
+						<td><input type="text" class="boxTF" name="specialEnd" id="specialEnd" readonly="readonly" placeholder="예) 1992-02-25" value="${dto.specialEnd}"></td>
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td colspan="3"><textarea class="boxTA" style="height:300px" name="content" placeholder="내용을 입력해주세요."></textarea></td>
+						<td colspan="3"><textarea class="boxTA" style="height:300px" name="content" placeholder="내용을 입력해주세요.">${dto.specialContent}</textarea></td>
 					</tr>
 					<tr>
 						<th>이미지파일</th>
-						<td colspan="3"><input type="file" name="upload" class="boxTF" accept="image/*"/>100</td>
+						<td colspan="3"><input type="file" name="upload" class="boxTF" accept="image/*" ></td>
 					</tr>
+					
+					
+					<c:if test="${mode == 'update'}">
+						<input type="hidden" name="specialNum" value="${dto.specialNum}">
+						<input type="hidden" name="imageFileName" value="${dto.imageFileName}">
+						<input type="hidden" name="userId" value="${dto.userId}">
+						<input type="hidden" name="page" value="${page}">
+					</c:if>
 				</table>
 			</div>
 			<div class="c_footer">
 		<button type="reset" class="btn">다시쓰기</button>
-		<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/special/s_calendar.do';">등록취소</button>
-		<button type="button" class="btn" onclick="sendOk();">등록하기</button>
+		<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/special/s_calendar.do';">${mode=='update' ? '수정취소' : '등록취소'}</button>
+		<button type="button" class="btn" onclick="sendOk();">${mode=='update' ? '수정하기' : '등록하기'}</button>
 	</div>
 		</form>
 	

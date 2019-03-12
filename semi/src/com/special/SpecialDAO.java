@@ -8,11 +8,12 @@ import java.util.List;
 
 import com.util.DBConn;
 
+
 public class SpecialDAO {
 
 	private Connection conn = DBConn.getConnection();
 
-	// ±Û Ãß°¡
+	// ï¿½ï¿½ ï¿½ß°ï¿½
 	public int insertSpecial(SpecialDTO dto) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -20,21 +21,20 @@ public class SpecialDAO {
 
 		try {
 			sb.append("INSERT ALL");
-			sb.append("	INTO imageFile(fileNum, imageFileName, imageFileSize)");
-			sb.append("		VALUES(file_seq.NEXTVAL, ?, ?)");
 			sb.append("	INTO special(specialNum, specialSubject, specialContent, ");
-			sb.append(
-					"		specialStart, specialEnd, userId, fileNum) VALUES (special_seq.NEXTVAL, ?, ?, ?, ?, ?, file_seq.CURRVAL)");
+			sb.append("     specialStart, specialEnd, userId) VALUES (special_seq.NEXTVAL, ?, ?, ?, ?, ?)");
+			sb.append("	 INTO specialImageFile(fileNum, imageFileName, imageFileSize, specialNum)");
+			sb.append("     VALUES (specialFile_seq.NEXTVAL, ?, ?, special_seq.CURRVAL)");
 			sb.append("SELECT * FROM dual");
 
 			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setString(1, dto.getImageFileName());
-			pstmt.setLong(2, dto.getImageFileSize());
-			pstmt.setString(3, dto.getSpecialSubject());
-			pstmt.setString(4, dto.getSpecialContent());
-			pstmt.setString(5, dto.getSpecialStart());
-			pstmt.setString(6, dto.getSpecialEnd());
-			pstmt.setString(7, dto.getUserId());
+			pstmt.setString(1, dto.getSpecialSubject());
+			pstmt.setString(2, dto.getSpecialContent());
+			pstmt.setString(3, dto.getSpecialStart());
+			pstmt.setString(4, dto.getSpecialEnd());
+			pstmt.setString(5, dto.getUserId());
+			pstmt.setString(6, dto.getImageFileName());
+			pstmt.setLong(7, dto.getImageFileSize());
 
 			result = pstmt.executeUpdate();
 
@@ -52,7 +52,7 @@ public class SpecialDAO {
 		return result;
 	}
 
-	// ¸®½ºÆ®
+	// ï¿½ï¿½ï¿½ï¿½Æ®
 	public List<SpecialDTO> listSpecial(int start, int end) {
 		List<SpecialDTO> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -62,7 +62,7 @@ public class SpecialDAO {
 		try {
 			sb.append("SELECT * FROM (");
 			sb.append("	SELECT ROWNUM rnum, tb.* FROM (");
-			sb.append("		SELECT specialSubject, specialDate, specialStart, specialEnd, specialCount ");
+			sb.append("		SELECT specialNum, specialSubject, specialDate, specialStart, specialEnd, specialCount ");
 			sb.append("		FROM special");
 			sb.append("		ORDER BY specialNum DESC");
 			sb.append("	) tb WHERE ROWNUM <= ?");
@@ -77,12 +77,14 @@ public class SpecialDAO {
 			while (rs.next()) {
 				SpecialDTO dto = new SpecialDTO();
 
+				dto.setSpecialNum(rs.getInt("specialNum"));
 				dto.setSpecialSubject(rs.getString("specialSubject"));
-				dto.setSpecialDate(rs.getString("specialDate"));
-				// dto.setSpecialStart(rs.getDate("specialStart").toString());
-				dto.setSpecialStart(rs.getString("specialStart"));
-				// dto.setSpecialEnd(rs.getDate("specialEnd").toString());
-				dto.setSpecialEnd(rs.getString("specialEnd"));
+				// dto.setSpecialDate(rs.getString("specialDate"));
+				dto.setSpecialDate(rs.getDate("specialDate").toString());
+				dto.setSpecialStart(rs.getDate("specialStart").toString());
+				//dto.setSpecialStart(rs.getString("specialStart"));
+				dto.setSpecialEnd(rs.getDate("specialEnd").toString());
+				//dto.setSpecialEnd(rs.getString("specialEnd"));
 				dto.setSpecialCount(rs.getInt("specialCount"));
 
 				list.add(dto);
@@ -110,7 +112,7 @@ public class SpecialDAO {
 	}
 
 
-	// µ¥ÀÌÅÍ °³¼ö
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int dataCount() {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -149,20 +151,88 @@ public class SpecialDAO {
 	}
 
 	
-	// ±Û ¼öÁ¤
-	public int updateSpecial(SpecialDTO dto, String userId) {
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	public int updateSpecial(SpecialDTO dto) {
 		int result = 0;
+		PreparedStatement pstmt = null;
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+	
+			sb.append("UPDATE special SET specialSubject = ?, specialContent = ?, ");
+			sb.append("specialStart = ?, specialEnd = ?  WHERE specialNum = ?");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, dto.getSpecialSubject());
+			pstmt.setString(2, dto.getSpecialContent());
+			pstmt.setString(3, dto.getSpecialStart());
+			pstmt.setString(4, dto.getSpecialEnd());
+			pstmt.setInt(5, dto.getSpecialNum());
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+			pstmt = null;
+			
+			sb = new StringBuffer();
+			sb.append("UPDATE specialImageFile SET imageFileName = ? WHERE specialNum = ?");
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, dto.getImageFileName());
+			pstmt.setInt(2, dto.getSpecialNum());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+				
+			}
+		}
+		
 		return result;
 	}
 
-	// ±Û »èÁ¦
-	public int deleteSpecial(int specialNum, String userId) {
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	public int deleteSpecial(int specialNum) {
 		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "DELETE FROM special WHERE specialNum = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, specialNum);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			pstmt = null;
+			
+			sql = "DELETE FROM specialImageFile WHERE specialNum = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, specialNum);
+			pstmt.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
 
 		return result;
 	}
 
-	// °Ô½Ã¹° º¸±â
+	// ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public SpecialDTO readSpecial(int specialNum) {
 		SpecialDTO dto = null;
 		PreparedStatement pstmt = null;
@@ -170,11 +240,11 @@ public class SpecialDAO {
 		StringBuffer sb = new StringBuffer();
 		
 		try {
-			sb.append("SELECT specialSubject, specialContent, specialDate,");
-			sb.append(" specialCount, specialStart, specialEnd, userId, imageFileName");
+			sb.append("SELECT s.specialNum, specialSubject, specialContent, specialDate, specialCount,");
+			sb.append(" specialStart, specialEnd, userId, imageFileName ");
 			sb.append("FROM special s ");
-			sb.append("JOIN imageFile i ON s.fileNum = i.fileNum");
-			sb.append("WHERE specialNum = ? ");
+			sb.append("JOIN specialImageFile i ON s.specialNum = i.specialNum ");
+			sb.append("WHERE s.specialNum = ?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, specialNum);
@@ -183,14 +253,16 @@ public class SpecialDAO {
 			if(rs.next()){
 				dto = new SpecialDTO();
 				
+				dto.setSpecialNum(rs.getInt("specialNum"));
 				dto.setSpecialSubject(rs.getString("specialSubject"));
 				dto.setSpecialContent(rs.getString("specialContent"));
 				dto.setSpecialDate(rs.getDate("specialDate").toString());
 				dto.setSpecialCount(rs.getInt("specialCount"));
 				dto.setSpecialStart(rs.getDate("specialStart").toString());
-				dto.setSpecialEnd(rs.getDate("specialDate").toString());
+				dto.setSpecialEnd(rs.getDate("specialEnd").toString());
 				dto.setUserId(rs.getString("userId"));
 				dto.setImageFileName(rs.getString("imageFileName"));
+				
 				
 			}
 		} catch (Exception e) {
@@ -214,7 +286,7 @@ public class SpecialDAO {
 		return dto;
 	}
 
-	// Á¶È¸¼ö Áõ°¡
+	// ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int hitCountUpdate(int specialNum) {
 		int result = 0;
 		PreparedStatement pstmt = null;

@@ -25,7 +25,7 @@ public class SpecialServlet extends MyServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private String pathname; // ¼­¹ö¿¡ ÀúÀåµÉ °æ·Î
+	private String pathname; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
@@ -33,8 +33,8 @@ public class SpecialServlet extends MyServlet {
 
 		HttpSession session = req.getSession();
 
-		// À¥¼­¹ö È¯°æ¿¡ ÀúÀå
-		// ÀÌ¹ÌÁö¸¦ ÀúÀåÇÒ °æ·Î
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¯ï¿½æ¿¡ ï¿½ï¿½ï¿½ï¿½
+		// ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		String root = session.getServletContext().getRealPath("/");
 		pathname = root + "uploads" + File.separator + "photo";
 		File f = new File(pathname);
@@ -50,11 +50,17 @@ public class SpecialServlet extends MyServlet {
 			createdSubmit(req, resp);
 		} else if (uri.indexOf("s_article.do") != -1) {
 			article(req, resp);
+		} else if (uri.indexOf("s_update.do") != -1) {
+			updateForm(req, resp);
+		} else if (uri.indexOf("s_update_ok.do") != -1) {
+			updateSubmit(req, resp);
+		} else if (uri.indexOf("s_delete.do") != -1) {
+			delete(req, resp);
 		}
 	}
 
 	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// ¸®½ºÆ®
+		// ï¿½ï¿½ï¿½ï¿½Æ®
 		String cp = req.getContextPath();
 		MyUtil util = new MyUtil();
 		SpecialDAO dao = new SpecialDAO();
@@ -65,7 +71,7 @@ public class SpecialServlet extends MyServlet {
 			current_page = Integer.parseInt(page);
 		}
 
-		// ÀüÃ¼ µ¥ÀÌÅÍ °³¼ö, ÀüÃ¼ ÆäÀÌÁö ¼ö
+		// ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		int rows = 10;
 		int dataCount, total_page;
 		dataCount = dao.dataCount();
@@ -74,17 +80,17 @@ public class SpecialServlet extends MyServlet {
 			current_page = total_page;
 		}
 
-		// °¡Á®¿Ã ÆäÀÌÁöÀÇ ½ÃÀÛ°ú ³¡
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½
 		int start = (current_page - 1) * rows + 1;
 		int end = current_page * rows;
 
-		// °Ô½Ã¹° °¡Á®¿À±â
+		// ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<SpecialDTO> list;
 		list = dao.listSpecial(start, end);
 
-		Date date = new Date(); // ÇöÀç
+		Date date = new Date(); // ï¿½ï¿½ï¿½ï¿½
 		long gap;
-		// °Ô½Ã¹° ±Û¹øÈ£ ¸¸µé±â
+		// ï¿½Ô½Ã¹ï¿½ ï¿½Û¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½
 		int listNum = 0;
 		int n = 0;
 
@@ -96,59 +102,56 @@ public class SpecialServlet extends MyServlet {
 
 			try {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date endDate = sdf.parse(dto.getSpecialEnd()); // ÃàÁ¦¸¶Áö¸·ÀÏÀÚ
+				Date endDate = sdf.parse(dto.getSpecialEnd()); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-				// ÇöÀç - Á¾·áÀÏ > 1 ÃàÁ¦ Á¾·á
+				// ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > 1 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				gap = (date.getTime() - endDate.getTime()) / (60 * 60 * 1000);
 				dto.setGap(gap);
-			
 
 			} catch (Exception e) {
 
 			}
-			
+
 			dto.setSpecialDate(dto.getSpecialDate().substring(0, 10));
 			dto.setSpecialStart(dto.getSpecialStart().substring(0, 10));
 			dto.setSpecialEnd(dto.getSpecialEnd().substring(0, 10));
-			
+
 			n++;
 		}
-		
+
 		String listUrl;
 		String articleUrl;
-		
+
 		listUrl = cp + "/special/s_calendar.do";
-		articleUrl = cp + "/special/s_calendar.do?page=" + current_page;
-		
+		articleUrl = cp + "/special/s_article.do?page=" + current_page;
+
 		String paging = util.paging(current_page, total_page, listUrl);
-		
-		
+
 		req.setAttribute("list", list);
 		req.setAttribute("dataCount", dataCount);
-		req.setAttribute("page", page);
+		req.setAttribute("page", current_page);
 		req.setAttribute("total_page", total_page);
 		req.setAttribute("articleUrl", articleUrl);
 		req.setAttribute("paging", paging);
-		
-		
+
 		forward(req, resp, "/WEB-INF/views/special/s_calendar.jsp");
 	}
 
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// ±Û¾²±â Æû
+		// ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½
 		req.setAttribute("mode", "created");
 		forward(req, resp, "/WEB-INF/views/special/s_created.jsp");
 	}
 
 	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// ±Û ÀúÀå
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 		String cp = req.getContextPath();
 		String encType = "UTF-8";
 		int maxFileSize = 10 * 1024 * 1024;
 
-		// ¼¼¼Ç¹Þ¾Æ¿È
+		// ï¿½ï¿½ï¿½Ç¹Þ¾Æ¿ï¿½
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
@@ -156,13 +159,13 @@ public class SpecialServlet extends MyServlet {
 		SpecialDTO dto = new SpecialDTO();
 		MultipartRequest mreq = new MultipartRequest(req, pathname, maxFileSize, encType,
 				new DefaultFileRenamePolicy());
-		// request, ¼­¹ö¿¡ ÀúÀåµÉ °æ·Î, ÃÖ´ëÅ©±â, ÆÄ¶ó¹ÌÅÍÅ¸ÀÔ, µ¿ÀÏÆÄÀÏ¸íº¸È£
+		// request, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Ö´ï¿½Å©ï¿½ï¿½, ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½È£
 
-		// admin¸¸ ±ÛÀ» µî·ÏÇÒ ¼ö ÀÖµµ·Ï ÇÔ
-		if (info==null||!info.getUserRole().equals("admin")) {
+		// adminï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½
+		if (info == null || !info.getUserRole().equals("admin")) {
 			resp.sendRedirect(cp + "/special/s_calendar.do");
 			return;
-		} 
+		}
 
 		if (mreq.getFile("upload") != null) {
 			dto.setUserId(info.getUserId());
@@ -177,38 +180,137 @@ public class SpecialServlet extends MyServlet {
 			dto.setSpecialStart(mreq.getParameter("specialStart"));
 			dto.setSpecialEnd(mreq.getParameter("specialEnd"));
 
-			// ÆÄ¶ó¹ÌÅÍ ³Ñ±è
+			// ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½
 			dao.insertSpecial(dto);
 		}
 
-		// ¸®½ºÆ®·Î ¸®´ÙÀÌ·ºÆ®
+		// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
 		resp.sendRedirect(cp + "/special/s_calendar.do");
 
 	}
 
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		 String cp = req.getContextPath();
-		 SpecialDAO dao = new SpecialDAO();
-		 
-		 int specialNum = Integer.parseInt(req.getParameter("specialNum"));
-		 String page = req.getParameter("page");
-		 
-		 //Á¶È¸¼ö Áõ°¡
-		 dao.hitCountUpdate(specialNum);
-		 
-		 // °Ô½Ã±Û ºÒ·¯¿À±â
-		 SpecialDTO dto = dao.readSpecial(specialNum);
-		 if(dto == null) {
-			 resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
-			 return;
-		 }
-		 
-		 dto.setSpecialContent(dto.getSpecialContent().replaceAll("\n", "<br>"));
-		 
-		 
-		 req.setAttribute("dto", dto);
-		 req.setAttribute("page", page);
-		 
-		 forward(req, resp, "/WEB-INF/views/special/s_article.jsp");
+		String cp = req.getContextPath();
+		SpecialDAO dao = new SpecialDAO();
+
+		int specialNum = Integer.parseInt(req.getParameter("specialNum"));
+		String page = req.getParameter("page");
+
+		// ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		dao.hitCountUpdate(specialNum);
+
+		// ï¿½Ô½Ã±ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
+		SpecialDTO dto = dao.readSpecial(specialNum);
+		if (dto == null) {
+			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
+			return;
+		}
+
+		dto.setSpecialContent(dto.getSpecialContent().replaceAll("\n", "<br>"));
+
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+
+		forward(req, resp, "/WEB-INF/views/special/s_article.jsp");
 	}
+
+	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		SpecialDAO dao = new SpecialDAO();
+
+		String page = req.getParameter("page");
+		int specialNum = Integer.parseInt(req.getParameter("specialNum"));
+		SpecialDTO dto = dao.readSpecial(specialNum);
+
+		if (dto == null) {
+			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
+			return;
+		}
+
+		if (info == null || !info.getUserRole().equals("admin")) {
+			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
+			return;
+		}
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+
+		req.setAttribute("mode", "update");
+		forward(req, resp, "/WEB-INF/views/special/s_created.jsp");
+	}
+
+	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String cp = req.getContextPath();
+		SpecialDAO dao = new SpecialDAO();
+		SpecialDTO dto = new SpecialDTO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		String encType = "UTF-8";
+		int maxSize = 5*1024*1024;
+		MultipartRequest mreq = new MultipartRequest(req, pathname, maxSize, encType, new DefaultFileRenamePolicy());
+		
+		String page = mreq.getParameter("page");
+		if(info == null || !info.getUserRole().equals("admin")) {
+			resp.sendRedirect(cp+"/special/s_calendar.do?page="+page);
+		}
+		
+		dto.setSpecialNum(Integer.parseInt(mreq.getParameter("specialNum")));
+		dto.setSpecialSubject(mreq.getParameter("subject"));
+		dto.setSpecialContent(mreq.getParameter("content"));
+		dto.setSpecialStart(mreq.getParameter("specialStart"));
+		dto.setSpecialEnd(mreq.getParameter("specialEnd"));
+		// dto.setImageFileName(mreq.getParameter("imageFileName"));
+		
+		if(mreq.getFile("upload") != null) {
+			FileManager.doFiledelete(pathname, dto.getImageFileName());
+			
+			String saveFileName = mreq.getFilesystemName("upload");
+			
+			saveFileName = FileManager.doFilerename(pathname, saveFileName);
+			
+			dto.setImageFileName(saveFileName);
+		}
+		
+		dao.updateSpecial(dto);
+		
+		resp.sendRedirect(cp+"/special/s_article.do?page="+page + "&specialNum=" + dto.getSpecialNum());
+		
+	}
+
+	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+		SpecialDAO dao = new SpecialDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		if(info == null || !info.getUserRole().equals("admin") ) {
+			resp.sendRedirect(cp + "/special/s_calendar.do");
+			return;
+		}
+		
+		int specialNum = Integer.parseInt(req.getParameter("specialNum"));
+		String page = req.getParameter("page");
+		
+		SpecialDTO dto = dao.readSpecial(specialNum);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/special/s_calendar.do?page=" + page);
+			return;
+		}
+		
+		FileManager.doFiledelete(pathname, dto.getImageFileName());
+		
+		dao.deleteSpecial(specialNum);
+		
+		resp.sendRedirect(cp+"/special/s_calendar.do?page=" + page);
+
+	}
+
 }
