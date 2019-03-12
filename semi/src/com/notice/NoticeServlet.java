@@ -150,6 +150,7 @@ public class NoticeServlet extends MyServlet{
 		NoticeDAO dao = new NoticeDAO();
 		NoticeDTO dto = dao.readNotice(listNum);
 		MyUtil util = new MyUtil();
+		dao.noticeHitCount(listNum);
 		
 		dto.setNoticeContent(util.htmlSymbols(dto.getNoticeContent()));
 		req.setAttribute("page", page);

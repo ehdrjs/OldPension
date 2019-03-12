@@ -36,7 +36,7 @@
 			<span style="color:blue;"> ${sessionScope.member.userName} </span> 님 
 			&nbsp;|&nbsp; 
 			<a href="<%=cp%>/member/logout.do" style="color: black;">로그아웃</a>
+			
 		</c:if>
-		
 	</div>
 

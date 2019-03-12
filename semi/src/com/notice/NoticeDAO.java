@@ -305,6 +305,7 @@ public class NoticeDAO {
 		try {
 			sql = "UPDATE notice SET noticeCount = noticeCount + 1 WHERE noticeNum = ?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, listNum);
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
