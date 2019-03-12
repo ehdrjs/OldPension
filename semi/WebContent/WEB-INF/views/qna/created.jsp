@@ -73,7 +73,7 @@
 								name="subject" placeholder="제목을 입력하세요" value="${dto.subject}"></li>
 						</ul>
 						<ul style="line-height: 40px;">
-							<li class="title" style="float: left; width: 10%;">작성ID</li>
+							<li class="title" style="float: left; width: 10%;">작성자</li>
 							<li
 								style="float: left; width: 20%; font-size: 18px; padding: 0px 0px 0px 10px">${sessionScope.member.userId}</li>
 							<li class="title"

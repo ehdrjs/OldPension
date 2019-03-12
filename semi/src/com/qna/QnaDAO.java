@@ -280,7 +280,7 @@ public class QnaDAO {
 		StringBuffer sb = new StringBuffer();
 
 		try {
-			sb.append("SELECT q.qnaNum, qnaPwd, qnaSubject, qnaCountent, groupNum, orderNo, depth, ");
+			sb.append("SELECT q.qnaNum, qnaPwd, qnaSubject, qnaContent, groupNum, orderNo, depth, ");
 			sb.append("qnaCount, TO_CHAR(qnaDate, 'YYYYMMDD') qnaDate FROM qna q JOIN member m ON q.userId=m.userId ");
 			sb.append(" WHERE qnaNum= ? ");
 
@@ -290,10 +290,11 @@ public class QnaDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
+				dto=new QnaDTO();
 				dto.setNum(rs.getInt("qnaNum"));
 				dto.setPwd(rs.getString("qnaPwd"));
 				dto.setSubject(rs.getString("qnaSubject"));
-				dto.setContent(rs.getString("qnaCountent"));
+				dto.setContent(rs.getString("qnaContent"));
 				dto.setGroupNum(rs.getInt("groupNum"));
 				dto.setOrderNo(rs.getInt("orderNo"));
 				dto.setDepth(rs.getInt("depth"));
@@ -411,7 +412,76 @@ public class QnaDAO {
 				} catch (SQLException e) {
 				}
 			}
-			return dto;
 		}
+		return dto;
+	}
+	
+	public QnaDTO nextReadQna(int groupNum, int orderNo, String searchKey, String searchValue) {
+		QnaDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuffer sb = new StringBuffer();
+
+		try {
+			if (searchValue != null && searchValue.length() != 0) {
+				sb.append("SELECT ROWNUM, tb.* FROM ( ");
+				sb.append(" SELECT qnaNum, qnaSubject ");
+				sb.append("		FROM qna q");
+				sb.append("		JOIN memeber m ON q.userId=m.userId	");
+				if (searchKey.equals("qnaDate")) {
+					searchValue = searchValue.replaceAll("-", "");
+					sb.append("		WHERE (TO_CHAR(qnaDate, 'YYYYMMDD') = ? ) AND ");
+				} else if (searchKey.equals("userId")) {
+					sb.append("		WHERE (INSTR(userId,?) =1 ) AND ");
+				} else {
+					sb.append("		WHERE (INSTR(" + searchKey + ", ? >=1 ) AND ");
+				}
+				sb.append("		((groupNum= ? AND orderNo > ? ) ");
+				sb.append("		OR (groupNum < ? )) ");
+				sb.append("		ORDER BY groupNum ASC, orderNo DESC) tb WHERE ROWNUM =1 ");
+
+				pstmt = conn.prepareStatement(sb.toString());
+
+				pstmt.setString(1, searchValue);
+				pstmt.setInt(2, groupNum);
+				pstmt.setInt(3, orderNo);
+				pstmt.setInt(4, groupNum);
+			} else {
+				sb.append("SELECT ROWNUM, tb.* FROM (");
+				sb.append("		SELECT qnaNum, qnaSubject FROM qna q JOIN member m ON q.userId=m.userId ");
+				sb.append("		WHERE (groupNum= ? AND orderNo > ? ) ");
+				sb.append("		OR (groupNum < ? ) ");
+				sb.append("		ORDER BY groupNum ASC, orderNo DESC) tb WHERE ROWNUM =1 ");
+
+				pstmt = conn.prepareStatement(sb.toString());
+				pstmt.setInt(1, groupNum);
+				pstmt.setInt(2, orderNo);
+				pstmt.setInt(3, groupNum);
+			}
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new QnaDTO();
+				dto.setNum(rs.getInt("qnaNum"));
+				dto.setSubject(rs.getString("qnaSubject"));
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return dto;
 	}
 }

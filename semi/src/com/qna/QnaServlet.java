@@ -93,7 +93,7 @@ public class QnaServlet extends MyServlet {
 		
 		String query ="";
 		if(searchValue.length() !=0) {
-			query ="qnaSearchKey=" + searchKey + "&qnaSearchValue="+ URLEncoder.encode(searchValue, "utf-8"); 
+			query ="searchKey=" + searchKey + "&searchValue="+ URLEncoder.encode(searchValue, "utf-8"); 
 		}
 		
 		String listUrl = cp + "/qna/qna.do";
@@ -104,10 +104,10 @@ public class QnaServlet extends MyServlet {
 		}
 		String paging = util.paging(current_page, total_page, listUrl);
 		req.setAttribute("list", list);
-		req.setAttribute("dataCount", dataCount);
+		req.setAttribute("datacount", dataCount);
 		req.setAttribute("page", current_page);
 		req.setAttribute("total_page", total_page);
-		req.setAttribute("aricleUrl", articleUrl);
+		req.setAttribute("articleUrl", articleUrl);
 		req.setAttribute("paging", paging);
 		
 		forward(req, resp, "/WEB-INF/views/qna/qna.jsp");
@@ -145,23 +145,24 @@ public class QnaServlet extends MyServlet {
 		QnaDAO dao = new QnaDAO();
 		String cp = req.getContextPath();
 		
-		int qnaNum= Integer.parseInt(req.getParameter("qnaNum"));
+		int num= Integer.parseInt(req.getParameter("qnaNum"));
 		String page=req.getParameter("page");
 		
-		String searchKey=req.getParameter("searchKey");
-		String searchValue=req.getParameter("searchValue");
+		String searchKey=req.getParameter("qnaSearchKey");
+		String searchValue=req.getParameter("qnaSearchValue");
 		if(searchKey==null) {
-			searchKey="subject";
+			searchKey="qnaSubject";
 			searchValue="";
 		}
+		searchValue=URLDecoder.decode(searchValue, "utf-8");
 		
 		String query="page="+page;
 		if(searchValue.length()!=0) {
-			query+="&searchKey="+searchKey+"&searchValue="+URLEncoder.encode(searchValue,"utf-8");
+			query+="&qnaSearchKey="+searchKey+"&qnaSearchValue="+URLEncoder.encode(searchValue,"utf-8");
 		}
 		
-		dao.updateQnaCount(qnaNum);
-		QnaDTO dto = dao.readQna(qnaNum);
+		dao.updateQnaCount(num);
+		QnaDTO dto = dao.readQna(num);
 		if(dto==null) {
 			resp.sendRedirect(cp+"/qna/qna.do?"+query);
 			return;
@@ -174,7 +175,7 @@ public class QnaServlet extends MyServlet {
 		req.setAttribute("query", query);
 		req.setAttribute("page", page);
 		
-		forward(req, resp, "/WEB-INF/views/board/article.jsp");
+		forward(req, resp, "/WEB-INF/views/qna/article.jsp");
 	
 	}
 }

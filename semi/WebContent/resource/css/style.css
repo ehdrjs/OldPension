@@ -248,6 +248,7 @@
 		height:720px;
 	}
 /* --------------------- /qna/created.jsp -------------------------- */
+.qna_created .header .gnb a:hover {text-decoration: none;}
 .c_menu {width:700px;}
 .c_menu li{border-left:none; border-right:none; width:100%; text-align:left; padding-right: 0px;
     padding-left: 0px; list-style:none;}

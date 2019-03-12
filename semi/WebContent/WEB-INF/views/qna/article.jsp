@@ -29,7 +29,7 @@
 </script>
 </head>
 <body>
-	<div class=qna_created>
+	<div class=qna_article>
 		<jsp:include page="/WEB-INF/views/layout/import.jsp"></jsp:include>
 		<div class="header">
 			<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
@@ -39,6 +39,31 @@
 				<h5 style="font-weight: bold">
 					<span>|&nbsp;</span>고객문의 게시판
 				</h5>
+			</div>
+			<div>
+				<ul>
+					<li>${dto.subject}</li>
+					<li>${dto.date}</li>
+					<li>${dto.count}</li>
+				</ul>
+				<ul>
+					<li>${dto.userId}</li>
+					<button>수정</button>
+					<button>삭제</button>
+				</ul>
+				<ul>
+					<li>${dto.content}</li>
+				</ul>
+				<ul>
+					<li>이전글</li>
+				</ul>
+				<ul>
+					<li>다음글</li>
+				</ul>
+				<ul>
+					<button>답변</button>
+					<button>돌아가기</button>
+				</ul>
 			</div>
 		</div>
 	</div>
