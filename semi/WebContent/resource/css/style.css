@@ -449,3 +449,36 @@
 	.review_page_none {
 		background-color: #ffffff;
 	}
+	
+	.special .s_tb{
+		width: 60%;
+		margin: 20px auto;
+		border: 1px solid black;
+		font-size: 20px;
+	}
+	
+	.special .s_tb tr{
+		border-bottom: 1px solid black;
+		height: 60px;
+		
+		
+	}
+	
+	.special .s_tb tr td {
+		padding-left: 10px;
+		padding-top : 18px;
+		display: inline-block;
+	}
+
+	.special .s_btn_c{
+		text-align: right;
+		width: 80%;
+	
+	}
+	
+	.special .s_btn_c .s_btn{
+		padding: 5px 10px;
+		border-radius: 3px;
+		border: 1px solid gray;
+    	background: #eeeeee;
+	}

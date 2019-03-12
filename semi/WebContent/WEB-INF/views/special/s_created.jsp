@@ -9,7 +9,8 @@
 <html>
 <head>
 	<jsp:include page="/WEB-INF/views/layout/import.jsp"></jsp:include>
-<script type="text/javascript" src="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.css"></script>
+
+<link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.css" type="text/css"></link>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -60,7 +61,14 @@ function sendOk() {
 		return;
 	}
 	
-	f.action = "<%=cp%>/special/s_created_ok.do";
+	// 이미지파일만 가능하게 유효성검사 
+	
+	if(mode == "created") {
+		f.action = "<%=cp%>/special/s_created_ok.do";
+	}
+	else if(mode == "update") {
+		f.action = "<%=cp%>/special/s_update_ok.do";
+	}
 	f.submit();
 	
 }
@@ -99,6 +107,9 @@ function sendOk() {
 						<th>이미지파일</th>
 						<td colspan="3"><input type="file" name="upload" class="boxTF" accept="image/*"/>100</td>
 					</tr>
+					
+					<c:if test="${mode}">
+					</c:if>
 				</table>
 			</div>
 			<div class="c_footer">

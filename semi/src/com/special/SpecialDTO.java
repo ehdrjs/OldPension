@@ -10,7 +10,8 @@ public class SpecialDTO {
 	private String specialStart;
 	private String specialEnd;
 	private int specialCount;
-	private int fileNum;
+	
+	private int fileNum; // specialFile_seq
 	private String imageFileName;
 	private long imageFileSize;
 	

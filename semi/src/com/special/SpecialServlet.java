@@ -50,6 +50,12 @@ public class SpecialServlet extends MyServlet {
 			createdSubmit(req, resp);
 		} else if (uri.indexOf("s_article.do") != -1) {
 			article(req, resp);
+		} else if (uri.indexOf("s_update.do") != -1) {
+			updateForm(req, resp);
+		} else if (uri.indexOf("s_delete.do") != -1) {
+			updateSubmit(req, resp);
+		} else if (uri.indexOf("s_delete.do") != -1) {
+			delete(req, resp);
 		}
 	}
 
@@ -101,36 +107,33 @@ public class SpecialServlet extends MyServlet {
 				// 현재 - 종료일 > 1 축제 종료
 				gap = (date.getTime() - endDate.getTime()) / (60 * 60 * 1000);
 				dto.setGap(gap);
-			
 
 			} catch (Exception e) {
 
 			}
-			
+
 			dto.setSpecialDate(dto.getSpecialDate().substring(0, 10));
 			dto.setSpecialStart(dto.getSpecialStart().substring(0, 10));
 			dto.setSpecialEnd(dto.getSpecialEnd().substring(0, 10));
-			
+
 			n++;
 		}
-		
+
 		String listUrl;
 		String articleUrl;
-		
+
 		listUrl = cp + "/special/s_calendar.do";
-		articleUrl = cp + "/special/s_calendar.do?page=" + current_page;
-		
+		articleUrl = cp + "/special/s_article.do?page=" + current_page;
+
 		String paging = util.paging(current_page, total_page, listUrl);
-		
-		
+
 		req.setAttribute("list", list);
 		req.setAttribute("dataCount", dataCount);
-		req.setAttribute("page", page);
+		req.setAttribute("page", current_page);
 		req.setAttribute("total_page", total_page);
 		req.setAttribute("articleUrl", articleUrl);
 		req.setAttribute("paging", paging);
-		
-		
+
 		forward(req, resp, "/WEB-INF/views/special/s_calendar.jsp");
 	}
 
@@ -159,10 +162,10 @@ public class SpecialServlet extends MyServlet {
 		// request, 서버에 저장될 경로, 최대크기, 파라미터타입, 동일파일명보호
 
 		// admin만 글을 등록할 수 있도록 함
-		if (info==null||!info.getUserRole().equals("admin")) {
+		if (info == null || !info.getUserRole().equals("admin")) {
 			resp.sendRedirect(cp + "/special/s_calendar.do");
 			return;
-		} 
+		}
 
 		if (mreq.getFile("upload") != null) {
 			dto.setUserId(info.getUserId());
@@ -187,28 +190,65 @@ public class SpecialServlet extends MyServlet {
 	}
 
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		 String cp = req.getContextPath();
-		 SpecialDAO dao = new SpecialDAO();
-		 
-		 int specialNum = Integer.parseInt(req.getParameter("specialNum"));
-		 String page = req.getParameter("page");
-		 
-		 //조회수 증가
-		 dao.hitCountUpdate(specialNum);
-		 
-		 // 게시글 불러오기
-		 SpecialDTO dto = dao.readSpecial(specialNum);
-		 if(dto == null) {
-			 resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
-			 return;
-		 }
-		 
-		 dto.setSpecialContent(dto.getSpecialContent().replaceAll("\n", "<br>"));
-		 
-		 
-		 req.setAttribute("dto", dto);
-		 req.setAttribute("page", page);
-		 
-		 forward(req, resp, "/WEB-INF/views/special/s_article.jsp");
+		String cp = req.getContextPath();
+		SpecialDAO dao = new SpecialDAO();
+
+		int specialNum = Integer.parseInt(req.getParameter("specialNum"));
+		String page = req.getParameter("page");
+
+		// 조회수 증가
+		dao.hitCountUpdate(specialNum);
+
+		// 게시글 불러오기
+		SpecialDTO dto = dao.readSpecial(specialNum);
+		if (dto == null) {
+			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
+			return;
+		}
+
+		// dto.setSpecialContent(dto.getSpecialContent().replaceAll("\n", "<br>"));
+
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+
+		forward(req, resp, "/WEB-INF/views/special/s_article.jsp");
 	}
+
+	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		SpecialDAO dao = new SpecialDAO();
+
+		String page = req.getParameter("page");
+		int specialNum = Integer.parseInt(req.getParameter("specialNum"));
+		SpecialDTO dto = dao.readSpecial(specialNum);
+
+		if (dto == null) {
+			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
+			return;
+		}
+
+		if (info == null || !info.getUserRole().equals("admin")) {
+			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
+			return;
+		}
+		
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+
+		req.setAttribute("mode", "update");
+		forward(req, resp, "/WEB-INF/views/special/s_created.jsp");
+	}
+
+	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	}
+
+	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	}
+
 }
