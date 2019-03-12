@@ -280,7 +280,7 @@ public class QnaDAO {
 		StringBuffer sb = new StringBuffer();
 
 		try {
-			sb.append("SELECT q.qnaNum, qnaPwd, qnaSubject, qnaContent, groupNum, orderNo, depth, ");
+			sb.append("SELECT q.qnaNum, q.userId, qnaPwd, qnaSubject, qnaContent, groupNum, orderNo, depth, ");
 			sb.append("qnaCount, TO_CHAR(qnaDate, 'YYYYMMDD') qnaDate FROM qna q JOIN member m ON q.userId=m.userId ");
 			sb.append(" WHERE qnaNum= ? ");
 
@@ -292,6 +292,7 @@ public class QnaDAO {
 			if (rs.next()) {
 				dto=new QnaDTO();
 				dto.setNum(rs.getInt("qnaNum"));
+				dto.setUserId(rs.getString("userId"));
 				dto.setPwd(rs.getString("qnaPwd"));
 				dto.setSubject(rs.getString("qnaSubject"));
 				dto.setContent(rs.getString("qnaContent"));
@@ -483,5 +484,34 @@ public class QnaDAO {
 			}
 		}
 		return dto;
+	}
+	
+	public int updateQna(QnaDTO dto, String userId) {
+		int result = 0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		sql="UPDATE qna SET qnaSubject=?, qnaContent=? ";
+		sql+=" WHERE qnaNum =? AND userId=?";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getSubject());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setInt(3, dto.getNum());
+			pstmt.setString(4, userId);
+			result=pstmt.executeUpdate();
+		}catch (Exception e) {
+			System.out.println(e.toString());
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch (SQLException e) {
+					// TODO: handle exception
+				}
+			}
+		}
+		return result;
 	}
 }

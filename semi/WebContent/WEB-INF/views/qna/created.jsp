@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -25,6 +26,7 @@
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
 <script type="text/javascript">
+
 	function sendOk(){
 		var f = document.qnaForm;
 		var sv = f.subject.value;
@@ -50,6 +52,7 @@
 		f.submit();
 	}
 </script>
+
 </head>
 <body>
 	<div class=qna_created>
@@ -69,8 +72,9 @@
 						<ul>
 							<li class="title"
 								style="float: left; width: 10%; line-height: 40px;">제목</li>
-							<li style="float: left; width: 90%"><input type="text"
-								name="subject" placeholder="제목을 입력하세요" value="${dto.subject}"></li>
+							<li style="float: left; width: 90%; line-height: 40px"><input
+								type="text" style="width: 100%; height: 35px;" name="subject"
+								id="subject" placeholder="제목을 입력하세요" value="${dto.subject}"></li>
 						</ul>
 						<ul style="line-height: 40px;">
 							<li class="title" style="float: left; width: 10%;">작성자</li>
@@ -81,21 +85,21 @@
 								비밀번호</li>
 							<li><input
 								style="float: left; width: 30%; height: 35px; margin: 3px 0px"
-								type="password" name="pwd" placeholder="비밀번호(숫자4자리)"
+								type="password" name="pwd" id="pwd" placeholder="비밀번호(숫자4자리)"
 								value="${dto.pwd}"></li>
 						</ul>
 						<ul>
 							<li class="title" style="clear: both">내용</li>
-							<li><textarea name="content" rows="12"
-									placeholder="내용을 입력하세요">${dto.content}</textarea></li>
+							<li><textarea name="content" id="content" rows="12"
+									style="width: 100%" placeholder="내용을 입력하세요">${dto.content}</textarea></li>
 						</ul>
 						<div class="row text-center" style="width: 100%">
 							<div style="width: 30%; float: none; margin: 0 auto">
 								<button type="button" class="btn btn-info btn-sm"
 									style="margin-top: 3px;"
-									onclick="javascript:location.href='<%=cp%>/qna/qna.do';">등록취소</button>
+									onclick="javascript:location.href='<%=cp%>/qna/qna.do';">${mode=='update'?'수정취소':'등록취소'}</button>
 								<button type="button" class="btn btn-info btn-sm"
-									style="margin-top: 3px; float: center;" onclick="sendOk();">등록하기</button>
+									style="margin-top: 3px; float: center;" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 							</div>
 						</div>
 					</form>

@@ -29,6 +29,17 @@
 		var f = document.qnaSearchForm;
 		f.submit();
 	}
+	
+	function check() {
+		var uid="${sessionScope.member.userId}";
+		if(! uid) {
+			alert("로그인후에 이용가능한 페이지 입니다.");
+			location.href="<%=cp%>/qna/qna.do";
+			return;
+		}
+		
+			location.href="<%=cp%>/qna/created.do";
+	}
 </script>
 
 </head>
@@ -51,7 +62,7 @@
 						</li>
 						<li style="float: right; list-style: none">
 							<button type="button" class="btn btn-info btn-sm"
-								onclick="javascript:location.href='<%=cp%>/qna/created.do';">글작성</button>
+								onclick="check();">글작성</button>
 						</li>
 					</ul>
 				</div>

@@ -255,7 +255,15 @@
     
 .c_menuA { border:1px solid; padding:10px;  border-radius: 10px; margin: 15px 0px;}
 .c_menu .c_menuA .title {font-size:14pt}
-.c_menu .c_menuA #pwd {border-radius: 10px;}
+.c_menu .c_menuA #pwd, #subject, #content {border-radius: 10px; border: 1px solid #c4c4c4; padding:3px;}
+
+/* --------------------- /qna/article.jsp -------------------------- */
+.qna_article .header .gnb a:hover {text-decoration: none;}
+.a_menu {width:700px;}
+.a_menu li{border-left:none; border-right:none; width:100%; text-align:left; padding-right: 0px;
+    padding-left: 0px; list-style:none;}
+    
+.a_menuA { border:1px solid; padding:10px;  border-radius: 10px; margin: 15px 0px;}
 
 /* Table_style */
 .tb_basic {
@@ -716,4 +724,5 @@
 	.review_page_none {
 		background-color: #ffffff;
 	}
->>>>>>> branch 'main_code' of https://github.com/ehdrjs/OldPension.git
+
+
