@@ -35,19 +35,18 @@ body{
 	
 }
 .nN{
-	background:#63C5DE;
+	background:green;
 	font-size: 15px;
-	font-weight: bold;
-	color: black;
+	color: white;
 	width: 100px;
-	border: 2px solid black;
-	border-radius: 5px;
+	border: 1px solid black;
 	text-align: center;
+	height : 20px;
 }
 .nT{
 	border: 1px solid black;
-	border-radius: 2px;
-	width: 594px
+	width: 589px;
+	height : 20px;
 	
 }
 a:hover, a:active {
@@ -58,15 +57,15 @@ a:hover, a:active {
 </style>
 <script type="text/javascript">
 
-function deleteFile(listNum){
+function deleteFile(){
 	if(confirm("정말 삭제하시겠습니까?")){
 		 var url="<%=cp%>/notice/deleteFile.do?listNum=${listNum}&page=${page}";
 	 	 location.href=url;
 	}	
 }
-function sendUpdate(listNum){
+function sendUpdate(){
 	var f = document.nupdateForm;
-	f.action = "<%=cp%>/notice/update_ok.do?page=${page}&listNum=listNum";
+	f.action = "<%=cp%>/notice/update_ok.do?page=${page}&listNum=${listNum}";
 	f.submit();
 }
 
@@ -85,22 +84,26 @@ function sendUpdate(listNum){
 <div class = "createN">
 	<ul>
 		<li class = "nN">공지 제목</li>
-		<li class = "nT"><input type = "text" name = "subject" style="width: 594px"></li>
+		<li class = "nT"><input type = "text" name = "subject" style="width: 585px;height: 20px"></li>
 	</ul>
 	<ul>
 		<li class = "nN">작성자</li>
-		<li class = "nT">${sessionScope.member.userId }</li>
+		<li class = "nT" style="height: 20px;">${sessionScope.member.userId }</li>
 	</ul>
 
 	<ul>
-		<li class = "nN" style="height: 500px">공지 내용</li>
-		<li class = "nT" style="height: 500px; width:594px">
-			<textarea  name = "content" style="height: 500px; width:594px"></textarea>
+		<li class = "nN" style="height: 501px">공지 내용</li>
+		<li class = "nT" style="height: 500px;">
+			<textarea  name = "content" style="height: 500px; width:585px"></textarea>
 		</li>
 	</ul>
 	<ul>
-		<li class = "nN">업로드 파일</li>
-		<li class = "nT"><input type = "file" name = "upload" size = "53"></li>
+	
+
+		<li class = "nN" style="height: 24px;">업로드 파일</li>
+		<li style="border: 1px solid black;width: 589px">
+		<input type = "file" name = "upload" size = "53">
+		</li>
 	</ul>
 	
 </div>
@@ -118,7 +121,7 @@ function sendUpdate(listNum){
 <div class = "createN">
 	<ul>
 		<li class = "nN">공지 제목</li>
-		<li class = "nT"><input type = "text" name = "subject" style="width: 594px" value = "${dto.noticeSubject}"></li>
+		<li class = "nT"><input type = "text" name = "subject" style="width: 585px" value = "${dto.noticeSubject}"></li>
 	</ul>
 	<ul>
 		<li class = "nN">작성자</li>
@@ -127,35 +130,31 @@ function sendUpdate(listNum){
 
 	<ul>
 		<li class = "nN" style="height: 500px">공지 내용</li>
-		<li class = "nT" style="height: 500px; width:594px">
-			<textarea  name = "content" style="height: 500px; width:594px">${dto.noticeContent }</textarea>
-		</li>
+		<li class = "nT" style="height: 500px;">
+			<textarea  name = "content" style="height: 500px; width:585px">${dto.noticeContent }</textarea>
+		</li>	
 	</ul>
 		<ul id = "noticeFileUpload">
 			
-				<li class = "nN">업로드 파일</li>
+				<li class = "nN" style="height: 24px;">업로드 파일</li>
 				<c:if test="${empty dto.originalFileName }">
-					<li style="border: 1px solid black; width: 594px">
+					<li style="border: 1px solid black; width: 589px;">
 					<input type = "file" name = "upload" size = "53">
 					</li>
 				</c:if>
 				<c:if test="${not empty dto.originalFileName }">
-					<li style="border: 1px solid black;width: 594px">
+					<li style="border: 1px solid black;width: 585px">
 					<a href="<%=cp%>/notice/download_ok.do?page=${page}&listNum=${listNum}">${dto.originalFileName }</a>
-					<button type="button" onclick="deleteFile('${listNum}')">파일삭제</button> 
-					</li>
-					
-				</c:if>
-			
+					<button type="button" onclick="deleteFile()">파일삭제</button> 
+					</li>				
+				</c:if>		
 		</ul>
-	
-	
 </div>
-<div>
-	<button type="button" onclick="sendUpdate('${listNum}');">수정하기</button>
-</div>
-</form>
 
+</form>
+<div>
+	<button type="button" onclick="sendUpdate();">수정하기</button>
+</div>
 
 </c:if>	
 <div class = "footer">

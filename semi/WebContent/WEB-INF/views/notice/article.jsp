@@ -41,14 +41,17 @@ body{
 	font-weight: bold; 
 	align-items: center; 
 	border-bottom: 1px solid black; 
-	border-right: 1px solid black;
-	border-left: 1px solid black;
+	border-right: 2px solid black;
+	border-left: 2px solid black;
+	height: 40px;
+	background: #eee;
 }
 .nTitleContent{
-	width:593px; 
+	width:591px; 
 	border-bottom: 1px solid black;
 	border-right: 1px solid black;
 	text-align: left;
+	height: 40px;
 }
 .nBtn{
 	border: 1px solid orange;
@@ -81,9 +84,9 @@ body{
 </style>
 
 <script type="text/javascript">
-function deleteOk(num){
+function ndeleteOk(num){
 	if(confirm("게시물을 삭제하시겠습니까?")){
-		var url = "<%=cp%>/notice/delete.do?page${page}&listNum=num";
+		var url = "<%=cp%>/notice/delete.do?page=${page}&listNum=${listNum}";
 		location.href = url;
 	}
 }
@@ -114,12 +117,8 @@ function deleteOk(num){
 	<div id = "nContent">
 	
 		<ul style = "border-bottom: 1px solid black">
-			<li>${dto.noticeContent }</li>
+			<li>${dto.noticeContent}</li>
 		</ul>
-		
-	
-		
-		
 	</div>
 	<div class = "nFiles">
 		<c:if test="${not empty dto.noticeSubject}">
@@ -130,16 +129,13 @@ function deleteOk(num){
 		</ul>
 		</c:if>
 	</div>
-	
+	<div align="right" style="padding-top: 20px">
 	<c:if test="${sessionScope.member.userRole.equals('admin')}">
-	
-		<div align="right" style="padding-top: 20px">
-			<button type = "button" class = "nBtn" onclick = "javascript:location.href='<%=cp%>/notice/update.do?page=${page }&listNum=${listNum }'">수정</button>
-			
+			<button type = "button" class = "nBtn" onclick = "javascript:location.href='<%=cp%>/notice/update.do?page=${page }&listNum=${listNum }'">수정</button>	
 			<button type = "button" class = "nBtn" onclick = "ndeleteOk('${listNum}');">삭제</button>
-		</div>
-		
 	</c:if>
+	<button type = "button" class = "nBtn" onclick = "javascript:location.href='<%=cp%>/notice/list.do?page=${page }'">리스트</button>
+	</div>
 </div>
 
 <div class = "footer">

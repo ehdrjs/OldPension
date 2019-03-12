@@ -51,13 +51,14 @@ body {
 	height:35px;
 	line-height:35px;
 	text-align:center;
-	border-bottom:1px solid red;
+	border-bottom:1px solid green;
 }
 .board .num {width:50px;}
 .board .subject {width:410px;cursor: pointer;}
 .board .name {width:95px;}
 .board .created {width:85px;}
 .board .download {width:60px;cursor: pointer;}
+.board .nodownload{width:60px}
 
 .list-row .subject {text-align: left; width:400px; padding-left: 10px; }
 
@@ -103,7 +104,7 @@ function article(){
 							</li>
 						</c:if>
 						<c:if test = "${empty dto.saveFileName}">
-							<li class="download"></li>
+							<li class="nodownload"></li>
 						</c:if>		
 					</ul>
 			</c:forEach>

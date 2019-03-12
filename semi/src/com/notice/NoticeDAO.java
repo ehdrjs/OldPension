@@ -185,7 +185,36 @@ public class NoticeDAO {
 		
 		return dto;
 	}
-	
+	public void deleteFile(NoticeDTO dto) {
+		PreparedStatement pstmt = null;
+		StringBuffer sb = new StringBuffer();
+		
+		try {  
+			sb.append("UPDATE notice SET originalfilename = ?,");
+			sb.append("	savefilename=?, filesize=?");
+			sb.append("	WHERE noticenum = ?");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+		
+			pstmt.setString(1, dto.getOriginalFileName());
+			pstmt.setString(2, dto.getSaveFileName());
+			pstmt.setDouble(3, dto.getFileSize());
+			pstmt.setInt(4, dto.getNoticeNum());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
+	}
 	public void updateNotice(NoticeDTO dto) {
 		PreparedStatement pstmt = null;
 		StringBuffer sb = new StringBuffer();
@@ -202,6 +231,34 @@ public class NoticeDAO {
 			pstmt.setString(4, dto.getSaveFileName());
 			pstmt.setDouble(5, dto.getFileSize());
 			pstmt.setInt(6, dto.getNoticeNum());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
+	}
+	
+	public void updateNoticeBasic(NoticeDTO dto) {
+		PreparedStatement pstmt = null;
+		StringBuffer sb = new StringBuffer();
+		
+		try {  
+			sb.append("UPDATE notice SET noticesubject=?, noticecontent=?");
+			sb.append("	WHERE noticenum = ?");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, dto.getNoticeSubject());
+			pstmt.setString(2, dto.getNoticeContent());
+			pstmt.setInt(3, dto.getNoticeNum());
 			
 			pstmt.executeUpdate();
 			

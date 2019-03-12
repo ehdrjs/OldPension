@@ -52,7 +52,6 @@ public class NoticeServlet extends MyServlet{
 		}else if(uri.indexOf("update_ok.do") != -1) {
 			updateSubmit(req, resp);
 		}else if(uri.indexOf("delete.do") != -1) {
-			deleteFile(req, resp);
 			delete(req, resp);	
 		}else if(uri.indexOf("download_ok.do") != -1) {
 			download(req, resp);
@@ -69,7 +68,7 @@ public class NoticeServlet extends MyServlet{
 		String cp = req.getContextPath();
 		
 		MyUtil util = new MyUtil();
-		//����¡ ó�� 
+		
 		int dataCount = dao.dataCount();
 		int rows = 2;
 		int total_page = util.pageCount(rows, dataCount);
@@ -117,7 +116,8 @@ public class NoticeServlet extends MyServlet{
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		if(info == null) {
-			forward(req, resp, "/WEB-INF/views/member/login.jsp");
+			resp.sendRedirect("/WEB-INF/views/member/login.jsp");
+			return;
 		}
 		
 		String encType = "utf-8";
@@ -128,7 +128,7 @@ public class NoticeServlet extends MyServlet{
 		dto.setUserId(info.getUserId());
 		
 		String content = mreq.getParameter("content");
-		content = content.replaceAll("\r\n", "<br>");
+		//content = util.htmlSymbols(content);
 		dto.setNoticeContent(content);
 		dto.setNoticeCount(0); 
 		dto.setNoticeSubject(mreq.getParameter("subject"));
@@ -149,7 +149,9 @@ public class NoticeServlet extends MyServlet{
 		int listNum = Integer.parseInt(req.getParameter("listNum")); 
 		NoticeDAO dao = new NoticeDAO();
 		NoticeDTO dto = dao.readNotice(listNum);
+		MyUtil util = new MyUtil();
 		
+		dto.setNoticeContent(util.htmlSymbols(dto.getNoticeContent()));
 		req.setAttribute("page", page);
 		req.setAttribute("dto", dto);
 		req.setAttribute("listNum", listNum);
@@ -162,7 +164,6 @@ public class NoticeServlet extends MyServlet{
 		String page = req.getParameter("page");
 		int listNum = Integer.parseInt(req.getParameter("listNum")); 
 		NoticeDTO dto = dao.readNotice(listNum);
-		
 		req.setAttribute("mode", "update");
 		req.setAttribute("dto", dto);
 		req.setAttribute("listNum", listNum);
@@ -179,7 +180,8 @@ public class NoticeServlet extends MyServlet{
 		String page = req.getParameter("page");
 		NoticeDTO dto = dao.readNotice(listNum);
 		
-		if(info.getUserId() != dto.getUserId()) {
+		if(!info.getUserId().equals(dto.getUserId())) {
+			resp.sendRedirect(cp + "/notice/list.do?page=" + page );
 			return;
 		}
 		
@@ -198,24 +200,39 @@ public class NoticeServlet extends MyServlet{
 			dto.setOriginalFileName(mreq.getOriginalFileName("upload")); 
 			dto.setFileSize(mreq.getFile("upload").length()); 
 			dto.setSaveFileName(mreq.getFilesystemName("upload"));
+			
+			dao.updateNotice(dto);
+		}else if(mreq.getFile("upload") == null) {
+			dao.updateNoticeBasic(dto);
 		}
 		
-		//수정
-		dao.updateNotice(dto);
-		
-		req.setAttribute("page", page);
-		req.setAttribute("listNum", listNum);
-		forward(req, resp, cp + "/notice/article.do");
+		resp.sendRedirect(cp + "/notice/article.do?page=" + page+"&listNum=" + listNum);
 	}
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String cp = req.getContextPath();
 		
 		String page = req.getParameter("page");
 		int listNum = Integer.parseInt(req.getParameter("listNum"));
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		NoticeDAO dao = new NoticeDAO();
+		NoticeDTO dto = dao.readNotice(listNum);
 		
 		
+		//쓴사람이 아니면
+		if(!info.getUserId().equals(dto.getUserId())) {
+			resp.sendRedirect(cp + "/notice/article.do?listNum="+listNum);
+			return;
+		}
 		
+		if(dto.getOriginalFileName() != null) {
+			FileManager.doFiledelete(pathname, dto.getSaveFileName());
+		}
+
+		dao.deleteNotice(listNum);
+		
+		resp.sendRedirect(cp + "/notice/list.do?page=" + page );
 	}
 	//파일 삭제 했을 때
 	protected void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -229,6 +246,7 @@ public class NoticeServlet extends MyServlet{
 		String page=req.getParameter("page");
 		
 		NoticeDTO dto=dao.readNotice(listNum);
+		
 		if(dto==null) {
 			resp.sendRedirect(cp+"/notice/list.do?page="+page);
 			return;
@@ -243,12 +261,12 @@ public class NoticeServlet extends MyServlet{
 		dto.setOriginalFileName("");
 		dto.setSaveFileName("");
 		dto.setFileSize(0);
-		
-		dao.updateNotice(dto);
+		dao.deleteFile(dto);
 		
 		req.setAttribute("page", page);
 		req.setAttribute("mode", "update");
 		req.setAttribute("listNum", listNum);
+		req.setAttribute("dto", dto);
 		
 		forward(req, resp, "/WEB-INF/views/notice/created.jsp");
 		
@@ -280,7 +298,7 @@ public class NoticeServlet extends MyServlet{
 		if(!b) {
 			resp.setContentType("text/html);charset=utf-8");
 			PrintWriter pw = resp.getWriter();
-			pw.print("<script>alert('�ٿ�ε� ����');history.back();</script>");
+			pw.print("<script>alert('파일다운로드실패')</script>");
 	    	return;
 		}
 	}
