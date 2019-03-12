@@ -12,6 +12,40 @@ public class ReserveDTO {
 	private int price;
 	private String barbecue;
 	private String bank;
+	private int roomprice;
+	
+	private String tel;
+	private String email;
+	private String userName;
+	
+	private int roomNum;
+	
+	
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public int getRoomNum() {
+		return roomNum;
+	}
+	public void setRoomNum(int roomNum) {
+		this.roomNum = roomNum;
+	}
 	
 	public int getPrice() {
 		return price;
@@ -78,5 +112,11 @@ public class ReserveDTO {
 	}
 	public void setEndDay(String endDay) {
 		this.endDay = endDay;
+	}
+	public int getRoomprice() {
+		return roomprice;
+	}
+	public void setRoomprice(int roomprice) {
+		this.roomprice = roomprice;
 	}
 }
