@@ -1,6 +1,7 @@
 package com.reserve;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import com.member.MemberDTO;
 import com.member.SessionInfo;
+import com.room.RoomDTO;
 import com.util.MyServlet;
+
 
 @WebServlet("/reserve/*")
 public class ReserveServlet extends MyServlet {
@@ -53,15 +56,18 @@ public class ReserveServlet extends MyServlet {
 	}
 	
 	protected void reserve(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// ¿¹¾à Æû
 		forward(req, resp, "/WEB-INF/views/reserve/reserve.jsp");
 	}
 	
 	protected void reserveSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// ¿¹¾à µî·Ï
 		String cp = req.getContextPath();
 		
 		ReserveDAO r_dao = new ReserveDAO();
 		ReserveDTO r_dto = new ReserveDTO();
 		MemberDTO m_dto = new MemberDTO();
+		RoomDTO rm_dto = new RoomDTO();
 		
 		m_dto.setUserPwd(req.getParameter("reserve_pwd"));
 		m_dto.setTel(req.getParameter("reserve_tel"));
@@ -76,13 +82,18 @@ public class ReserveServlet extends MyServlet {
 		r_dto.setBarbecue(req.getParameter("barbecue1"));
 		r_dto.setPrice(Integer.parseInt(req.getParameter("barbecue1"))+Integer.parseInt(req.getParameter("room")));
 		r_dto.setBank(req.getParameter("bank"));
+		// r_dto.setRoomprice(Integer.parseInt(req.getParameter("room")));
+		rm_dto.setRoomNum(Integer.parseInt(req.getParameter("room")));
 		
-		r_dao.insertReserve(r_dto, m_dto);
+		r_dao.insertReserve(r_dto, m_dto, rm_dto);
+		
+	
 		
 		resp.sendRedirect(cp+"/reserve/reserve_detail.do");
 	}
 	
 	protected void reserve_confirm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// ¿¹¾àÈ®ÀÎ º¸±â Àü ·Î±×ÀÎ ¿©ºÎ È®ÀÎ
 		String cp = req.getContextPath();
 		
 		HttpSession session = req.getSession();
@@ -97,11 +108,9 @@ public class ReserveServlet extends MyServlet {
 	}
 	
 	protected void reserve_detail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// ì˜ˆì•½ë‚´ì—­ ë³´ê¸°
-		//ReserveDAO dao = new ReserveDAO();
-		// String cp = req.getContextPath();
-		
-		
+		// ¿¹¾àÈ®ÀÎ º¸±â
+		forward(req, resp, "/WEB-INF/views/reserve/reserve_detail.jsp");
+	
 	}
 	
 }

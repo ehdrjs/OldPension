@@ -18,25 +18,14 @@
 <head>
 	<jsp:include page="/WEB-INF/views/layout/import.jsp"></jsp:include>
 
-<script src="<%=cp%>/resource/js/jquery-1.11.0.min.js"></script>
-<script src="<%=cp%>/resource/js/util.js"></script>
-
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 
 </script>
 </head>
 
 <body>
-<%
-	Iterator<String> it = map.keySet().iterator();
-	while(it.hasNext()){
-		String _name = it.next();
-		String[] ss = map.get(_name);
-		for(String s : ss){
-			out.print(s);
-		}
-	}
-%>
+
 <div class="header">
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
@@ -66,7 +55,7 @@
 				</colgroup>
 				<tr>
 					<th>체크인 날짜</th>
-					<td>20OO년 O월 O일</td>
+					<td>${dto.startDay}</td>
 					
 				</tr>
 				<tr>
@@ -89,11 +78,7 @@
 					<col style="width:30%"/>
 				</colgroup>
 				<tr>
-					<th>성인</th>
-					<td> 
-					O명
-					</td>
-					<th>아동</th>
+					<th>인원</th>
 					<td> 
 					O명
 					</td>
@@ -114,9 +99,9 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>바베큐O인/O인</td>
+						<td>바베큐2인</td>
 						<td>0개</td>
-						<td>0원</td>
+						<td>20000원</td>
 						<td id="bar01">0원</td>
 					</tr>
 				</tbody>
@@ -128,7 +113,7 @@
 				</colgroup>
 				<tr>
 					<th>금액</th>
-					<td>0원</td>
+					<td>${dto.price}</td>
 				</tr>
 			</table>
 			<p class="mt10 mb10">예약자 정보</p>
@@ -141,19 +126,19 @@
 					</colgroup>
 					<tr>
 						<th>예약번호</th>
-						<td>20OOOOOO0001</td>
+						<td>${dto.reserveNum}</td>
 						<th>예약자 이름</th>
-						<td>홍길동</td>
+						<td>${dto.userName}</td>
 					</tr>
 					<tr>
 						<th>연락처</th>
-						<td>010-0000-0000</td>
+						<td>${dto.tel}</td>
 						<th>입금 은행</th>
-						<td>00은행</td>
+						<td>${dto.bank}</td>
 					</tr>
 					<tr>
 						<th>요청사항</th>
-						<td colspan="3">000해주세요</td>
+						<td colspan="3">${dto.reserveMemo}</td>
 					</tr>
 				</table>
 				<div class="reserve_btn">

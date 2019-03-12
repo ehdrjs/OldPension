@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.reserve.ReserveDAO;
+import com.reserve.ReserveDTO;
 import com.util.MyServlet;
 
 @WebServlet("/member/*")
@@ -31,10 +33,12 @@ public class MemberServlet extends MyServlet{
 			signInForm(req, resp);
 		}else if(uri.indexOf("member_ok.do")!=-1) {
 			signIn(req, resp);
+		}else if(uri.indexOf("nonMemLogin_ok.do")!=-1) {
+			nonMemLoginSubmit(req, resp);
 		}
 	}
 	
-	// 로그인  폼
+	//로그인 폼
 	private void loginForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path="/WEB-INF/views/member/login.jsp";
 	
@@ -86,7 +90,7 @@ public class MemberServlet extends MyServlet{
 	private void signInForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = "/WEB-INF/views/member/member.jsp";
 		
-		req.setAttribute("title", "회원가입");
+		req.setAttribute("title", "�쉶�썝媛��엯");
 		req.setAttribute("mode", "created");
 		
 		forward(req, resp, path);
@@ -115,6 +119,28 @@ public class MemberServlet extends MyServlet{
 			req.setAttribute("message", "회원가입에 성공했습니다.");
 		}
 
+		forward(req, resp, "/WEB-INF/views/member/login.jsp");
+	}
+	
+	//비회원 로그인(예약조회)
+	private void nonMemLoginSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+		
+		ReserveDAO dao = new ReserveDAO();
+		
+		String reserveNum = req.getParameter("reserveNum");   // 입력한 예약번호
+		ReserveDTO dto = dao.readReserve(reserveNum);
+		
+		if(dto!=null) {
+			if(reserveNum.equals(dto.getReserveNum())) {
+				resp.sendRedirect(cp+"/reserve/reserve_detail.do");
+				return;
+			} 
+		}
+		
+		String msg="예약번호 또는 패스워드가 일치하지 않습니다.";
+		req.setAttribute("message2", msg);
+		
 		forward(req, resp, "/WEB-INF/views/member/login.jsp");
 	}
 
