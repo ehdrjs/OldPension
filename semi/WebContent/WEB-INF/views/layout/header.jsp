@@ -15,7 +15,7 @@
 	</div>
 	<div class="gnb">
 		<ul>
-			<li><a href="#">공지사항</a></li>
+			<li><a href="<%=cp%>/notice/list.do">공지사항</a></li>
 			<li><a href="<%=cp%>/special/s_calendar.do">스페셜</a></li>
 			<li><a href="<%=cp%>/room/room.do">방소개</a></li>
 			<li><a href="#">예약</a>
@@ -33,7 +33,8 @@
 			<a href="<%=cp%>/member/member.do" style="color: black;">회원가입</a>
 		</c:if>
 		<c:if test="${not empty sessionScope.member}">
-			<span> ${sessionScope.member.userName} </span> 님 | 
+			<span style="color:blue;"> ${sessionScope.member.userName} </span> 님 
+			&nbsp;|&nbsp; 
 			<a href="<%=cp%>/member/logout.do" style="color: black;">로그아웃</a>
 		</c:if>
 		
