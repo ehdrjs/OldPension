@@ -85,7 +85,7 @@
 								비밀번호</li>
 							<li><input
 								style="float: left; width: 30%; height: 35px; margin: 3px 0px"
-								type="password" name="pwd" id="pwd" placeholder="비밀번호(숫자4자리)"
+								type="password" name="pwd" id="pwd" maxlength="4" placeholder="비밀번호(숫자4자리)"
 								value="${dto.pwd}"></li>
 						</ul>
 						<ul>
