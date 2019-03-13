@@ -715,10 +715,8 @@
 	}
 	
 	.special .s_tb{
-		width: 60%;
-		margin: 20px auto;
+		width: 100%;
 		border: 1px solid black;
-		font-size: 20px;
 	}
 	
 	.special .s_tb tr{
@@ -736,8 +734,9 @@
 
 	.special .s_btn_c{
 		text-align: right;
-		width: 80%;
-	
+		width: 100%;
+		margin-top: 10px;
+		
 	}
 	
 	.special .s_btn_c .s_btn{

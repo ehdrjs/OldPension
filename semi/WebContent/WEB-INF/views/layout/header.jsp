@@ -9,7 +9,7 @@
 	<div class="logo">
 		<p>
 			<a href="<%=cp%>/index.jsp"> <span><img src="<%=cp %>/img/rogo.png"
-					style="width: 65px; margin: -15px;"></span>
+					style="width: 95px; margin: -30px 30px;"></span>
 			</a>
 		</p>
 	</div>

@@ -47,7 +47,10 @@
 				<c:forEach var="dto" items="${list}">	
 					<tr class="content">
 						<td>${dto.listNum}</td>
-						<td class="txt_overflow" style=";text-align:left !important;"><a href="${articleUrl}&specialNum=${dto.specialNum}">${dto.specialSubject}</a></td>
+						<td class="txt_overflow" style=";text-align:left !important;"><a href="${articleUrl}&specialNum=${dto.specialNum}">${dto.specialSubject}</a>
+						<c:if test="${dto.gap == 1}">&nbsp;&nbsp;<span style="color: yellow; background: gray;">진행중</span></c:if>
+						<c:if test="${dto.gap == 2}">&nbsp;&nbsp;<span style="color: white; background: gray;">커밍순</span></c:if>
+						</td>
 						<td>${dto.specialStart} ~ ${dto.specialEnd}</td>
 						<td>${dto.specialDate}</td>
 						<td>${dto.specialCount}</td>

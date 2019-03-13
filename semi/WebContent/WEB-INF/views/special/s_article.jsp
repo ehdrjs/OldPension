@@ -13,7 +13,7 @@
 
 	function deleteSpecial(specialNum) {
 		if(confirm("게시물을 삭제하시겠습니까?")){
-			var url = "<%=cp%>/special/delete.do?specialNum="+specialNum+"&page=${page}";
+			var url = "<%=cp%>/special/s_delete.do?specialNum="+specialNum+"&page=${page}";
 			location.href = url;
 		}
 	}
@@ -56,7 +56,7 @@
 	<div class="s_btn_c">	
 			<button type="button" class="s_btn" onclick="javascript:location.href='<%=cp%>/special/s_calendar.do?page=${page}'">리스트</button>
 		<c:if test="${sessionScope.member.userRole == 'admin'}">
-			<button type="button" class="s_btn" onclick="javascript:location.href='<%=cp%>/special/s_update.do?page=${page}&specialNum=${dto.specialNum}'">수정</button>
+			<button type="button" class="s_btn" onclick="javascript:location.href='<%=cp%>/special/s_update.do?specialNum=${dto.specialNum}&page=${page}'">수정</button>
 			<button type="button" class="s_btn" onclick="deleteSpecial(${dto.specialNum});">삭제</button>
 		</c:if>
 	</div>

@@ -3,6 +3,7 @@ package com.special;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -88,12 +89,11 @@ public class SpecialServlet extends MyServlet {
 		List<SpecialDTO> list;
 		list = dao.listSpecial(start, end);
 
-		Date date = new Date(); // ����
-		long gap;
 		// �Խù� �۹�ȣ �����
 		int listNum = 0;
 		int n = 0;
 
+		Date date = new Date();
 		Iterator<SpecialDTO> iter = list.iterator();
 		while (iter.hasNext()) {
 			SpecialDTO dto = iter.next();
@@ -101,15 +101,26 @@ public class SpecialServlet extends MyServlet {
 			dto.setListNum(listNum);
 
 			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date endDate = sdf.parse(dto.getSpecialEnd()); // ��������������
 
-				// ���� - ������ > 1 ���� ����
-				gap = (date.getTime() - endDate.getTime()) / (60 * 60 * 1000);
-				dto.setGap(gap);
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date startDate = sdf.parse(dto.getSpecialStart());
+				Date endDate = sdf.parse(dto.getSpecialEnd());
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(endDate); 
+				cal.add(Calendar.DATE, +1);
+				cal.add(Calendar.SECOND, -1);
+				endDate = cal.getTime();
+				
+				
+				if(date.compareTo(endDate) < 0) { // 현재 날짜 마지막날짜 순일 때
+					int gap = startDate.compareTo(date) < 0 ? 1 : 2; // 시작날짜 현재날짜 순이면 1 아니면 0값을 넣는다
+					dto.setGap(gap);
+				}
+
+
 
 			} catch (Exception e) {
-
+				System.out.println(e.toString());
 			}
 
 			dto.setSpecialDate(dto.getSpecialDate().substring(0, 10));
@@ -235,7 +246,7 @@ public class SpecialServlet extends MyServlet {
 			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
 			return;
 		}
-		
+
 		req.setAttribute("dto", dto);
 		req.setAttribute("page", page);
 
@@ -244,72 +255,72 @@ public class SpecialServlet extends MyServlet {
 	}
 
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 		String cp = req.getContextPath();
 		SpecialDAO dao = new SpecialDAO();
 		SpecialDTO dto = new SpecialDTO();
-		
+
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
 		String encType = "UTF-8";
-		int maxSize = 5*1024*1024;
+		int maxSize = 5 * 1024 * 1024;
 		MultipartRequest mreq = new MultipartRequest(req, pathname, maxSize, encType, new DefaultFileRenamePolicy());
-		
+
 		String page = mreq.getParameter("page");
-		if(info == null || !info.getUserRole().equals("admin")) {
-			resp.sendRedirect(cp+"/special/s_calendar.do?page="+page);
+		if (info == null || !info.getUserRole().equals("admin")) {
+			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
 		}
-		
+
 		dto.setSpecialNum(Integer.parseInt(mreq.getParameter("specialNum")));
 		dto.setSpecialSubject(mreq.getParameter("subject"));
 		dto.setSpecialContent(mreq.getParameter("content"));
 		dto.setSpecialStart(mreq.getParameter("specialStart"));
 		dto.setSpecialEnd(mreq.getParameter("specialEnd"));
 		// dto.setImageFileName(mreq.getParameter("imageFileName"));
-		
-		if(mreq.getFile("upload") != null) {
+
+		if (mreq.getFile("upload") != null) {
 			FileManager.doFiledelete(pathname, dto.getImageFileName());
-			
+
 			String saveFileName = mreq.getFilesystemName("upload");
-			
+
 			saveFileName = FileManager.doFilerename(pathname, saveFileName);
-			
+
 			dto.setImageFileName(saveFileName);
 		}
-		
+
 		dao.updateSpecial(dto);
-		
-		resp.sendRedirect(cp+"/special/s_article.do?page="+page + "&specialNum=" + dto.getSpecialNum());
-		
+
+		resp.sendRedirect(cp + "/special/s_article.do?page=" + page + "&specialNum=" + dto.getSpecialNum());
+
 	}
 
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp = req.getContextPath();
 		SpecialDAO dao = new SpecialDAO();
-		
+
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
-		if(info == null || !info.getUserRole().equals("admin") ) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		if (info == null || !info.getUserRole().equals("admin")) {
 			resp.sendRedirect(cp + "/special/s_calendar.do");
 			return;
 		}
-		
+
 		int specialNum = Integer.parseInt(req.getParameter("specialNum"));
 		String page = req.getParameter("page");
-		
+
 		SpecialDTO dto = dao.readSpecial(specialNum);
-		if(dto==null) {
-			resp.sendRedirect(cp+"/special/s_calendar.do?page=" + page);
+		if (dto == null) {
+			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
 			return;
 		}
-		
+
 		FileManager.doFiledelete(pathname, dto.getImageFileName());
-		
+
 		dao.deleteSpecial(specialNum);
-		
-		resp.sendRedirect(cp+"/special/s_calendar.do?page=" + page);
+
+		resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
 
 	}
 

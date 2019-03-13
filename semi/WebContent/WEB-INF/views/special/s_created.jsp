@@ -18,46 +18,65 @@ $(function(){
 		showMonthAfterYear : true
 	});
 	
-	
 	$("#specialEnd").datepicker({
 		showMonthAfterYear : true
 	});
 	
-	
-	$(".ui-datapicker-trigger").css({position:"relative", top:"10px", left:"5px"});
+	$("#specialStart").change(function(){
+		$( "#specialEnd" ).datepicker( "option", { minDate: $(this).val() } );
+	});
 });
 
+ /*
+$("#specialStart").click(function () {
+	$("#specialEnd").datepicker({
+		showMonthAfterYear : true
+		, minDate : $(this).val()
+		
+	});
+});
+*/
+
+
 function sendOk() {
-	var f = document.specialForm;
+	 var f = document.specialForm;
 	
-	var str = f.subject.value;
+	var str = $("#subject").val();
 	if(!str){
-		f.subject.focus();
+		var s = "제목을 입력해주세요."
+		$("#subject").focus();
+		$("#subject").parent().next(".s_help").html(s);
 		return;
 	}
 	
-	var str = f.specialStart.value;
+	var str = $("#specialStart").val();
 	if(!str){
-		f.specialStart.focus();
+		var s = "축제시작일자를 클릭해주세요."
+		$("#specialStart").focus();
+		$("#specialStart").parent().parent().find("p:first-child").html(s);
 		return;
 	}
 	
 	
-	var str = f.specialEnd.value;
+	var str = $("#specialEnd").val();
 	if(!str){
-		f.specialEnd.focus();
+		var s = "축제마지막일자를 클릭해주세요."
+		$("#specialEnd").focus();
+		$("#specialEnd").parent().parent().find("p:first-child").html(s);
 		return;
 	}
 	
-	var str = f.content.value;
+	var str = $("#content").val();
 	if(!str){
-		f.content.focus();
+		$("#content").focus();
 		return;
 	}
 	
-	var str = f.upload.value;
+	var str = $("#upload").val();
 	if(!/(\.gif|\.png|\.jpg|\.jpeg)/i.test(str)){
-		f.upload.focus();
+		var s = "이미지 파일을 업로드해주세요."
+		$("#upload").focus();
+		$("#upload").parent().parent().find("p:first-child").html(s);
 		return;
 	}
 	
@@ -95,21 +114,36 @@ function sendOk() {
 				<table class="tb_basic_row" style="width:100%">
 					<tr>
 						<th>제목</th>
-						<td colspan="3"><input type="text" class="boxTF" name="subject" placeholder="제목을 입력해주세요." value="${dto.specialSubject}"></td>
+						<td colspan="3">
+							<p>
+								<input type="text" class="boxTF" name="subject" id="subject" placeholder="예 ) 가족 친구와 함께..." value="${dto.specialSubject}"></p>
+							<p class = "s_help"></p>
+						</td>
 					</tr>
 					<tr>
 						<th>시작일자</th>
-						<td><input type="text" class="boxTF" name="specialStart" id="specialStart" readonly="readonly" placeholder="예) 1992-02-25" value="${dto.specialStart}"></td>
+						<td>
+							<p class = "s_help"></p>
+							<p>
+								<input type="text" class="boxTF" name="specialStart" id="specialStart" readonly="readonly" placeholder="예) 1992-02-25" value="${dto.specialStart}"></p>
+								</td>
 						<th>종료일자</th>
-						<td><input type="text" class="boxTF" name="specialEnd" id="specialEnd" readonly="readonly" placeholder="예) 1992-02-25" value="${dto.specialEnd}"></td>
+						<td>
+							<p class = "s_help"></p>
+							<p>
+								<input type="text" class="boxTF" name="specialEnd" id="specialEnd" readonly="readonly" placeholder="예) 1992-02-25" value="${dto.specialEnd}"></p>					
+						</td>
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td colspan="3"><textarea class="boxTA" style="height:300px" name="content" placeholder="내용을 입력해주세요.">${dto.specialContent}</textarea></td>
+						<td colspan="3"><textarea class="boxTA" style="height:300px" name="content" id = "content" placeholder="내용을 입력해주세요.">${dto.specialContent}</textarea></td>
 					</tr>
 					<tr>
 						<th>이미지파일</th>
-						<td colspan="3"><input type="file" name="upload" class="boxTF" accept="image/*" ></td>
+						<td colspan="3">
+							<p class="s_upload"></p>
+							<p><input type="file" name="upload" id="upload" class="boxTF" accept="image/*" ></p>
+						</td>
 					</tr>
 					
 					

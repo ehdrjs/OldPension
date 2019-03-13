@@ -79,12 +79,12 @@ public class SpecialDAO {
 
 				dto.setSpecialNum(rs.getInt("specialNum"));
 				dto.setSpecialSubject(rs.getString("specialSubject"));
-				// dto.setSpecialDate(rs.getString("specialDate"));
-				dto.setSpecialDate(rs.getDate("specialDate").toString());
-				dto.setSpecialStart(rs.getDate("specialStart").toString());
-				//dto.setSpecialStart(rs.getString("specialStart"));
-				dto.setSpecialEnd(rs.getDate("specialEnd").toString());
-				//dto.setSpecialEnd(rs.getString("specialEnd"));
+				dto.setSpecialDate(rs.getString("specialDate"));
+				// dto.setSpecialDate(rs.getDate("specialDate").toString());
+				// dto.setSpecialStart(rs.getDate("specialStart").toString());
+				dto.setSpecialStart(rs.getString("specialStart"));
+				//dto.setSpecialEnd(rs.getDate("specialEnd").toString());
+				dto.setSpecialEnd(rs.getString("specialEnd"));
 				dto.setSpecialCount(rs.getInt("specialCount"));
 
 				list.add(dto);
@@ -203,7 +203,7 @@ public class SpecialDAO {
 		String sql;
 		
 		try {
-			sql = "DELETE FROM special WHERE specialNum = ?";
+			sql = "DELETE FROM specialImageFile WHERE specialNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, specialNum);
 			pstmt.executeUpdate();
@@ -211,7 +211,7 @@ public class SpecialDAO {
 			pstmt.close();
 			pstmt = null;
 			
-			sql = "DELETE FROM specialImageFile WHERE specialNum = ?";
+			sql = "DELETE FROM special WHERE specialNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, specialNum);
 			pstmt.executeUpdate();
