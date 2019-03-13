@@ -1,6 +1,6 @@
 package com.room;
 
-public class roomDTO {
+public class RoomDTO {
 	private int roomNum;
 	private String roomName;
 	private String roomContent;
@@ -95,3 +95,5 @@ public class roomDTO {
 	
 	
 }
+
+
