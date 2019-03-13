@@ -26,7 +26,7 @@ public class SpecialServlet extends MyServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private String pathname; // ������ ����� ���
+	private String pathname;
 
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
@@ -34,8 +34,6 @@ public class SpecialServlet extends MyServlet {
 
 		HttpSession session = req.getSession();
 
-		// ������ ȯ�濡 ����
-		// �̹����� ������ ���
 		String root = session.getServletContext().getRealPath("/");
 		pathname = root + "uploads" + File.separator + "photo";
 		File f = new File(pathname);
@@ -61,7 +59,7 @@ public class SpecialServlet extends MyServlet {
 	}
 
 	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// ����Ʈ
+
 		String cp = req.getContextPath();
 		MyUtil util = new MyUtil();
 		SpecialDAO dao = new SpecialDAO();
@@ -72,7 +70,6 @@ public class SpecialServlet extends MyServlet {
 			current_page = Integer.parseInt(page);
 		}
 
-		// ��ü ������ ����, ��ü ������ ��
 		int rows = 10;
 		int dataCount, total_page;
 		dataCount = dao.dataCount();
@@ -81,15 +78,12 @@ public class SpecialServlet extends MyServlet {
 			current_page = total_page;
 		}
 
-		// ������ �������� ���۰� ��
 		int start = (current_page - 1) * rows + 1;
 		int end = current_page * rows;
 
-		// �Խù� ��������
 		List<SpecialDTO> list;
 		list = dao.listSpecial(start, end);
 
-		// �Խù� �۹�ȣ �����
 		int listNum = 0;
 		int n = 0;
 
@@ -106,18 +100,15 @@ public class SpecialServlet extends MyServlet {
 				Date startDate = sdf.parse(dto.getSpecialStart());
 				Date endDate = sdf.parse(dto.getSpecialEnd());
 				Calendar cal = Calendar.getInstance();
-				cal.setTime(endDate); 
+				cal.setTime(endDate);
 				cal.add(Calendar.DATE, +1);
 				cal.add(Calendar.SECOND, -1);
 				endDate = cal.getTime();
-				
-				
-				if(date.compareTo(endDate) < 0) { // 현재 날짜 마지막날짜 순일 때
+
+				if (date.compareTo(endDate) < 0) { // 현재 날짜 마지막날짜 순일 때
 					int gap = startDate.compareTo(date) < 0 ? 1 : 2; // 시작날짜 현재날짜 순이면 1 아니면 0값을 넣는다
 					dto.setGap(gap);
 				}
-
-
 
 			} catch (Exception e) {
 				System.out.println(e.toString());
@@ -149,20 +140,18 @@ public class SpecialServlet extends MyServlet {
 	}
 
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// �۾��� ��
+
 		req.setAttribute("mode", "created");
 		forward(req, resp, "/WEB-INF/views/special/s_created.jsp");
 	}
 
 	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// �� ����
 
 		String cp = req.getContextPath();
 		String encType = "UTF-8";
 		int maxFileSize = 10 * 1024 * 1024;
 
-		// ���ǹ޾ƿ�
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
@@ -170,42 +159,29 @@ public class SpecialServlet extends MyServlet {
 		SpecialDTO dto = new SpecialDTO();
 		MultipartRequest mreq = new MultipartRequest(req, pathname, maxFileSize, encType,
 				new DefaultFileRenamePolicy());
-		
-		
+
 		if (info == null || !info.getUserRole().equals("admin")) {
 			resp.sendRedirect(cp + "/special/s_calendar.do");
 			return;
 		}
 
-		if (mreq.getFile("upload1") != null) {
+		if (mreq.getFile("upload") != null) {
 			dto.setUserId(info.getUserId());
 
-			String saveFileName = mreq.getFilesystemName("upload1");
-			saveFileName = FileManager.doFilerename(pathname, saveFileName);
-			dto.setImageFileName(saveFileName);
-			dto.setImageFileSize(mreq.getFile("upload1").length());
-			
 			dto.setSpecialSubject(mreq.getParameter("subject"));
 			dto.setSpecialContent(mreq.getParameter("content"));
 			dto.setSpecialStart(mreq.getParameter("specialStart"));
 			dto.setSpecialEnd(mreq.getParameter("specialEnd"));
 
-			dao.insertSpecial(dto);
-		}
-		
-		if(mreq.getFile("upload2") != null) {
-			//fileNum, imageFileName, imageFileSize, specialNum
-			String saveFileName = mreq.getFilesystemName("upload2");
+			String saveFileName = mreq.getFilesystemName("upload");
 			saveFileName = FileManager.doFilerename(pathname, saveFileName);
 			dto.setImageFileName(saveFileName);
-			dto.setImageFileSize(mreq.getFile("upload2").length());
-			
-			
-			dao.insertSpecial(dto, dto.getSpecialNum());
-		}
-		
+			dto.setImageFileSize(mreq.getFile("upload").length());
 
-		// ����Ʈ�� �����̷�Ʈ
+			dao.insertSpecial(dto);
+
+		}
+
 		resp.sendRedirect(cp + "/special/s_calendar.do");
 
 	}
@@ -217,27 +193,18 @@ public class SpecialServlet extends MyServlet {
 		int specialNum = Integer.parseInt(req.getParameter("specialNum"));
 		String page = req.getParameter("page");
 
-		// ��ȸ�� ����
 		dao.hitCountUpdate(specialNum);
 
-		// �Խñ� �ҷ�����
 		SpecialDTO dto = dao.readSpecial(specialNum);
 		if (dto == null) {
 			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
 			return;
 		}
 
-		List<SpecialDTO> list = dao.imageList(specialNum);
-		if(list.size() == 0) {
-			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
-			return;
-		}
-		
 		dto.setSpecialContent(dto.getSpecialContent().replaceAll("\n", "<br>"));
 
 		req.setAttribute("dto", dto);
 		req.setAttribute("page", page);
-		req.setAttribute("listImage", list);
 
 		forward(req, resp, "/WEB-INF/views/special/s_article.jsp");
 	}

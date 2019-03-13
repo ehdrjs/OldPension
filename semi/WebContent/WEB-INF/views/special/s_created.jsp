@@ -72,21 +72,15 @@ function sendOk() {
 		return;
 	}
 	
-	var str = $("#upload1").val();
+	var str = $("#upload").val();
 	if(!/(\.gif|\.png|\.jpg|\.jpeg)/i.test(str)){
 		var s = "이미지 파일을 업로드해주세요."
-		$("#upload1").focus();
-		$("#upload1").parent().parent().find("p:first-child").html(s);
+		$("#upload").focus();
+		$("#upload").parent().parent().find("p:first-child").html(s);
 		return;
 	}
 	
-	var str = $("#upload2").val();
-	if(!/(\.gif|\.png|\.jpg|\.jpeg)/i.test(str)){
-		var s = "이미지 파일을 업로드해주세요."
-		$("#upload2").focus();
-		$("#upload2").parent().parent().find("p:first-child").html(s);
-		return;
-	}
+
 	
 	// 이미지파일만 가능하게 유효성검사 
 	
@@ -124,7 +118,7 @@ function sendOk() {
 						<th>제목</th>
 						<td colspan="3">
 							<p>
-								<input type="text" class="boxTF" name="subject" id="subject" placeholder="예 ) 가족 친구와 함께..." value="${dto.specialSubject}"></p>
+								<input type="text" class="boxTF" style="width: 90%" name="subject" id="subject" placeholder="예 ) 가족 친구와 함께..." value="${dto.specialSubject}"></p>
 							<p class = "s_help"></p>
 						</td>
 					</tr>
@@ -133,43 +127,31 @@ function sendOk() {
 						<td>
 							<p class = "s_help"></p>
 							<p>
-								<input type="text" class="boxTF" name="specialStart" id="specialStart" readonly="readonly" placeholder="예) 1992-02-25" value="${dto.specialStart}"></p>
+								<input type="text" class="boxTF" style="width: 75%" name="specialStart" id="specialStart" readonly="readonly" placeholder="예) 1992-02-25" value="${dto.specialStart}"></p>
 								</td>
 						<th>종료일자</th>
 						<td>
 							<p class = "s_help"></p>
 							<p>
-								<input type="text" class="boxTF" name="specialEnd" id="specialEnd" readonly="readonly" placeholder="예) 1992-02-25" value="${dto.specialEnd}"></p>					
+								<input type="text" class="boxTF" style="width: 75%" name="specialEnd" id="specialEnd" readonly="readonly" placeholder="예) 1992-02-25" value="${dto.specialEnd}"></p>					
 						</td>
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td colspan="3"><textarea class="boxTA" style="height:300px" name="content" id = "content" placeholder="내용을 입력해주세요.">${dto.specialContent}</textarea></td>
+						<td colspan="3"><textarea class="boxTA" style="height:300px; width: 90%;" name="content" id = "content" placeholder="내용을 입력해주세요.">${dto.specialContent}</textarea></td>
 					</tr>
 					<tr>
-						<th>이미지파일_1</th>
+						<th>이미지파일</th>
 						<td colspan="3">
 							<p class="s_upload"></p>
-							<p><input type="file" name="upload1" id="upload1" class="boxTF" accept="image/*" ></p>
+							<p><input type="file" name="upload" id="upload" class="boxTF" accept="image/*" ></p>
 						</td>
-					</tr>
-					<tr>
-						<th>이미지파일_2</th>
-						<td colspan="3">
-							<p class="s_upload"></p>
-							<p><input type="file" name="upload2" id="upload2" class="boxTF" accept="image/*" ></p>
-						</td>
-					</tr>
-					
-					
+					</tr>			
 					<c:if test="${mode == 'update'}">
 						<input type="hidden" name="specialNum" value="${dto.specialNum}">
 						<input type="hidden" name="imageFileName" value="${dto.imageFileName}">
 						<input type="hidden" name="userId" value="${dto.userId}">
 						<input type="hidden" name="page" value="${page}">
-					</c:if>
-					<c:if test="${mode == 'created'}">
-						<input type="hidden" name="specialNum" value="${dto.specialNum}">
 					</c:if>
 				</table>
 			</div>

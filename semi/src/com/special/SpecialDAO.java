@@ -12,19 +12,15 @@ public class SpecialDAO {
 
 	private Connection conn = DBConn.getConnection();
 
-	// �� �߰�
 	public int insertSpecial(SpecialDTO dto) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		StringBuffer sb = new StringBuffer();
 
 		try {
-			sb.append("INSERT ALL");
-			sb.append("	INTO special(specialNum, specialSubject, specialContent, ");
+
+			sb.append("INSERT INTO special(specialNum, specialSubject, specialContent, ");
 			sb.append("     specialStart, specialEnd, userId) VALUES (special_seq.NEXTVAL, ?, ?, ?, ?, ?)");
-			sb.append("	 INTO specialImageFile(fileNum, imageFileName, imageFileSize, specialNum)");
-			sb.append("     VALUES (specialFile_seq.NEXTVAL, ?, ?, special_seq.CURRVAL)");
-			sb.append("SELECT * FROM dual");
 
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setString(1, dto.getSpecialSubject());
@@ -32,10 +28,20 @@ public class SpecialDAO {
 			pstmt.setString(3, dto.getSpecialStart());
 			pstmt.setString(4, dto.getSpecialEnd());
 			pstmt.setString(5, dto.getUserId());
-			pstmt.setString(6, dto.getImageFileName());
-			pstmt.setLong(7, dto.getImageFileSize());
 
-			result = pstmt.executeUpdate();
+			pstmt.executeUpdate();
+			pstmt.close();
+			pstmt = null;
+
+			sb = new StringBuffer();
+
+			sb.append("INSERT INTO specialImageFile(fileNum, imageFileName, imageFileSize, specialNum)");
+			sb.append("     VALUES (specialFile_seq.NEXTVAL, ?, ?, special_seq.CURRVAL)");
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, dto.getImageFileName());
+			pstmt.setLong(2, dto.getImageFileSize());
+
+			pstmt.executeUpdate();
 
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -51,37 +57,6 @@ public class SpecialDAO {
 		return result;
 	}
 
-	public int insertSpecial(SpecialDTO dto, int specialNum) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		StringBuffer sb = new StringBuffer();
-
-		try {
-			sb.append("INSERT INTO specialImageFile(fileNum, imageFileName, imageFileSize, specialNum)");
-			sb.append(" VALUES (specialFile_seq.NEXTVAL, ?, ?, ?)");
-
-			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setString(1, dto.getImageFileName());
-			pstmt.setLong(2, dto.getImageFileSize());
-			pstmt.setInt(3, specialNum);
-
-			pstmt.executeUpdate();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-				}
-			}
-		}
-
-		return result;
-	}
-
-	// ����Ʈ
 	public List<SpecialDTO> listSpecial(int start, int end) {
 		List<SpecialDTO> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -140,7 +115,6 @@ public class SpecialDAO {
 		return list;
 	}
 
-	// ������ ����
 	public int dataCount() {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -178,7 +152,6 @@ public class SpecialDAO {
 		return result;
 	}
 
-	// �� ����
 	public int updateSpecial(SpecialDTO dto) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -223,7 +196,6 @@ public class SpecialDAO {
 		return result;
 	}
 
-	// �� ����
 	public int deleteSpecial(int specialNum) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -258,50 +230,6 @@ public class SpecialDAO {
 		return result;
 	}
 
-	public List<SpecialDTO> imageList(int specialNum) {
-
-		List<SpecialDTO> list = new ArrayList<SpecialDTO>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
-		try {
-			sql = "SELECT imageFileName FROM specialImageFile WHERE specialNum = ?";
-
-			pstmt = conn.prepareCall(sql);
-			pstmt.setInt(1, specialNum);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				SpecialDTO dto = new SpecialDTO();
-
-				dto.setImageFileName(rs.getString("imageFileName"));
-
-				list.add(dto);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (Exception e2) {
-
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-
-				}
-			}
-		}
-
-		return list;
-	}
-
-	// �Խù� ����
 	public SpecialDTO readSpecial(int specialNum) {
 		SpecialDTO dto = null;
 		PreparedStatement pstmt = null;
@@ -355,7 +283,6 @@ public class SpecialDAO {
 		return dto;
 	}
 
-	// ��ȸ�� ����
 	public int hitCountUpdate(int specialNum) {
 		int result = 0;
 		PreparedStatement pstmt = null;
