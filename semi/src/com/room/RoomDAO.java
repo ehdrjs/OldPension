@@ -14,7 +14,7 @@ public class RoomDAO {
 	
 
 	
-// 	<Î∞© Îì±Î°ù>
+// 	<πÊ µÓ∑œ>
 	public int insertRoom(RoomDTO dto) {
 		int result = 0;
 		PreparedStatement pstmt=null;
@@ -48,7 +48,7 @@ public class RoomDAO {
 		return result;
 	}
 	
-// 	<Î∞© Í∞ÄÍ≤© Îì±Î°ù>
+// 	<πÊ ∞°∞› µÓ∑œ>
 	public int insertPrice(int num, int weeknum, int price) {
 		int result = 0;
 		PreparedStatement pstmt=null;
@@ -78,7 +78,7 @@ public class RoomDAO {
 	}
 	
 	
-// 	<Î∞© ÏàòÏ†ï>
+// 	<πÊ ºˆ¡§>
 	public int updateRoom(RoomDTO dto) {
 		int result = 0;
 		PreparedStatement pstmt=null;
@@ -113,7 +113,7 @@ public class RoomDAO {
 		return result;
 	}
 	
-// 	<Î∞© Í∞ÄÍ≤© ÏàòÏ†ï>
+// 	<πÊ ∞°∞› ºˆ¡§>
 	public int updatePrice(int num, int week, int price) {
 		int result = 0;
 		PreparedStatement pstmt=null;
@@ -145,7 +145,7 @@ public class RoomDAO {
 	
 	
 	
-//	<Î∞© Î¶¨Ïä§Ìä∏>
+//	<πÊ ∏ÆΩ∫∆Æ>
 	public List<RoomDTO> listRoom() {
 		List<RoomDTO> list = new ArrayList<RoomDTO>();
 		PreparedStatement pstmt = null;
@@ -192,7 +192,7 @@ public class RoomDAO {
 		return list;
 	}
 	
-//	<Í∏ÄÎ≥¥Í∏∞>
+//	<±€∫∏±‚>
 	public RoomDTO viewRoom(int roomNum) {
 		RoomDTO dto = new RoomDTO();
 		PreparedStatement pstmt = null;
@@ -211,11 +211,11 @@ public class RoomDAO {
 				dto.setRoomName(rs.getString("roomName"));
 				dto.setRoomContent(rs.getString("roomContent"));
 				if (rs.getString("isRoomOK").equals("OK")) {
-					dto.setIsRoomOK("Í∞ÄÎä•");
-				} else if(rs.getString("isRoomOK").equals("Í∞ÄÎä•")) { 
-					dto.setIsRoomOK("Í∞ÄÎä•");
+					dto.setIsRoomOK("∞°¥…");
+				} else if(rs.getString("isRoomOK").equals("∞°¥…")) { 
+					dto.setIsRoomOK("∞°¥…");
 				} else {
-					dto.setIsRoomOK("Î∂àÍ∞Ä");
+					dto.setIsRoomOK("∫“∞°");
 				}
 				dto.setRoomMin(rs.getInt("roomMin"));
 				dto.setRoomMax(rs.getInt("roomMax"));
@@ -243,7 +243,7 @@ public class RoomDAO {
 		return dto;
 	}
 	
-//	<Î∞© Í∞ÄÍ≤©Î¶¨Ïä§Ìä∏>
+//	<πÊ ∞°∞›∏ÆΩ∫∆Æ>
 	public List<RoomDTO> viewPrice(int roomNum) {
 		List<RoomDTO> list = new ArrayList<RoomDTO>();
 		PreparedStatement pstmt = null;
@@ -264,13 +264,13 @@ public class RoomDAO {
 				dto.setPrice(rs.getInt("price"));
 				
 				if (rs.getInt("week")==1) {
-					dto.setWeek("Ï£ºÏ§ë");
+					dto.setWeek("¡÷¡ﬂ");
 				} else if (rs.getInt("week")==2) {
-					dto.setWeek("Ï£ºÎßê");
+					dto.setWeek("¡÷∏ª");
 				} else if (rs.getInt("week")==3) {
-					dto.setWeek("ÏÑ±ÏàòÍ∏∞");
+					dto.setWeek("º∫ºˆ±‚");
 				} else {
-					dto.setWeek("ÎØ∏Ï†ï");
+					dto.setWeek("πÃ¡§");
 				}
 				
 				list.add(dto);

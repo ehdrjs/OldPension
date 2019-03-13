@@ -61,7 +61,7 @@ public class ReviewServlet extends MyServlet {
 		
 	}
 	
-//	<ë¦¬ë·° ì €ìž¥>
+//	<¸®ºä ÀúÀå>
 	protected void reviewSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");

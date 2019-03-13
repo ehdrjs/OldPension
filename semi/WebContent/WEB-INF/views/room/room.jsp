@@ -30,7 +30,7 @@
 		<div style="width:1360px; display:inline-block;">
 			<iframe class="review_iframelayout" src="<%=cp%>/room/list.do" style="width:800px"></iframe>
 			<div class="review_mid_line"></div>
-			<iframe class="review_iframelayout" src="<%=cp%>/room/review.do" style="width:445px"></iframe>
+			<iframe class="review_iframelayout" src="<%=cp%>/review/review.do" style="width:445px"></iframe>
 		</div>
 	</div>
 	<div class="footer">

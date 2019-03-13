@@ -46,7 +46,7 @@ public class RoomServlet extends MyServlet {
 			delete(req, resp);
 		}
 		
-		// ì„¸ì…˜ì„¤ì •
+		// ¼¼¼Ç¼³Á¤
 		// userId , userName,
 		/*
 		HttpSession session = req.getSession();
@@ -63,7 +63,7 @@ public class RoomServlet extends MyServlet {
 		List<RoomDTO> priceList;
 		int num;
 		
-		// ë°© ë³´ê¸°
+		// ¹æ º¸±â
 		if( req.getParameter("roomNum")!=null ) {
 			num = Integer.parseInt(req.getParameter("roomNum"));
 		} else
@@ -73,7 +73,7 @@ public class RoomServlet extends MyServlet {
 		RoomDTO dto = dao.viewRoom(num);
 		dto.setRoomNum(num);
 		
-		// ë£¸ ë¦¬ìŠ¤íŠ¸
+		// ·ë ¸®½ºÆ®
 		int roomCount = dao.listRoom().size();
 		roomList = dao.listRoom();
 		
@@ -89,7 +89,7 @@ public class RoomServlet extends MyServlet {
 		RoomDAO dao = new RoomDAO();
 		List<RoomDTO> roomList;
 		
-		// ë£¸ ë¦¬ìŠ¤íŠ¸
+		// ·ë ¸®½ºÆ®
 		roomList = dao.listRoom();
 		req.setAttribute("roomList", roomList);
 		req.setAttribute("mode", "create");
