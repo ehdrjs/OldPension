@@ -45,9 +45,12 @@
 			<td style="float: right; padding-right: 30px;"> 축제일자 : ${dto.specialStart} ~ ${dto.specialEnd}
 			</td>
 		</tr>
+	
+		<c:forEach var = "vo" items="${listImage}">
 		<tr>
-			<td colspan="4" style="text-align: center;"><img src="<%=cp%>/uploads/photo/${dto.imageFileName}"></td>
+			<td colspan="4" style="text-align: center;"><img src="<%=cp%>/uploads/photo/${vo.imageFileName}"></td>
 		</tr>
+		</c:forEach>
 		<tr>
 			<td colspan="4">${dto.specialContent }</td>
 		</tr>

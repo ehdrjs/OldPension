@@ -170,30 +170,40 @@ public class SpecialServlet extends MyServlet {
 		SpecialDTO dto = new SpecialDTO();
 		MultipartRequest mreq = new MultipartRequest(req, pathname, maxFileSize, encType,
 				new DefaultFileRenamePolicy());
-		// request, ������ ����� ���, �ִ�ũ��, �Ķ����Ÿ��, �������ϸ�ȣ
-
-		// admin�� ���� ����� �� �ֵ��� ��
+		
+		
 		if (info == null || !info.getUserRole().equals("admin")) {
 			resp.sendRedirect(cp + "/special/s_calendar.do");
 			return;
 		}
 
-		if (mreq.getFile("upload") != null) {
+		if (mreq.getFile("upload1") != null) {
 			dto.setUserId(info.getUserId());
 
-			String saveFileName = mreq.getFilesystemName("upload");
+			String saveFileName = mreq.getFilesystemName("upload1");
 			saveFileName = FileManager.doFilerename(pathname, saveFileName);
 			dto.setImageFileName(saveFileName);
-			dto.setImageFileSize(mreq.getFile("upload").length());
-
+			dto.setImageFileSize(mreq.getFile("upload1").length());
+			
 			dto.setSpecialSubject(mreq.getParameter("subject"));
 			dto.setSpecialContent(mreq.getParameter("content"));
 			dto.setSpecialStart(mreq.getParameter("specialStart"));
 			dto.setSpecialEnd(mreq.getParameter("specialEnd"));
 
-			// �Ķ���� �ѱ�
 			dao.insertSpecial(dto);
 		}
+		
+		if(mreq.getFile("upload2") != null) {
+			//fileNum, imageFileName, imageFileSize, specialNum
+			String saveFileName = mreq.getFilesystemName("upload2");
+			saveFileName = FileManager.doFilerename(pathname, saveFileName);
+			dto.setImageFileName(saveFileName);
+			dto.setImageFileSize(mreq.getFile("upload2").length());
+			
+			
+			dao.insertSpecial(dto, dto.getSpecialNum());
+		}
+		
 
 		// ����Ʈ�� �����̷�Ʈ
 		resp.sendRedirect(cp + "/special/s_calendar.do");
@@ -217,10 +227,17 @@ public class SpecialServlet extends MyServlet {
 			return;
 		}
 
+		List<SpecialDTO> list = dao.imageList(specialNum);
+		if(list.size() == 0) {
+			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
+			return;
+		}
+		
 		dto.setSpecialContent(dto.getSpecialContent().replaceAll("\n", "<br>"));
 
 		req.setAttribute("dto", dto);
 		req.setAttribute("page", page);
+		req.setAttribute("listImage", list);
 
 		forward(req, resp, "/WEB-INF/views/special/s_article.jsp");
 	}
