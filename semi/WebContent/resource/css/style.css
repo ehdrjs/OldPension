@@ -118,7 +118,7 @@
 .tb_basic thead .week th:first-child{color:red}
 .tb_basic thead .week th:last-child{color:blue}
 
-
+<<<<<<< HEAD
 
 .special {
 	width: 800px;
@@ -216,6 +216,7 @@
 	border-radius: 4px;
 }
 	
+/* --------------------- /qna/qna.jsp -------------------------- */
 
 .qna > .container {width:47%;}
 .qna > .container  .list-group li{border-left:none; border-right:none; width:100%; text-align:center; padding-right: 0px;
@@ -224,31 +225,45 @@
 .qna_created > .container {width:47%;}
 .qna .header .gnb a:hover {text-decoration: none;}
 .tb_basic thead .week th:last-child{color:blue}
-#container {
-	position: relative;
-	width: 100%;
-	height: 720px;
-	overflow: hidden;
-	white-space: nowrap;
-	border: 1px solid #000;
-}
+	#container {
+		position:relative;
+		width:100%;
+		height:720px;
+		overflow:hidden;
+		white-space:nowrap;
+		border:1px solid #000;
+	}
+	#container ul#contain {
+		list-style:none;
+		margin:0;
+		padding:0;
+	}
+	#container ul li {
+		position:absolute;
+		width:100%;
+		height:720px;
+	}
+	#container ul li img {
+		width:100%;
+		height:720px;
+	}
+/* --------------------- /qna/created.jsp -------------------------- */
+.qna_created .header .gnb a:hover {text-decoration: none;}
+.c_menu {width:700px;}
+.c_menu li{border-left:none; border-right:none; width:100%; text-align:left; padding-right: 0px;
+    padding-left: 0px; list-style:none;}
+    
+.c_menuA { border:1px solid; padding:10px;  border-radius: 10px; margin: 15px 0px;}
+.c_menu .c_menuA .title {font-size:14pt}
+.c_menu .c_menuA #pwd, #subject, #content {border-radius: 10px; border: 1px solid #c4c4c4; padding:3px;}
 
-#container ul#contain {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-#container ul li {
-	position: absolute;
-	width: 100%;
-	height: 720px;
-}
-
-#container ul li img {
-	width: 100%;
-	height: 720px;
-}
+/* --------------------- /qna/article.jsp -------------------------- */
+.qna_article .header .gnb a:hover {text-decoration: none;}
+.a_menu {width:700px;}
+.a_menu li{border-left:none; border-right:none; width:100%; text-align:left; padding-right: 0px;
+    padding-left: 0px; list-style:none;}
+    
+.a_menuA { border:1px solid; padding:10px;  border-radius: 10px; margin: 15px 0px;}
 
 /* Table_style */
 .tb_basic {
@@ -512,7 +527,8 @@
 	color: #333;
 }
 
-/* --------------------- /room/room.jsp -------------------------- */
+
+	/* --------------------- /room/room.jsp -------------------------- */
 	
 	.review_container {
 		border : none;
@@ -686,7 +702,7 @@
 		color : #ffffff;
 	}
 	
-/* --------------------- /room/list.jsp & /review/list.jsp -------------------------- */
+	/* --------------------- /room/list.jsp & /review/list.jsp -------------------------- */
 	
 	.review_page {
 		color: #333333;
@@ -718,3 +734,5 @@
 	.review_page_none {
 		background-color: #ffffff;
 	}
+
+

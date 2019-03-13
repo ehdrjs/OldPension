@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -25,6 +26,7 @@
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
 <script type="text/javascript">
+
 	function sendOk(){
 		var f = document.qnaForm;
 		var sv = f.subject.value;
@@ -50,6 +52,7 @@
 		f.submit();
 	}
 </script>
+
 </head>
 <body>
 	<div class=qna_created>
@@ -60,39 +63,60 @@
 		<div class="container">
 			<div>
 				<h5 style="font-weight: bold">
-					<span>|&nbsp;</span>고객문의 게시판
+					<span>|&nbsp;</span>고객문의 글작성
 				</h5>
 			</div>
-			<div>
-				<form name="qnaForm" method="post">
-					<table>
-						<tr>
-							<td>제목</td>
-							<td><input type="text" name="subject" placeholder="제목을 입력하세요" value="${dto.subject}"></td>
-						</tr>
-						<tr>
-							<td>작성ID</td>
-							<td>${sessionScope.member.userId}</td>
-						</tr>
-						<tr>
-							<td>내용</td>
-							<td><textarea name="content" rows="12" placeholder="내용을 입력하세요">${dto.content}</textarea></td>
-						</tr>
-						<tr>
-							<td><input type="password" name="pwd" placeholder="비밀번호(숫자4자리)" value="${dto.pwd}">
-							</td>
-						</tr>
-					</table>
-					<table>
-						<tr>
-							<td>
-								<button type="button" onclick="sendOk();">등록하기</button>
-								<button type="button"
-									onclick="javascript:location.href='<%=cp%>/qna/qna.do';">등록취소</button>
-							</td>
-						</tr>
-					</table>
-				</form>
+			<div class=c_menu>
+				<div class=c_menuA>
+					<form name="qnaForm" method="post">
+						<ul>
+							<li class="title"
+								style="float: left; width: 10%; line-height: 40px;">제목</li>
+							<li style="float: left; width: 90%; line-height: 40px"><input
+								type="text" style="width: 100%; height: 35px;" name="subject"
+								id="subject" placeholder="제목을 입력하세요" value="${dto.subject}"></li>
+						</ul>
+						<ul style="line-height: 40px;">
+							<li class="title" style="float: left; width: 10%;">작성자</li>
+							<li
+								style="float: left; width: 20%; font-size: 18px; padding: 0px 0px 0px 10px">${sessionScope.member.userId}</li>
+							<li class="title"
+								style="float: left; text-align: right; width: 40%; padding: 0px 20px 0px 0px">글
+								비밀번호</li>
+							<li><input
+								style="float: left; width: 30%; height: 35px; margin: 3px 0px"
+								type="password" name="pwd" id="pwd" placeholder="비밀번호(숫자4자리)"
+								value="${dto.pwd}"></li>
+						</ul>
+						<ul>
+							<li class="title" style="clear: both">내용</li>
+							<li><textarea name="content" id="content" rows="12"
+									style="width: 100%" placeholder="내용을 입력하세요">${dto.content}</textarea></li>
+						</ul>
+						<div class="row text-center" style="width: 100%">
+							<div style="width: 30%; float: none; margin: 0 auto">
+								<c:if test="${mode=='update'}">
+									<input type="hidden" name="qnaNum" value="${dto.num}">
+									<input type="hidden" name="page" value="${page}">
+									<input type="hidden" name="qnaSearchKey" value="${searchKey}">
+									<input type="hidden" name="qnaSearchValue" value="${searchValue}">
+								</c:if>
+								<c:if test="${mode=='reply'}">
+									<input type="hidden" name="groupNum" value="${dto.groupNum}">
+									<input type="hidden" name="orderNo" value="${dto.orderNo}">
+									<input type="hidden" name="depth" value="${dto.depth}">
+									<input type="hidden" name="parent" value="${dto.num}">
+									<input type="hidden" name="page" value="${page}">
+								</c:if>
+								<button type="button" class="btn btn-info btn-sm"
+									style="margin-top: 3px;"
+									onclick="javascript:location.href='<%=cp%>/qna/qna.do';">>${mode=='update'?'수정취소':(mode=='reply'? '답변취소':'등록취소')}</button>
+								<button type="button" class="btn btn-info btn-sm"
+									style="margin-top: 3px; float: center;" onclick="sendOk();">>${mode=='update'?'수정완료':(mode=='reply'? '답변완료':'등록완료')}</button>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 
 		</div>
