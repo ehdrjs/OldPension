@@ -34,8 +34,6 @@ public class RoomServlet extends MyServlet {
 			forward(req, resp, "/WEB-INF/views/room/room.jsp");
 		} else if (uri.indexOf("list.do") != -1) {
 			room(req, resp);
-		} else if (uri.indexOf("review.do") != -1) {
-			forward(req, resp, "/WEB-INF/views/review/list.jsp");
 		} else if (uri.indexOf("write.do") != -1) {
 			create(req, resp);
 		} else if (uri.indexOf("write_ok.do") != -1) {
@@ -48,7 +46,7 @@ public class RoomServlet extends MyServlet {
 			delete(req, resp);
 		}
 		
-		// ¼¼¼Ç¼³Á¤
+		// ì„¸ì…˜ì„¤ì •
 		// userId , userName,
 		/*
 		HttpSession session = req.getSession();
@@ -65,7 +63,7 @@ public class RoomServlet extends MyServlet {
 		List<RoomDTO> priceList;
 		int num;
 		
-		// ¹æ º¸±â
+		// ë°© ë³´ê¸°
 		if( req.getParameter("roomNum")!=null ) {
 			num = Integer.parseInt(req.getParameter("roomNum"));
 		} else
@@ -75,7 +73,7 @@ public class RoomServlet extends MyServlet {
 		RoomDTO dto = dao.viewRoom(num);
 		dto.setRoomNum(num);
 		
-		// ·ë ¸®½ºÆ®
+		// ë£¸ ë¦¬ìŠ¤íŠ¸
 		int roomCount = dao.listRoom().size();
 		roomList = dao.listRoom();
 		
@@ -91,7 +89,7 @@ public class RoomServlet extends MyServlet {
 		RoomDAO dao = new RoomDAO();
 		List<RoomDTO> roomList;
 		
-		// ·ë ¸®½ºÆ®
+		// ë£¸ ë¦¬ìŠ¤íŠ¸
 		roomList = dao.listRoom();
 		req.setAttribute("roomList", roomList);
 		req.setAttribute("mode", "create");
