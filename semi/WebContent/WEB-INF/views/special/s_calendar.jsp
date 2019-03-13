@@ -21,7 +21,7 @@
 
 <div class="special">
 	<div class="h_special">
-		| 스페셜 <span style="font-size: 15px;"> ${dataCount}개 (${page} / ${total_page}페이지)  </span>
+		| 스페셜 <span style="font-size: 15px;"> ${dataCount}개 (${page}/${total_page}페이지)  </span>
 	</div>
 	
 	<div class="b_special">
@@ -47,7 +47,10 @@
 				<c:forEach var="dto" items="${list}">	
 					<tr class="content">
 						<td>${dto.listNum}</td>
-						<td class="txt_overflow" style=";text-align:left !important;"><a href="${articleUrl}&listNum=${dto.listNum}">${dto.specialSubject}</a></td>
+						<td class="txt_overflow" style=";text-align:left !important;"><a href="${articleUrl}&specialNum=${dto.specialNum}">${dto.specialSubject}</a>
+						<c:if test="${dto.gap == 1}">&nbsp;&nbsp;<span style="color: yellow; background: gray;">진행중</span></c:if>
+						<c:if test="${dto.gap == 2}">&nbsp;&nbsp;<span style="color: white; background: gray;">커밍순</span></c:if>
+						</td>
 						<td>${dto.specialStart} ~ ${dto.specialEnd}</td>
 						<td>${dto.specialDate}</td>
 						<td>${dto.specialCount}</td>
@@ -63,7 +66,7 @@
 		</c:if>
 		
 		<c:if test="${dataCount!= 0}">
-			${paging}		
+			${paging}			
 		</c:if>
 	</div>
 	<div class="f_special">	

@@ -49,9 +49,10 @@ table {
 }
 
 .header {
-	padding: 20px 0;
+	padding: 35px 0;
 	text-align: center;
 	min-width: 1100px;
+	border-bottom: 1px solid black;
 }
 
 .header .logo {
@@ -78,7 +79,7 @@ table {
 	font-size: 17px;
 	visibility: hidden;
 	position: absolute;
-	top: 55px;
+	top: 73px;
 	transition: .3s;
 	z-index: 2;
 }
@@ -93,7 +94,7 @@ table {
 
 .header .loginInfo {
 	float: right;
-	margin: 25px 15px 0px 0px;
+	margin: 10px 15px 0px 0px;
 }
 
 .reserve {
@@ -143,6 +144,8 @@ table {
 	padding: 20px 0;
 	border-bottom: 1px solid #c4c4c4;
 	text-align: center;
+	border-top: 1px solid black;
+	
 }
 
 .footer .links {

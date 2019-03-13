@@ -118,7 +118,7 @@
 .tb_basic thead .week th:first-child{color:red}
 .tb_basic thead .week th:last-child{color:blue}
 
-<<<<<<< HEAD
+
 
 .special {
 	width: 800px;
@@ -128,12 +128,15 @@
 	border-bottom: 1px solid black;
 	font-size: 40px;
 	padding: 20px;
+	width: 80%;
+	margin: 20px auto;
 }
 
 .special .b_special{
-	width: 100%;
+	width: 80%;
 	margin-top: 40px;
 	border: 1px solid black;
+	margin: 20px auto;
 }
 
 .special .b_special .tb tr th{
@@ -172,6 +175,7 @@
 .special .f_special{
 	text-align: right;
 	font-size: 20px;
+	width: 90%;
 }
 
 .special .f_special .btn{
@@ -184,6 +188,7 @@
 .special .c_footer{
 	margin-top: 20px;
 	text-align: right;
+	width: 90%;
 }
 
 .special .c_footer .btn{
@@ -736,3 +741,35 @@
 	}
 
 
+	
+	.special .s_tb{
+		width: 100%;
+		border: 1px solid black;
+	}
+	
+	.special .s_tb tr{
+		border-bottom: 1px solid black;
+		height: 60px;
+		
+		
+	}
+	
+	.special .s_tb tr td {
+		padding-left: 10px;
+		padding-top : 18px;
+		display: inline-block;
+	}
+
+	.special .s_btn_c{
+		text-align: right;
+		width: 100%;
+		margin-top: 10px;
+		
+	}
+	
+	.special .s_btn_c .s_btn{
+		padding: 5px 10px;
+		border-radius: 3px;
+		border: 1px solid gray;
+    	background: #eeeeee;
+	}
