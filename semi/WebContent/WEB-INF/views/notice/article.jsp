@@ -84,7 +84,7 @@ body{
 </style>
 
 <script type="text/javascript">
-function ndeleteOk(num){
+function ndeleteOk(){
 	if(confirm("게시물을 삭제하시겠습니까?")){
 		var url = "<%=cp%>/notice/delete.do?page=${page}&listNum=${listNum}";
 		location.href = url;
@@ -117,7 +117,12 @@ function ndeleteOk(num){
 	<div id = "nContent">
 	
 		<ul style = "border-bottom: 1px solid black">
-			<li>${dto.noticeContent}</li>
+			<li>${dto.noticeContent}
+			<br>
+			<c:if test="${not empty image }">
+				<img alt="" src="<%=cp%>/uploaded/notice/${image}" width="30%" height="30%">
+			</c:if>
+			</li>
 		</ul>
 	</div>
 	<div class = "nFiles">
@@ -132,7 +137,7 @@ function ndeleteOk(num){
 	<div align="right" style="padding-top: 20px">
 	<c:if test="${sessionScope.member.userRole.equals('admin')}">
 			<button type = "button" class = "nBtn" onclick = "javascript:location.href='<%=cp%>/notice/update.do?page=${page }&listNum=${listNum }'">수정</button>	
-			<button type = "button" class = "nBtn" onclick = "ndeleteOk('${listNum}');">삭제</button>
+			<button type = "button" class = "nBtn" onclick = "ndeleteOk();">삭제</button>
 	</c:if>
 	<button type = "button" class = "nBtn" onclick = "javascript:location.href='<%=cp%>/notice/list.do?page=${page }'">리스트</button>
 	</div>
