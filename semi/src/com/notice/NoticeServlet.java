@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -155,6 +157,21 @@ public class NoticeServlet extends MyServlet{
 		req.setAttribute("page", page);
 		req.setAttribute("dto", dto);
 		req.setAttribute("listNum", listNum);
+		String image =  ".+\\.(jpg|bmp|gif|jpeg|png)$";
+		boolean isImage = false;
+		
+		//정규식 비교
+		if(dto.getOriginalFileName() != null ) {
+			Pattern p = Pattern.compile(image);
+			Matcher m = p.matcher(dto.getOriginalFileName());
+			isImage = m.matches();
+			
+		}
+		
+		//이미지 이냐?
+		if(isImage) {
+			req.setAttribute("image", dto.getOriginalFileName());
+		}
 		
 		forward(req, resp, "/WEB-INF/views/notice/article.jsp");
 	}

@@ -68,6 +68,26 @@ function sendUpdate(){
 	f.action = "<%=cp%>/notice/update_ok.do?page=${page}&listNum=${listNum}";
 	f.submit();
 }
+function updateNotice(){
+	var f = document.ncreatedForm;
+	
+	var str = f.subject;
+	if(!str.value){
+		str.focus();
+		alert("제목입력하십시오");
+		return;
+	}
+	
+	str = f.content;
+	if(!str.value){
+		str.focus();
+		alert("내용입력하십시오");
+		return;
+	}
+	f.action = "<%=cp%>/notice/created_ok.do?page=${page}";
+	f.submit();
+}
+
 
 
 </script>
@@ -80,7 +100,7 @@ function sendUpdate(){
 <h3>|공지사항 등록하기</h3>
 
 <c:if test="${mode=='created' }">
-<form name = "ncreatedForm" method="post" action="<%=cp%>/notice/created_ok.do?page=${page}" enctype="multipart/form-data">
+<form name = "ncreatedForm" method="post" action="" enctype="multipart/form-data">
 <div class = "createN">
 	<ul>
 		<li class = "nN">공지 제목</li>
@@ -105,11 +125,11 @@ function sendUpdate(){
 		<input type = "file" name = "upload" size = "53">
 		</li>
 	</ul>
-	
+	<div align="right">
+	<p><br><button type="submit" onclick="updateNotice();">등록하기</button></p>
+	</div>
 </div>
-<div>
-	<button type="submit">등록하기</button>
-</div>
+
 </form>
 </c:if>
 
@@ -149,13 +169,12 @@ function sendUpdate(){
 					</li>				
 				</c:if>		
 		</ul>
+		
+		<div align = "right">
+			<p><button type="button" onclick="sendUpdate();">수정하기</button></p>
+		</div>
 </div>
-
 </form>
-<div>
-	<button type="button" onclick="sendUpdate();">수정하기</button>
-</div>
-
 </c:if>	
 <div class = "footer">
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
