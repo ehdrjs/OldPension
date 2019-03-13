@@ -43,7 +43,8 @@
 			<div class="a_menu">
 				<div class="a_menuA">
 					<ul>
-						<li style="float: left; width: 60%;">${dto.subject}</li>
+						<li style="float: left; width: 60%;"><c:if test="${dto.depth!=0}">[Re]</c:if>
+						${dto.subject}</li>
 						<li style="float: left; width: 20%;">작성일:${dto.date}</li>
 						<li style="float: left; width: 20%;">조회수:${dto.count}</li>
 					</ul>
@@ -55,7 +56,7 @@
 						<button type="button" class="btn btn-info btn-sm"
 							style="margin-top: 3px; clean:both;" onclick="javascript:location.href='<%=cp%>/qna/update.do?qnaNum=${dto.num}&${query}';">수정</button>
 						<button type="button" class="btn btn-info btn-sm"
-							style="margin-top: 3px;" onclick="">삭제</button>
+							style="margin-top: 3px;" onclick="javascript:location.href='<%=cp%>/qna/delete.do?qnaNum=${dto.num}&${query}';">삭제</button>
                          </c:if>
 					</div>
 					<ul>
@@ -74,10 +75,14 @@
                          <a href="<%=cp%>/qna/article.do?qnaNum=${nextReadDto.num}&${query}">${nextReadDto.subject}</a>
                   </c:if></li>
 					</ul>
-					<ul>
-						<button>답변</button>
-						<button>돌아가기</button>
-					</ul>
+					<div>
+						<c:if test="${sessionScope.member.userId=='first'}">    
+						<button type="button" class="btn btn-info btn-sm"
+							style="margin-top: 3px; clean:both;" onclick="javascript:location.href='<%=cp%>/qna/reply.do?qnaNum=${dto.num}&page=${page}';">답변</button>
+						</c:if>
+						<button type="button" class="btn btn-info btn-sm"
+							style="margin-top: 3px; clean:both;" onclick="javascript:location.href='<%=cp%>/qna/qna.do?${query}';">돌아가기</button>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -37,7 +37,13 @@ public class QnaDAO {
 				dto.setOrderNo(0);
 				dto.setDepth(0);
 				dto.setParent(0);
+			}else if(mode.equals("reply")) {
+				updateOrderNo(dto.getGroupNum(), dto.getOrderNo());
+				dto.setDepth(dto.getDepth()+1);
+				dto.setOrderNo(dto.getOrderNo()+1);
 			}
+			
+			
 			sql = "INSERT INTO qna(qnaNum, userId, qnaSubject, qnaContent, ";
 			sql += " groupNum, depth, orderNo, parent, qnaPwd) ";
 			sql += " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -502,13 +508,63 @@ public class QnaDAO {
 			pstmt.setString(4, userId);
 			result=pstmt.executeUpdate();
 		}catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}finally {
 			if(pstmt!=null) {
 				try {
 					pstmt.close();
 				}catch (SQLException e) {
 					// TODO: handle exception
+				}
+			}
+		}
+		return result;
+	}
+	
+	public int updateOrderNo(int groupNum, int orderNo) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql="UPDATE qna SET orderNo = orderNo+1 WHERE groupNum= ? AND orderNo > ?";
+			
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, groupNum);
+			pstmt.setInt(2, orderNo);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch(SQLException e) {
+				}
+			}
+		}
+		return result;
+	}
+	
+	public int deleteQna(int qnaNum) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql="DELETE FROM qna WHERE qnaNum IN (SELECT qnaNum FROM qna START WITH qnaNum = ? CONNECT BY PRIOR qnaNum = parent)";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, qnaNum);
+			result=pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				}catch(SQLException e) {
 				}
 			}
 		}

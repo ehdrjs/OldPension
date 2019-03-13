@@ -3,6 +3,7 @@ package com.qna;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,6 +41,12 @@ public class QnaServlet extends MyServlet {
 			updateForm(req,resp);
 		}else if(uri.indexOf("update_ok.do")!=-1) {
 			updateSubmit(req,resp);
+		}else if(uri.indexOf("reply.do")!=-1) {
+			replyForm(req,resp);
+		}else if(uri.indexOf("reply_ok.do")!=-1) {
+			replySubmit(req,resp);
+		}else if(uri.indexOf("delete.do")!=-1) {
+			delete(req,resp);
 		}
 	}
 
@@ -108,7 +115,7 @@ public class QnaServlet extends MyServlet {
 		}
 		String paging = util.paging(current_page, total_page, listUrl);
 		req.setAttribute("list", list);
-		req.setAttribute("datacount", dataCount);
+		req.setAttribute("dataCount", dataCount);
 		req.setAttribute("page", current_page);
 		req.setAttribute("total_page", total_page);
 		req.setAttribute("articleUrl", articleUrl);
@@ -254,13 +261,96 @@ public class QnaServlet extends MyServlet {
 		
 		QnaDTO dto= new QnaDTO();
 		dto.setNum(Integer.parseInt(req.getParameter("qnaNum")));
-		dto.setSubject(req.getParameter("qnaSubject"));
-		dto.setContent(req.getParameter("qnaContent"));
+		dto.setSubject(req.getParameter("subject"));
+		dto.setContent(req.getParameter("content"));
 		
 		dao.updateQna(dto, info.getUserId());
 		resp.sendRedirect(cp+"/qna/qna.do?"+query);
 		
-		
 	}
 	
+	protected void replyForm(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
+		QnaDAO dao= new QnaDAO();
+		String cp=req.getContextPath();
+		
+		int num = Integer.parseInt(req.getParameter("qnaNum"));
+		String page=req.getParameter("page");
+		
+		QnaDTO dto=dao.readQna(num);
+		if(dto==null) {
+			resp.sendRedirect(cp+"/qna/qna.do?page="+page);
+			return;
+		}
+		String s="["+dto.getSubject()+"]의 대한 관리자 답변.\n";
+		dto.setContent(s);
+		
+		req.setAttribute("mode", "reply");
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+		
+		forward(req, resp, "/WEB-INF/views/qna/created.jsp");
+		
+	}
+	protected void replySubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		String cp=req.getContextPath();
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp+"/qna/qna.do");
+			return;
+		}
+		
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		QnaDTO dto=new QnaDTO();
+		QnaDAO dao=new QnaDAO();
+		
+		dto.setSubject(req.getParameter("subject"));
+		dto.setContent(req.getParameter("content"));
+		dto.setPwd(req.getParameter("pwd"));
+		dto.setGroupNum(Integer.parseInt(req.getParameter("groupNum")));
+		dto.setOrderNo(Integer.parseInt(req.getParameter("orderNo")));
+		dto.setDepth(Integer.parseInt(req.getParameter("depth")));
+		dto.setParent(Integer.parseInt(req.getParameter("parent")));
+		
+		dto.setUserId(info.getUserId());
+		dao.insertQna(dto, "reply");
+		
+		String page=req.getParameter("page");
+		resp.sendRedirect(cp+"/qna/qna.do?page="+page);
+	}
+	
+	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		HttpSession session=req.getSession();
+		SessionInfo info= (SessionInfo)session.getAttribute("member");
+		
+		String cp=req.getContextPath();
+		QnaDAO dao=new QnaDAO();
+		
+		String page=req.getParameter("page");
+		String searchKey=req.getParameter("");
+		String searchValue=req.getParameter("");
+		if(searchKey==null) {
+			searchKey="subject";
+			searchValue="";
+		}
+		searchValue=URLDecoder.decode(searchValue, "utf-8");
+		String query="page="+page;
+		if(searchValue.length()!=0) {
+			query+="&searchKey="+searchKey+"&searchValue="+URLEncoder.encode(searchValue,"utf-8");
+		}
+		
+		int num=Integer.parseInt(req.getParameter("qnaNum"));
+		QnaDTO dto=dao.readQna(num);
+		
+		if(dto==null) {
+			resp.sendRedirect(cp+"/qna/qna.do?"+query);
+			return;
+		}
+		if(! dto.getUserId().equals(info.getUserId()) && ! info.getUserId().equals("first")) {
+			resp.sendRedirect(cp+"/qna/qan.do?"+query);
+			return;
+		}
+		dao.deleteQna(num);
+		resp.sendRedirect(cp+"/qna/qna.do?"+query);
+	}
 }

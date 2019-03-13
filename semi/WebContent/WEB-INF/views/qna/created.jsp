@@ -95,11 +95,24 @@
 						</ul>
 						<div class="row text-center" style="width: 100%">
 							<div style="width: 30%; float: none; margin: 0 auto">
+								<c:if test="${mode=='update'}">
+									<input type="hidden" name="qnaNum" value="${dto.num}">
+									<input type="hidden" name="page" value="${page}">
+									<input type="hidden" name="qnaSearchKey" value="${searchKey}">
+									<input type="hidden" name="qnaSearchValue" value="${searchValue}">
+								</c:if>
+								<c:if test="${mode=='reply'}">
+									<input type="hidden" name="groupNum" value="${dto.groupNum}">
+									<input type="hidden" name="orderNo" value="${dto.orderNo}">
+									<input type="hidden" name="depth" value="${dto.depth}">
+									<input type="hidden" name="parent" value="${dto.num}">
+									<input type="hidden" name="page" value="${page}">
+								</c:if>
 								<button type="button" class="btn btn-info btn-sm"
 									style="margin-top: 3px;"
-									onclick="javascript:location.href='<%=cp%>/qna/qna.do';">${mode=='update'?'수정취소':'등록취소'}</button>
+									onclick="javascript:location.href='<%=cp%>/qna/qna.do';">>${mode=='update'?'수정취소':(mode=='reply'? '답변취소':'등록취소')}</button>
 								<button type="button" class="btn btn-info btn-sm"
-									style="margin-top: 3px; float: center;" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
+									style="margin-top: 3px; float: center;" onclick="sendOk();">>${mode=='update'?'수정완료':(mode=='reply'? '답변완료':'등록완료')}</button>
 							</div>
 						</div>
 					</form>
