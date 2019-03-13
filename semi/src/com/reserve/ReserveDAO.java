@@ -3,6 +3,9 @@ package com.reserve;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+//import java.util.ArrayList;
+//import java.util.List;
 
 import com.member.MemberDTO;
 import com.room.RoomDTO;
@@ -19,8 +22,8 @@ public class ReserveDAO {
 			sb.append("INSERT ALL");
 			sb.append(" INTO client(usernum, pwd, usertel, userip, useremail)");
 			sb.append(" VALUES(client_seq.NEXTVAL, ?, ?, ?, ?)");
-			sb.append(" INTO reserve(usernum, reservenum, reservename, reservecount, reservememo, startday, endday, barbecue, bank, price, roomprice)");
-			sb.append(" VALUES(client_seq.CURRVAL, res_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			sb.append(" INTO reserve(usernum, reservenum, reservename, reservecount, reservememo, startday, endday, barbecue, bank, price, roomprice, bbccount)");
+			sb.append(" VALUES(client_seq.CURRVAL, res_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			sb.append(" INTO reservedetail(reservenum, roomnum)");
 			sb.append(" VALUES(res_seq.CURRVAL, ?)");
 			sb.append(" select * from dual");
@@ -37,16 +40,17 @@ public class ReserveDAO {
 			pstmt.setString(7, r_dto.getReserveMemo());
 			pstmt.setString(8, r_dto.getStartDay());
 			pstmt.setString(9, r_dto.getEndDay());
-			pstmt.setString(10, r_dto.getBarbecue());
+			pstmt.setInt(10, r_dto.getBarbecue());
 			pstmt.setString(11, r_dto.getBank());
 			pstmt.setInt(12, r_dto.getPrice());
-			pstmt.setInt(13, r_dto.getRoomprice());
+			pstmt.setInt(13, r_dto.getRoomPrice());
 			pstmt.setInt(14, rm_dto.getRoomNum());
+			pstmt.setInt(15,  r_dto.getBbcCount());
 			
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -58,17 +62,18 @@ public class ReserveDAO {
 	}
 	
 	public ReserveDTO readReserve(String reservenum){
-		ReserveDTO dto = null;
+		ReserveDTO r_dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuffer sb = new StringBuffer();
 		
 		try {
-			sb.append("SELECT r.reservenum, rd.roomnum, r.price, r.reservedate, r.reservecount, r.startday, r.endday, r.reservememo, r.barbecue, r.bank, c.usertel, c.useremail");
+			sb.append("SELECT r.reservenum, rd.roomnum, rm.roomname, r.priceall, rp.price, r.reservedate, r.reservecount, r.startday, r.endday, r.reservememo, r.barbecue, r.bbccount, r.bank, r.reservename, c.usertel, c.useremail");
 			sb.append(" FROM reserve r");
 			sb.append(" JOIN client c ON r.usernum = c.usernum");
 			sb.append(" JOIN reservedetail rd ON r.reservenum = rd.reservenum");
 			sb.append(" JOIN room rm ON rd.roomnum = rm.roomnum");
+			sb.append(" JOIN roomprice rp ON rp.roomnum = rm.roomnum");
 			sb.append(" WHERE r.reservenum=?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
@@ -77,25 +82,28 @@ public class ReserveDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				dto = new ReserveDTO();
-				dto.setReserveNum(rs.getString("reservenum"));
-				dto.setReserveDate(rs.getString("reservedate"));
-				dto.setReserveCount(rs.getInt("reservecount"));
-				dto.setBank(rs.getString("bank"));
-				dto.setBarbecue(rs.getString("barbecue"));
-				dto.setPrice(rs.getInt("priceAll"));
-				dto.setStartDay(rs.getString("startDay"));
-				dto.setEndDay(rs.getString("endDay"));
-				dto.setReserveMemo(rs.getString("reserve_memo"));
+				r_dto = new ReserveDTO();
+				r_dto.setReserveNum(rs.getString("reservenum"));
+				r_dto.setReserveDate(rs.getString("reservedate"));
+				r_dto.setReserveCount(rs.getInt("reservecount"));
+				r_dto.setBank(rs.getString("bank"));
+				r_dto.setBarbecue(rs.getInt("barbecue"));
+				r_dto.setBbcCount(rs.getInt("bbcCount"));
+				r_dto.setPrice(rs.getInt("barbecue")+rs.getInt("price"));
+				r_dto.setRoomPrice(rs.getInt("price"));
+				r_dto.setStartDay(rs.getDate("startday").toString());
+				r_dto.setEndDay(rs.getDate("endday").toString());
+				r_dto.setReserveMemo(rs.getString("reservememo"));
 				
-				dto.setTel(rs.getString("reserve_tel"));
-				dto.setEmail(rs.getString("reserve_email"));
-				dto.setUserName(rs.getString("reserve_name"));
+				r_dto.setTel(rs.getString("usertel"));
+				r_dto.setEmail(rs.getString("useremail"));
+				r_dto.setReserveName(rs.getString("reservename"));
 				
-				dto.setRoomNum(rs.getInt("roomNum"));
+				r_dto.setRoomNum(rs.getInt("roomnum"));
+				r_dto.setRoomName(rs.getString("roomname"));
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		} finally {
 			if(rs!=null) {
 				try {
@@ -111,7 +119,7 @@ public class ReserveDAO {
 			}
 		}
 		
-		return dto  ;
+		return r_dto  ;
 	}
 	
 	public void insertReserveDetail(ReserveDTO dto){
@@ -129,7 +137,7 @@ public class ReserveDAO {
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -139,5 +147,74 @@ public class ReserveDAO {
 			}
 		}
 	}
+	
+	public int dataCount() {
+		int result=0;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql;
+		
+		try {
+			sql="SELECT NVL(COUNT(*), 0) FROM reserve";
+			pstmt=conn.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			if(rs.next())
+				result=rs.getInt(1);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	/*
+	 * public List<ReserveDTO> listReserve(String reserveNum) { // 예약번호에 따른 예약 리스트
+	 * List<ReserveDTO> list=new ArrayList<ReserveDTO>(); PreparedStatement
+	 * pstmt=null; ResultSet rs=null; StringBuffer sb=new StringBuffer();
+	 * 
+	 * try {
+	 * 
+	 * sb.
+	 * append("SELECT r.reservenum, r.reservename, c.usernum, rd.roomnum, rm.roomname, r.priceall,"
+	 * ); sb.
+	 * append("     rp.price, r.reservedate, r.reservecount, r.startday, r.endday,"
+	 * ); sb.append("     r.reservememo, r.barbecue, r.bbccount, r.bank, ");
+	 * sb.append("     c.usertel, c.useremail"); sb.append("  FROM reserve r");
+	 * sb.append("  JOIN client c ON r.usernum = c.usernum");
+	 * sb.append("  JOIN reservedetail rd ON r.reservenum = rd.reservenum");
+	 * sb.append("  JOIN room rm ON rd.roomnum = rm.roomnum");
+	 * sb.append("  JOIN roomprice rp ON rp.roomnum = rm.roomnum");
+	 * sb.append("  WHERE r.reservenum >= ? ");
+	 * 
+	 * pstmt = conn.prepareStatement(sb.toString()); pstmt.setString(1, reserveNum);
+	 * 
+	 * rs=pstmt.executeQuery();
+	 * 
+	 * while (rs.next()) { ReserveDTO dto=new ReserveDTO();
+	 * 
+	 * 
+	 * list.add(dto); }
+	 * 
+	 * } catch (Exception e) { System.out.println(e.toString()); } finally {
+	 * if(rs!=null) { try { rs.close(); } catch (SQLException e) { } }
+	 * 
+	 * if(pstmt!=null) { try { pstmt.close(); } catch (SQLException e) { } } }
+	 * 
+	 * return list; }
+	 */
 	
 }

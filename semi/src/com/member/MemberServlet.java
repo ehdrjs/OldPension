@@ -133,7 +133,7 @@ public class MemberServlet extends MyServlet{
 		
 		if(dto!=null) {
 			if(reserveNum.equals(dto.getReserveNum())) {
-				resp.sendRedirect(cp+"/reserve/reserve_detail.do");
+				resp.sendRedirect(cp+"/reserve/reserve_detail.do?reserveNum="+reserveNum);
 				return;
 			} 
 		}
