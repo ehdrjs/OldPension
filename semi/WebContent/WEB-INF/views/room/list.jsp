@@ -34,6 +34,22 @@ jQuery(function(){
 		jQuery(this).next(".mask").show();
 	});
 });
+
+function updateRoom(roomNum) {
+    var query = "roomNum="+roomNum;
+    var url = "<%=cp%>/room/update.do?" + query;
+
+    location.href=url;
+}
+
+function deleteRoom(roomNum) {
+	if(confirm("게시물을 삭제 하시겠습니까 ?")) {
+		var query = "roomNum="+roomNum;
+		var url="<%=cp%>/room/delete.do?"+query;
+		location.href=url;
+	}
+}
+
 </script>
 
 <style type="text/css">
@@ -47,15 +63,13 @@ jQuery(function(){
 	</div>
 	<div class="sidebarRoom" style="float: left">
 		<div class="review_page_none" style="width:60px"> </div>
-		<div class="review_page" style="width:60px">청룡</div>
-		<div class="review_page" style="width:60px">백호</div>
-		<div class="review_page" style="width:60px">주작</div>
-		<div class="review_page" style="width:60px">현무</div>
-		<div class="review_page" style="width:60px">해태</div>
+		<c:forEach var="dto" items="${roomList}">
+			<div class="review_page" style="width:60px"><a class="btn_noDeco" href="<%=cp%>/room/list.do?roomNum=${dto.roomNum}">&nbsp;&nbsp;&nbsp;${dto.roomName}&nbsp;&nbsp;&nbsp;</a></div>
+		</c:forEach>
 		<div class="review_page_none" style="width:60px; height:300px;"> </div>
-		<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="<%=cp%>/room/write.do">등록</a></div>
-		<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="<%=cp%>/room/write.do">수정</a></div>
-		<div class="review_page_admin" style="width:60px;">삭제</div>		
+		<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="<%=cp%>/room/write.do">&nbsp;&nbsp;&nbsp;등록&nbsp;&nbsp;&nbsp;</a></div>
+		<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="#" onclick="updateRoom(${roomDTO.roomNum}); return false;">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</a></div>
+		<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="#" onclick="deleteRoom(${roomDTO.roomNum}); return false;">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</a></div>		
 	</div>
 	<div class="room_form">
 		<div class="room_sidePhoto">
@@ -67,50 +81,39 @@ jQuery(function(){
 		</div>
 		<div class="room_articleForm">
 			<div class="room_article">
-				<div class="roomTitle">▶ 방이름</div>
+				<div class="roomTitle">▶ ${roomDTO.roomName }</div>
 				<div>
 					<img class="room_mainPhoto" src="<%=cp%>/img/review001.jpg"/>
 				</div>
 				<table>
 					<tr>
 						<td><span class="roomBold">- 기준인원 :</span></td>
-						<td><span>인원수</span></td>
+						<td><span>&nbsp;${roomDTO.roomMin}명</span></td>
 					</tr>
 					<tr>
 						<td><span class="roomBold">- 최대인원 : </span></td>
-						<td><span>인원수</span></td>
+						<td><span>&nbsp;${roomDTO.roomMax}명</span></td>
 					</tr>
 					<tr>
 						<td><span class="roomBold">- 방&nbsp;&nbsp;상태  : </span></td>
-						<td><span>가능</span></td>
+						<td><span>&nbsp;${roomDTO.isRoomOK}</span></td>
 					</tr>
+					<tr><td><span>&nbsp;</span></td><td><span>&nbsp;</span></td></tr>
+					<tr>
+						<td><span class="roomBold">- 가격표 </span></td>
+						<td><span></span></td>
+					</tr>
+					<c:forEach var="dto" items="${priceList}">	
+						<tr>
+							<td><span class="roomBold">&nbsp;&nbsp;&nbsp;${dto.week} </span></td>
+							<td><span><fmt:formatNumber value="${dto.price}" type="number"/> 원</span></td>
+						</tr>
+					</c:forEach>
 				</table>
 			</div>
 			<div class="room_article" style="padding-top:50px; height:500px;">
 				<div>
-				남이섬은 오늘이 좋다.<br>
-				관광객들에게 지금 준비 중이니<br> 
-				다음에 오시라고 할 수는 없다.<br> 
-				이것은 관광지에서<br> 
-				일하는 사람들의 숙명 아닌가.<br>
-				내일 오는 사람이 있으니<br> 
-				내일은 또 새로워져야 한다.<br> 
-				한 가지가 좋다고 보존만 한다면<br> 
-				유적지가 되지 않겠는가.<br>
-				설레는 봄,<br> 
-				싱그러운 여름,<br> 
-				시가 되는 가을 단풍도 좋지만<br> 
-				호텔 정관루에서 하룻밤을 보낸 새벽,<br> 
-				소복이 쌓인 눈을 
-				가지에 받치고 있는<br> 
-				잣나무 앞에서는 아무 말도 할 수가 없다.<br> 
-				그 새벽은 모두 나의 것이다.<br> 
-				아무도 가지 않은 길, <br>
-				내가 갈 수 있다. <br>
-				
-				<br>
-				- 전명준의《볼펜 그림 남이섬》중에서 -<br>
-				<br>
+				${roomDTO.roomContent}
 				</div>
 			</div>
 		</div>

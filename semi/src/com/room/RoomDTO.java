@@ -92,4 +92,6 @@ public class RoomDTO {
 	public void setImageFileSize(int imageFileSize) {
 		this.imageFileSize = imageFileSize;
 	}
+
 }
+

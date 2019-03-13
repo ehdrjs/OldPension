@@ -104,7 +104,10 @@ table {
 .reserve_body {
 	margin: 50px auto;
 }
-
+.reserve_body ul li {
+	
+	list-style: none;
+}
 .reserve div p {
 	font-weight: bold;
 	font-size: 20px;
@@ -247,7 +250,7 @@ table {
 	/* --------------------- /room/write.jsp -------------------------- */
 		
 	.room_blank {
-		width : 150px; height : 12px;
+		width : 150px; height : 20px;
 	}
 	
 	.roomContent {
@@ -336,8 +339,4 @@ table {
 	.review_page_none {
 		width: 20px; height: 15px;
 		margin-top: 0px; margin-left: 0px;
-<<<<<<< HEAD
 	}
-=======
-	}
->>>>>>> branch 'reserve' of https://github.com/ehdrjs/OldPension.git
