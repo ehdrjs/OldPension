@@ -287,7 +287,7 @@ public class QnaDAO {
 
 		try {
 			sb.append("SELECT q.qnaNum, q.userId, qnaPwd, qnaSubject, qnaContent, groupNum, orderNo, depth, ");
-			sb.append("qnaCount, TO_CHAR(qnaDate, 'YYYYMMDD') qnaDate FROM qna q JOIN member m ON q.userId=m.userId ");
+			sb.append("qnaCount, TO_CHAR(qnaDate, 'YYYY-MM-DD') qnaDate FROM qna q JOIN member m ON q.userId=m.userId ");
 			sb.append(" WHERE qnaNum= ? ");
 
 			pstmt = conn.prepareStatement(sb.toString());
