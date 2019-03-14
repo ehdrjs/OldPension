@@ -154,8 +154,8 @@ public class RoomDAO {
 		
 		try {
 			// sb.append(" ");
-			sb.append(" SELECT roomNum, roomName, roomContent, isRoomOK, roomMin, roomMax  ");
-			sb.append(" FROM room ORDER BY roomNum ASC");
+			sb.append(" SELECT r.roomNum, roomName, roomContent, isRoomOK, roomMin, roomMax, price, week  ");
+			sb.append(" FROM room r JOIN roomPrice rp ON r.roomNum=rp.roomNum WHERE week=1");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			rs=pstmt.executeQuery();
@@ -169,6 +169,8 @@ public class RoomDAO {
 				dto.setIsRoomOK(rs.getString("isRoomOK"));
 				dto.setRoomMin(rs.getInt("roomMin"));
 				dto.setRoomMax(rs.getInt("roomMax"));
+				dto.setPrice(rs.getInt("price"));
+				dto.setWeek(rs.getString("week"));
 				
 				list.add(dto);
 			}
