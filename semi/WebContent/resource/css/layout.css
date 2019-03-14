@@ -277,7 +277,7 @@ table {
 	
 	.review_layout {
 		width: 380px; 
-		min-height: 100px;
+		min-height: 75px;
 		margin-top : 5px;
 		padding : 0px;
 	}
@@ -328,6 +328,12 @@ table {
 	/* --------------------- /room/list.jsp & /review/list.jsp -------------------------- */
 	
 	.review_page {
+		width: 20px; height: 20px;
+		margin-top: -1px; margin-left: 0px;
+		padding: 5px 3px 3px 3px;
+	}
+	
+	.review_page_on {
 		width: 20px; height: 20px;
 		margin-top: -1px; margin-left: 0px;
 		padding: 5px 3px 3px 3px;

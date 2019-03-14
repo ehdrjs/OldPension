@@ -66,10 +66,12 @@ function deleteRoom(roomNum) {
 		<c:forEach var="dto" items="${roomList}">
 			<div class="review_page" style="width:60px"><a class="btn_noDeco" href="<%=cp%>/room/list.do?roomNum=${dto.roomNum}">&nbsp;&nbsp;&nbsp;${dto.roomName}&nbsp;&nbsp;&nbsp;</a></div>
 		</c:forEach>
-		<div class="review_page_none" style="width:60px; height:300px;"> </div>
-		<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="<%=cp%>/room/write.do">&nbsp;&nbsp;&nbsp;등록&nbsp;&nbsp;&nbsp;</a></div>
-		<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="#" onclick="updateRoom(${roomDTO.roomNum}); return false;">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</a></div>
-		<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="#" onclick="deleteRoom(${roomDTO.roomNum}); return false;">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</a></div>		
+			<c:if test="${admin=='admin'}">
+				<div class="review_page_none" style="width:60px; height:300px;"> </div>
+				<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="<%=cp%>/room/write.do">&nbsp;&nbsp;&nbsp;등록&nbsp;&nbsp;&nbsp;</a></div>
+				<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="#" onclick="updateRoom(${roomDTO.roomNum}); return false;">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</a></div>
+				<div class="review_page_admin" style="width:60px;"><a class="btn_noDeco" href="#" onclick="deleteRoom(${roomDTO.roomNum}); return false;">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</a></div>
+			</c:if>	
 	</div>
 	<div class="room_form">
 		<div class="room_sidePhoto">

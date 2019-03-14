@@ -14,7 +14,7 @@ public class RoomDAO {
 	
 
 	
-// 	<占쏙옙 占쏙옙占�>
+// 	<방 등록>
 	public int insertRoom(RoomDTO dto) {
 		int result = 0;
 		PreparedStatement pstmt=null;
@@ -48,7 +48,7 @@ public class RoomDAO {
 		return result;
 	}
 	
-// 	<占쏙옙 占쏙옙占쏙옙 占쏙옙占�>
+// 	<방 가격 등록>
 	public int insertPrice(int num, int weeknum, int price) {
 		int result = 0;
 		PreparedStatement pstmt=null;
@@ -78,7 +78,7 @@ public class RoomDAO {
 	}
 	
 	
-// 	<占쏙옙 占쏙옙占쏙옙>
+// 	<방 수정>
 	public int updateRoom(RoomDTO dto) {
 		int result = 0;
 		PreparedStatement pstmt=null;
@@ -113,7 +113,8 @@ public class RoomDAO {
 		return result;
 	}
 	
-// 	<占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙>
+
+// 	<방 가격 수정>
 	public int updatePrice(int num, int week, int price) {
 		int result = 0;
 		PreparedStatement pstmt=null;
@@ -145,7 +146,7 @@ public class RoomDAO {
 	
 	
 	
-//	<占쏙옙 占쏙옙占쏙옙트>
+//	<방 리스트>
 	public List<RoomDTO> listRoom() {
 		List<RoomDTO> list = new ArrayList<RoomDTO>();
 		PreparedStatement pstmt = null;
@@ -192,7 +193,7 @@ public class RoomDAO {
 		return list;
 	}
 	
-//	<占쌜븝옙占쏙옙>
+//	<글보기>
 	public RoomDTO viewRoom(int roomNum) {
 		RoomDTO dto = new RoomDTO();
 		PreparedStatement pstmt = null;
@@ -243,7 +244,7 @@ public class RoomDAO {
 		return dto;
 	}
 	
-//	<占쏙옙 占쏙옙占쌥몌옙占쏙옙트>
+//	<방 가격리스트>
 	public List<RoomDTO> viewPrice(int roomNum) {
 		List<RoomDTO> list = new ArrayList<RoomDTO>();
 		PreparedStatement pstmt = null;
@@ -270,7 +271,7 @@ public class RoomDAO {
 				} else if (rs.getInt("week")==3) {
 					dto.setWeek("성수기");
 				} else {
-					dto.setWeek("비성수기");
+					dto.setWeek("미정");
 				}
 				
 				list.add(dto);

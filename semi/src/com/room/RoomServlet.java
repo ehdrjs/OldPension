@@ -7,7 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.member.SessionInfo;
 import com.util.MyServlet;
 
 @WebServlet("/room/*")
@@ -46,24 +48,18 @@ public class RoomServlet extends MyServlet {
 			delete(req, resp);
 		}
 		
-		// ¼¼¼Ç¼³Á¤
-		// userId , userName,
-		/*
-		HttpSession session = req.getSession();
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		if(info==null) {
-			
-		}
-		*/
 	}
 	
 	protected void room(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
 		RoomDAO dao = new RoomDAO();
 		List<RoomDTO> roomList;
 		List<RoomDTO> priceList;
 		int num;
 		
-		// ¹æ º¸±â
+		// ë°© ë³´ê¸°
 		if( req.getParameter("roomNum")!=null ) {
 			num = Integer.parseInt(req.getParameter("roomNum"));
 		} else
@@ -73,10 +69,17 @@ public class RoomServlet extends MyServlet {
 		RoomDTO dto = dao.viewRoom(num);
 		dto.setRoomNum(num);
 		
-		// ·ë ¸®½ºÆ®
+		
+		// ë£¸ ë¦¬ìŠ¤íŠ¸
 		int roomCount = dao.listRoom().size();
 		roomList = dao.listRoom();
 		
+		// ê°’ ìž…ë ¥
+		if (info==null) {
+			req.setAttribute("admin", "logout");
+		} else if (info.getUserRole().length()!=0) {
+			req.setAttribute("admin", info.getUserRole());
+		}
 		req.setAttribute("priceList", priceList);
 		req.setAttribute("roomDTO", dto);
 		req.setAttribute("roomList", roomList);
@@ -89,7 +92,7 @@ public class RoomServlet extends MyServlet {
 		RoomDAO dao = new RoomDAO();
 		List<RoomDTO> roomList;
 		
-		// ·ë ¸®½ºÆ®
+		// ë£¸ ë¦¬ìŠ¤íŠ¸
 		roomList = dao.listRoom();
 		req.setAttribute("roomList", roomList);
 		req.setAttribute("mode", "create");

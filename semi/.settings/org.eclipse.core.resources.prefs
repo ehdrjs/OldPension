@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
 >>>>>>>=branch 'reserve' of https\://github.com/ehdrjs/OldPension.git
@@ -8,3 +9,7 @@ encoding/<project>=UTF-8
 separateDerivedEncodings=true
 =======
 >>>>>>> branch 'qna' of https://github.com/ehdrjs/OldPension.git
+=======
+eclipse.preferences.version=1
+encoding/<project>=UTF-8
+>>>>>>> branch 'room_review' of https://github.com/ehdrjs/OldPension.git

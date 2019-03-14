@@ -603,11 +603,19 @@
 	}
 	
 	.btn_noDeco {
-		text-decoration : none; 
+		olor: #333333;
 	}
 	
 	.btn_noDeco:focus, .btn_noDeco:hover {
-		color: #ffffff; 
+		color: #eeeeee;
+	}
+	
+	.btn_noDeco_on {
+		color: #eeeeee;
+	}
+	
+	.btn_noDeco_on:focus, .btn_noDeco_on:hover {
+		color: #333333;
 	}
 	
 	/* --------------------- /room/write.jsp -------------------------- */
@@ -719,9 +727,26 @@
 		background-color: #eeeeee;
 	}
 	
+	
 	.review_page:active, .review_page:focus, .review_page:hover{
 		background-color: #333333;
 		color: #ffffff;
+	}
+	
+	.review_page_on {
+		color: #eeeeee;
+		font-size: 9pt;
+		font-weight:800;
+		text-align: center;
+		border-top: 1px solid #cccccc;
+		border-bottom: 1px solid #cccccc;
+		background-color: #666666;
+	}
+	
+	.review_page_on:active, .review_page_on:focus, .review_page_on:hover{
+		background-color: #f9f9f9;
+		border: 1px solid #cccccc;
+		color: #000000;
 	}
 	
 	.review_page_np {
