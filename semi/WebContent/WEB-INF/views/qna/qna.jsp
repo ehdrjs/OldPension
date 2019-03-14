@@ -35,13 +35,13 @@
 		<div class="container">
 			<div>
 				<h5 style="font-weight: bold">
-					<span>|&nbsp;</span>고객문의 게시판
+					<span>|&nbsp;</span>예약조회
 				</h5>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<ul>
-						<li style="display: inline">총${dataCount}글<span>|</span>페이지</li>
+						
 						<li style="float: right; list-style: none">
 							<button type="button" class="btn btn-info btn-sm"
 								onclick="javascript:location.href='<%=cp%>/qna/created.do';">글작성</button>

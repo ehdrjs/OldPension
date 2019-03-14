@@ -4,6 +4,14 @@ public class SessionInfo {
 	private String userId;
 	private String userName;
 	private String userRole;
+	private String userNum;
+	
+	public String getUserNum() {
+		return userNum;
+	}
+	public void setUserNum(String userNum) {
+		this.userNum = userNum;
+	}
 	
 	public String getUserRole() {
 		return userRole;

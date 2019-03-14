@@ -708,3 +708,31 @@
 	.review_page_none {
 		background-color: #ffffff;
 	}
+	
+	/* --------------------- /qna/qna.jsp -------------------------- */
+
+.qna > .container {width:47%;}
+.qna > .container  .list-group li{border-left:none; border-right:none; width:100%; text-align:center; padding-right: 0px;
+    padding-left: 0px;}
+
+.qna_created > .container {width:47%;}
+.qna .header .gnb a:hover {text-decoration: none;}
+.tb_basic thead .week th:last-child{color:blue}
+	#container {
+		position:relative;
+		width:100%;
+		height:720px;
+		overflow:hidden;
+		white-space:nowrap;
+		border:1px solid #000;
+	}
+	#container ul#contain {
+		list-style:none;
+		margin:0;
+		padding:0;
+	}
+	#container ul li {
+		position:absolute;
+		width:100%;
+		height:720px;
+	}

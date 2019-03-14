@@ -22,6 +22,7 @@ public class ReserveDTO {
 	private String tel;
 	private String email;
 	private String userName;
+	private String userid;
 	
 	private int roomNum;
 	
@@ -63,6 +64,12 @@ public class ReserveDTO {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	
 	public int getRoomNum() {

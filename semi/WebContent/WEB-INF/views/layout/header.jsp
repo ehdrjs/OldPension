@@ -21,7 +21,12 @@
 			<li><a href="#">예약</a>
 				<ul class="list1">
 					<li><a href="<%=cp%>/reserve/reserve.do">실시간예약</a></li>
+					<c:if test="${empty sessionScope.member}">
 					<li><a href="<%=cp%>/reserve/reserve_confirm.do">예약확인/취소</a></li>
+					</c:if>
+					<c:if test="${not empty sessionScope.member}">
+					<li><a href="<%=cp%>/reserve/reserveList.do?"${query}>예약확인/취소</a></li>
+					</c:if>
 				</ul>
 			</li>
 			<li><a href="<%=cp%>/qna/qna.do">고객문의</a></li>
