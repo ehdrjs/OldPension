@@ -1,13 +1,11 @@
 package com.review;
 
-import java.util.Date;
-
 public class ReviewDTO {
 	
 	private	int reviewNum;
 	private String reviewSubject;
 	private String reviewContent;
-	private Date reviewDate;
+	private String reviewDate;
 	private int listNum;
 	private int parent;
 	private int orderNo;
@@ -47,10 +45,10 @@ public class ReviewDTO {
 	public void setReviewContent(String reviewContent) {
 		this.reviewContent = reviewContent;
 	}
-	public Date getReviewDate() {
+	public String getReviewDate() {
 		return reviewDate;
 	}
-	public void setReviewDate(Date reviewDate) {
+	public void setReviewDate(String reviewDate) {
 		this.reviewDate = reviewDate;
 	}
 	public int getParent() {

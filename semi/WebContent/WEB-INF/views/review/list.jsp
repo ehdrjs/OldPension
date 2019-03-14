@@ -15,61 +15,99 @@
 <style type="text/css">
 
 </style>
+<script type="text/javascript">
+function sendReview() {
+	var uid="${sessionScope.member.userId}";
+	if(! uid) {
+		alert("로그인 하세요!");
+		return;
+	}
+	
+	var f = document.reviewForm;
+	var str;
+	
+	str=f.review_inputText.value;
+	if(!str){
+		alert("내용을 입력하세요!");
+		f.review_inputText.focus();
+		return;
+	}
+
+	var mode="${mode}"
+	if(mode=="create") {
+		f.action="<%=cp%>/review/write_ok.do";
+	} else if(mode=="update") {
+		f.action="<%=cp%>/review/update_ok.do";
+	}
+	f.submit();
+}
+
+function deleteReview(reviewNum) {
+	if(confirm("게시물을 삭제 하시겠습니까?")) {
+		var query = "reviewNum="+reviewNum;
+		var url="<%=cp%>/review/delete.do?"+query;
+		location.href=url;
+	}
+}
+
+</script>
+
+
 </head>
 <body>
+<form name="reviewForm">
 <div class="review">
 	<div class="room_bodyContainer">
 		<h3><span style="font-family:Webdings;">4</span> 방문후기</h3>
 	</div>
 	<div class="review_list">
 		<div class="review_view" >
-			<div class="review_layout">
-				<div class="review_content_info" style="font-size: 9pt; font-weight: 800; color:#777777; float: left;">예정씨</div>
-				<div class="review_content">
-				안녕하세요.<br>
-				이곳에 글을 기입합니다.<br>
-				쓰는 만큼 늘어납니다.<br>
-				그만쓰세요.<br>
-				<a class="review_ud" style="float : left;" href="#">수정</a>
-				<a class="review_bar" style="float : left;">&nbsp;|&nbsp;</a>
-				<a class="review_ud" style="float : left;" href="#">삭제</a>
-				<a class="review_ud" style="float : right;" href="#">▶ 답변</a>
-				</div>
-				<div class="review_content_info" style="font-size: 3pt; float: left">2019-02-04 09시 12분<br></div>
-			</div>
-			<div class="review_layout" style="clear:both;">
-				<div class="review_content_info" style="font-size: 9pt; font-weight: 800; color:#777777; text-align: right;">동건씨 </div>
-				<div class="review_reply">
-				감사합니다.<br>
-				재밌게 즐기셨는지요.<br>
-				다음에 또 와주세요.<br>
-				<a class="review_ud" style="float : right;" href="#">삭제</a>
-				<a class="review_bar" style="float : right;" >&nbsp;|&nbsp;</a>
-				<a class="review_ud" style="float : right;"  href="#" >수정</a>
-				</div>
-				<div class="review_content_info" style="margin-bottom: 10px ;font-size: 3pt; float: right ; text-align: right;">2019-02-06 12시 12분</div>
-			</div>
+			<c:forEach var="dto" items="${reviewList}">
+				<c:if test="${dto.admin!='admin'}">
+					<div class="review_layout">
+						<div class="review_content_info" style="font-size: 9pt; font-weight: 800; color:#777777; float: left;">${dto.userId}님</div>
+						<div class="review_content">
+						${dto.reviewContent}<br>
+						<c:if test="${admin=='admin'||id==dto.userId}">
+							<a class="review_ud" style="float : left;" href="#" onclick="deleteReview(${dto.reviewNum});return false;">삭제</a>
+						</c:if>
+						</div>
+						<div class="review_content_info" style="font-size: 3pt; float: left">${dto.reviewDate}<br></div>
+					</div>
+				</c:if>
+				<c:if test="${dto.admin=='admin'}">
+					<div class="review_layout" style="clear:both;">
+						<div class="review_content_info" style="font-size: 9pt; font-weight: 800; color:#777777; text-align: right;">${dto.userId}님 </div>
+						<div class="review_reply">
+						${dto.reviewContent}<br>
+						<c:if test="${admin=='admin'}">
+							<a class="review_ud" style="float : right;" href="#" onclick="deleteReview(${dto.reviewNum});return false;">삭제</a>
+						</c:if>
+						</div>
+						<div class="review_content_info" style="margin-bottom: 10px ;font-size: 3pt; float: right ; text-align: right;">${dto.reviewDate}</div>
+					</div>
+				</c:if>
+			</c:forEach>
 		</div>
 		<div class="review_input" >
-			<textarea rows="4" name="reviewContent" class="review_inputText" style="display:block; width: 100%; padding: 6px 12px; box-sizing:border-box;" required="required" placeholder="이곳에 기입하세요."></textarea>
+			<c:if test="${admin!='logout'}">
+				<textarea rows="4" name="review_inputText" class="review_inputText" style="display:block; width: 100%; padding: 6px 12px; 
+						  box-sizing:border-box;" required="required" placeholder="이곳에 기입하세요.">${dto.reviewContent}</textarea>
+			</c:if>
+			<c:if test="${admin=='logout'}">
+				<textarea rows="4" name="review_inputText" class="review_inputText" style="background-color:#f0f0f0 ;display:block; width: 100%; padding: 6px 12px; 
+						  box-sizing:border-box;" required="required" readonly="readonly">로그인을 해야만 작성할 수 있습니다.</textarea>
+			</c:if>
 			<div style="float : right;">
-				<button class="review_btn" type="button">보내기</button>
+				<button class="review_btn" type="button" onclick="sendReview(); return false;">${mode=='update'?'내용수정':mode=='create'?'리뷰쓰기':'답변하기'}</button>
 				<button class="review_btn" type="reset">다시쓰기</button>
 			</div>
 		</div>		
 	</div>
-	<div class="sidebar" style="float: left">
-		<div class="review_page_none"> </div>
-		<div class="review_page_np">▲</div>
-		<div class="review_page">9</div>
-		<div class="review_page">10</div>
-		<div class="review_page">11</div>
-		<div class="review_page">12</div>
-		<div class="review_page">13</div>
-		<div class="review_page_np">▼</div>
-		<div class="review_page_none"> </div>		
-	</div>
+	${paging}
+
 	
 </div>
+</form>
 </body>
 </html>
