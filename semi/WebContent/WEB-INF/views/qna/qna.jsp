@@ -52,14 +52,18 @@
 		<div class="container">
 			<div>
 				<h5 style="font-weight: bold">
-					<span>|&nbsp;</span>고객문의 게시판
+					<span>|&nbsp;</span>예약조회
 				</h5>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<ul>
+<<<<<<< HEAD
 						<li style="display: inline">총${dataCount}글&nbsp;<span>|&nbsp;${page}/${total_page}</span>페이지
 						</li>
+=======
+						
+>>>>>>> branch 'reserve' of https://github.com/ehdrjs/OldPension.git
 						<li style="float: right; list-style: none">
 							<button type="button" class="btn btn-info btn-sm"
 								onclick="check();">글작성</button>

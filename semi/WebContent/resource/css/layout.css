@@ -140,6 +140,23 @@ table {
 	outline: none;
 }
 
+/* --------------------- /reserve/reserve_ok.jsp -------------------------- */
+.dlg3 button {
+	padding: 7px;
+	border-collapse: collapse;
+	border: 1px solid #aaaaaa;
+	background: white;
+	width: 200px;
+	cursor: pointer;
+}
+
+.reserveOk_btn button:hover, .reserveOk_btn button:active {
+	background-color: #4c4c4c;
+	font-weight: bold;
+	color: #ffffff;
+	outline: none;
+}
+
 .footer {
 	padding: 20px 0;
 	border-bottom: 1px solid #c4c4c4;

@@ -1,6 +1,8 @@
 package com.reserve;
 
 public class ReserveDTO {
+	private int listNum;
+	
 	private String reserveNum;
 	private String memberNum;
 	private String reserveName;
@@ -10,15 +12,39 @@ public class ReserveDTO {
 	private String startDay;
 	private String endDay;
 	private int price;
-	private String barbecue;
+	private int barbecue;
 	private String bank;
-	private int roomprice;
+	private int bbcCount;
+	
+	private String roomName;
+	private int roomPrice;
 	
 	private String tel;
 	private String email;
 	private String userName;
+	private String userid;
 	
 	private int roomNum;
+	
+	public int getRoomPrice() {
+		return roomPrice;
+	}
+	public void setRoomPrice(int roomPrice) {
+		this.roomPrice = roomPrice;
+	}
+	public String getRoomName() {
+		return roomName;
+	}
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+	public int getBbcCount() {
+		return bbcCount;
+	}
+	public void setBbcCount(int bbcCount) {
+		this.bbcCount = bbcCount;
+	}
+	
 	
 	
 	public String getTel() {
@@ -39,6 +65,12 @@ public class ReserveDTO {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 	
 	public int getRoomNum() {
 		return roomNum;
@@ -53,10 +85,10 @@ public class ReserveDTO {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public String getBarbecue() {
+	public int getBarbecue() {
 		return barbecue;
 	}
-	public void setBarbecue(String barbecue) {
+	public void setBarbecue(int barbecue) {
 		this.barbecue = barbecue;
 	}
 	public String getBank() {
@@ -113,10 +145,10 @@ public class ReserveDTO {
 	public void setEndDay(String endDay) {
 		this.endDay = endDay;
 	}
-	public int getRoomprice() {
-		return roomprice;
+	public int getListNum() {
+		return listNum;
 	}
-	public void setRoomprice(int roomprice) {
-		this.roomprice = roomprice;
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
 	}
 }

@@ -10,7 +10,27 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
-
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("form [name=userId]").focus(function(){
+		$(this).val("");
+	});
+	
+	$("form [name=userPwd]").focus(function(){
+		$(this).val("");
+	});
+	
+	$("form [name=reserveNum]").focus(function(){
+		$(this).val("");
+	});
+	
+	$("form [name=userPwd2]").focus(function(){
+		$(this).val("");
+	});
+	
+});
+</script>
 <style type="text/css">
 
 .loginForm {

@@ -8,6 +8,15 @@ public class MemberDTO {
 	private String email;
 	private String ip;
 	private String userRole;
+	
+	private String userNum;
+	
+	public String getUserNum() {
+		return userNum;
+	}
+	public void setUserNum(String userNum) {
+		this.userNum = userNum;
+	}
 	public String getUserRole() {
 		return userRole;
 	}

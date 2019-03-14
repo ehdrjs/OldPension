@@ -8,10 +8,9 @@
 	request.setCharacterEncoding("utf-8");
 	String cp = request.getContextPath();
 
-	String name = request.getParameter("name");
-	String room = request.getParameter("room");
+	String name = request.getParameter("reserve_name");
+	String tel = request.getParameter("reserve_tel");
 	
-	Map<String, String[]> map = request.getParameterMap();
 %>
 <!DOCTYPE html>
 <html>
@@ -40,9 +39,10 @@
 					<col style="width:20%"/>
 					<col style="width:30%"/>
 				</colgroup>
+			
 				<tr>
 					<th>객실명</th>
-					<td>OO방</td>
+					<td>${r_dto.roomName}</td>
 				</tr>
 			</table>
 			<p class="mt10 mb10">예약 날짜</p>
@@ -55,19 +55,15 @@
 				</colgroup>
 				<tr>
 					<th>체크인 날짜</th>
-					<td>${dto.startDay}</td>
+					<td>${r_dto.startDay}</td>
 					
 				</tr>
 				<tr>
 					<th>체크아웃 날짜</th>
-					<td>20OO년 O월 O일</td>
+					<td>${r_dto.endDay}</td>
 					
 				</tr>
-				<tr>
-					<th>숙박 기간</th>
-					<td>O박 O일</td>
-					
-				</tr>
+				
 			</table>
 			<p class="mt10 mb10">인원</p>
 			<table class="tb_basic_row">
@@ -80,7 +76,7 @@
 				<tr>
 					<th>인원</th>
 					<td> 
-					O명
+					${r_dto.reserveCount}명
 					</td>
 				</tr>
 			</table>
@@ -100,9 +96,9 @@
 				<tbody>
 					<tr>
 						<td>바베큐2인</td>
-						<td>0개</td>
+						<td>${r_dto.bbcCount}개</td>
 						<td>20000원</td>
-						<td id="bar01">0원</td>
+						<td id="bar01">${r_dto.barbecue}원</td>
 					</tr>
 				</tbody>
 			</table>
@@ -113,7 +109,7 @@
 				</colgroup>
 				<tr>
 					<th>금액</th>
-					<td>${dto.price}</td>
+					<td>${r_dto.price+r_dto.barbecue}원</td>
 				</tr>
 			</table>
 			<p class="mt10 mb10">예약자 정보</p>
@@ -126,19 +122,23 @@
 					</colgroup>
 					<tr>
 						<th>예약번호</th>
-						<td>${dto.reserveNum}</td>
+						<td>${r_dto.reserveNum}</td>
 						<th>예약자 이름</th>
-						<td>${dto.userName}</td>
+						<td>${r_dto.reserveName}</td>
 					</tr>
 					<tr>
 						<th>연락처</th>
-						<td>${dto.tel}</td>
+						<td>${r_dto.tel}</td>
 						<th>입금 은행</th>
-						<td>${dto.bank}</td>
+						<td>${r_dto.bank}</td>
 					</tr>
 					<tr>
 						<th>요청사항</th>
-						<td colspan="3">${dto.reserveMemo}</td>
+						<td colspan="3">${r_dto.reserveMemo}</td>
+					</tr>
+					<tr>
+						<th>입금 계좌번호</th>
+						<td colspan="3">국민은행 94814092756</td>
 					</tr>
 				</table>
 				<div class="reserve_btn">

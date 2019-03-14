@@ -67,6 +67,8 @@ public class MemberServlet extends MyServlet{
 				info.setUserId(dto.getUserId());
 				info.setUserName(dto.getUserName());
 				info.setUserRole(dto.getUserRole());
+				info.setUserNum(dto.getUserNum());
+				
 				
 				session.setAttribute("member", info);
 				
@@ -138,7 +140,7 @@ public class MemberServlet extends MyServlet{
 		
 		if(dto!=null) {
 			if(reserveNum.equals(dto.getReserveNum())) {
-				resp.sendRedirect(cp+"/reserve/reserve_detail.do");
+				resp.sendRedirect(cp+"/reserve/reserve_detail.do?reserveNum="+reserveNum);
 				return;
 			} 
 		}

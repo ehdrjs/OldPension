@@ -37,7 +37,28 @@ $(function() {
 	
 	$(".ui-datepicker-trigger").css({position: "relative", top:"3px", left:"3px"});
 
+	/* $("#chk1").click(function(){
+		var bbcPrice = $("#barbecue1").val();
+		alert(bbcPrice);
+		
+		var url = "reserve_ok.jsp";
+		
+		$.ajax({
+			type: "POST"
+			,url: url
+			,data: "bbcPrice="+bbcPrice
+			,success: function(data){
+				$("#priceAll").html(data);
+			}
+		,error: function(e){
+			console.log(e.responseText);
+		}
+		});
+		
+		
+	}); */
 });
+
 
 function dateToYYYYMMDD(date){
     function pad(num) {
@@ -60,6 +81,8 @@ function getDate(){
 	val = val.replace(regexp, "");  // 입력날짜 '-' 제거
 	
 	val = parseInt(val);            // 입력날짜 정수 변환
+	
+	
 	
 	if(! val){
 		alert("체크인 날짜를 선택해주세요.");
@@ -89,79 +112,97 @@ function getDate(){
 function sendOk(){
 	var f = document.reserve_form1;
 	
+	var val = f.reserve_name.value;
+	if(! val){
+		alert("예약자 이름을 입력해주세요.");
+		return;
+	}
 	
-		var val = f.reservename.value;
-		if(! val){
-			alert("예약자 이름을 입력해주세요.");
-			return;
-		}
-		
-		val = f.pwd.value;
-		if(! val){
-			alert("비밀번호를 입력해주세요.");
-			return;
-		}
-		
-		val = f.usertel.value;
-		if(! val){
-			alert("연락처를 입력해주세요.");
-			return;
-		}
+	val = f.reserve_pwd.value;
+	if(! val){
+		alert("비밀번호를 입력해주세요.");
+		return;
+	}
+	
+	val = f.reserve_tel.value;
+	if(! val){
+		alert("연락처를 입력해주세요.");
+		return;
+	}
 	
 	
-	alert("예약이 완료되었습니다. 예약확인 및 취소는 예약확인/취소 페이지를 이용해주세요.");
 	f.action = "<%=cp%>/reserve/reserveSubmit.do";
 	f.submit();
 }
 
 	function bbcPrice() {
-		var num = parseInt($("form select[name=barbecue1]").val());    // ex) 1, 2, 3
-		var price = 20000;
-		document.getElementById("bar01").innerHTML = num*price + "원";
-		
+		var num = parseInt($("form select[name=barbecue1]").val());
+		document.getElementById("bar01").innerHTML = num + "원";
 	}
 	
-	function roomPrice(){		
-		var num = parseInt($("form select[name=room]").val());    // ex) 1, 2, 3
-		document.getElementById("roomPrice").innerHTML = num + "원";
+	function roomPrice(){
+		//var num = parseInt($("form select[name=room]").val());
+		//document.getElementById("roomPrice").innerHTML = num + "원";
 		
+		var room1 = ["1","2","3"];
+		var room2 = ["1","2","3","4"];
+		var room3 = ["1","2","3","4","5","6"];
 		
-		var room1 = ["1","2","3","4","5","6"];
-		var room2 = ["1","2","3","4","5","6","7","8"];
-		var room3 = ["1","2","3","4","5","6","7","8","9","10"];
-		var room4 = ["1","2","3","4","5","6","7"]
-			
 		var selectRoom = $("#room").val();
 		
 		var changePerson;
 		
-		if(selectRoom == 100000){
+		if(selectRoom == 1){
 			changePerson = room1;
-		} else if(selectRoom == 150000){
+		} else if(selectRoom == 2){
 			changePerson = room2;
-		} else if(selectRoom == 150000){
+		} else if(selectRoom == 3){
 			changePerson = room3;
-		} else if(selectRoom == 200000){
-			changePerson = room4;
 		}
 		
 		$("#adult").empty();
 		
-		if($("form select[name=room]").val()!=0){
-			for(var i=0; i<changePerson.length; i++){
-				var option = $("<option value="+changePerson[i]+">"+changePerson[i]+"명"+"</option>");
-				$("#adult").append(option);
-			}
+		for(var i=0; i<changePerson.length; i++){
+			var option = $("<option value="+changePerson[i]+">"+changePerson[i]+"명"+"</option>");
+			$("#adult").append(option);
 		}
 		
 	}
 	
+	/* function checkChild() {
+		
+		var adult1 = ["0","1","2"];
+		var adult2 = ["1","2","3","4"];
+		var adult3 = ["1","2","3","4","5","6"];
+		
+		var selectAdult = $("#adult").val();
+		
+		var changeChild;
+		
+		for(i=1; i<=$("#adult").val().size; i++){
+			if(selectAdult == i)
+				changeChild = adult1;
+		}
+		
+		$("#child").empty();
+		
+		for(var i=0; i<changeChild.length; i++){
+			var option = $("<option value="+changeChild[i]+">"+changeChild[i]+"명"+"</option>");
+			$("#adult").append(option);
+		}
+		
+		if(selectAdult == 1)
+			changeChild = adult1;
+		else if(selectAdult == 2)
+			changeChild = adult1;
+		
+	} */
+	
 	function price(){
 		var num = 0;
-		var num1 = parseInt($("form select[name=room]").val()); 
+		var num1 = parseInt($("form select[name=room]").val());
 		var num2 = parseInt($("form select[name=barbecue1]").val());
-		var price2 = 20000;
-		var result = num1 + num2*price2;
+		var result = num1 + num2;
 		
 		if(num1==0){
 			alert("객실을 선택해주세요");
@@ -169,18 +210,26 @@ function sendOk(){
 			return;
 		}
 		
-		if($("form select[name=room]").on("change",function(){
-			price();
-			})
-		)
-		
 		document.getElementById("priceALl").innerHTML = result + "원";
 	}
 	
-	function resultPrice(){
-		
-	}
+function listReserve(reserveNum){
 	
+	var url = "<%=cp %>/reserve/reserveSubmit.do";
+	
+	$.ajax({
+		type: "post"
+		,url: url
+		,dataType: "json"
+		,success: function(data){
+			
+		}
+		,error: function(e){
+			console.log(e.responseText);
+		}
+	});
+}
+
 </script>
 </head>
 
@@ -203,9 +252,9 @@ function sendOk(){
 						<th>객실명</th>
 						<td><select id="room" name="room" onchange="roomPrice();">
 								<option value="0">선택</option>
-							<c:forEach var="dto" items="${roomList}">
-								<option value="${dto.price}">${dto.roomName}</option>
-							</c:forEach>
+								<option value="1">방1</option>
+								<option value="2">방2</option>
+								<option value="3">방3</option>
 						</select></td>
 						<th>가격</th>
 						<td id="roomPrice">0원</td>
@@ -269,9 +318,9 @@ function sendOk(){
 							<td>바베큐2인</td>
 							<td><select id="barbecue1" name="barbecue1" onchange="bbcPrice();">
 							<option value="0">안함</option>
-							<option value="1">1개</option>
-							<option value="2">2개</option>
-							<option value="3">3개</option>
+							<option value="20000">1개</option>
+							<option value="40000">2개</option>
+							<option value="60000">3개</option>
 						</select></td>
 							<td>0원</td>
 							<td id="bar01">0원</td>
@@ -298,23 +347,17 @@ function sendOk(){
 					</colgroup>
 					<tr>
 						<th>예약자 이름</th>
-						<c:if test="${sessionScope.member.userId==null}">
-						<td><input type="text" name="reservename"></td>
-						</c:if>
-						<c:if test="${sessionScope.member.userId!=null}">
-						<td><input type="text" name="reservename" value="${sessionScope.member.userName}" style="border: none;" readonly="readonly"></td>
-						</c:if>
+						<td><input type="text" name="reserve_name"></td>
 						<th>비밀번호</th>
-						<td><input type="password" name="pwd"></td>
+						<td><input type="password" name="reserve_pwd"></td>
 					</tr>
 					<tr>
 						<th>이메일</th>
-						<td colspan="3"><input type="text" name="useremail" style="width:520px;"></td>
-						
+						<td colspan="3"><input type="text" name="reserve_email" style="width:520px;"></td>
 					</tr>
 					<tr>
 						<th>연락처</th>
-						<td><input type="text" name="usertel"></td>
+						<td><input type="text" name="reserve_tel"></td>
 						<th>입금 은행</th>
 						<td><select id="bank" name="bank">
 							<option value="">선택</option>
@@ -331,9 +374,7 @@ function sendOk(){
 				</table>
 				<div class="reserve_btn">
 				<input type="hidden" value="${rm_dto.roomNum}" id="roomNum" name="roomNum">
-				<input type="hidden" value="${r_dto.reserveNum}" id="reserveNum" name="reserveNum">
-				
-					<button type="button" onclick="getDate();" id="btn">예약하기</button>
+					<button type="button" onclick="getDate();">예약하기</button>
 				</div>
 			</form>
 		</div>
