@@ -25,7 +25,7 @@
 					<li><a href="<%=cp%>/reserve/reserve_confirm.do">예약확인/취소</a></li>
 					</c:if>
 					<c:if test="${not empty sessionScope.member}">
-					<li><a href="<%=cp%>/reserve/reserveList.do?"${query}>예약확인/취소</a></li>
+					<li><a href="<%=cp%>/reserve/reserve_confirm2.do">예약확인/취소</a></li>
 					</c:if>
 				</ul>
 			</li>

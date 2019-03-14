@@ -50,20 +50,20 @@
 				</div>
 			</div>
 			
-				<c:forEach var="dto" items="${list}">
-			<div class="row">
-				<div class="col-md-12">
-					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item" style="width: 25%">${dto.reserveNum}</li>
-						<li class="list-group-item" style="width: 25%; text-align:left;">${dto.reserveName}</li>
-						<li class="list-group-item" style="width: 25%">${dto.price}</li>
-						<li class="list-group-item" style="width: 25%">${dto.reserveDate}</li>
-					</ul>
+				<div class="row">
+					<div class="col-md-12">
+						<c:forEach var="dto" items="${list}">
+						<ul class="list-group list-group-horizontal">
+							<li class="list-group-item" style="width: 25%"><a href="<%=cp %>/reserve/reserve_detailMem.do?${query}">${dto.reserveNum}</a></li>
+							<li class="list-group-item" style="width: 25%; text-align:left;">${dto.reserveName}</li>
+							<li class="list-group-item" style="width: 25%">${dto.price}원</li>
+							<li class="list-group-item" style="width: 25%">${dto.reserveDate}</li>
+						</ul>
+						</c:forEach>
+					</div>
 				</div>
-			</div>
-			</c:forEach>
+			
 		</div>
-
 		<div class="footer">
 			<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 		</div>

@@ -24,11 +24,11 @@ public class ReserveDAO {
 			if(m_dto.getUserNum()==null) {		// 비회원
 				sb.append(" INTO client(pwd, usertel, userip, useremail, usernum)");
 				sb.append(" VALUES(?, ?, ?, ?, client_seq.NEXTVAL)");
-			}
-			
-			sb.append(" INTO reserve(reservenum, reservename, reservecount, reservememo, startday, endday, barbecue, bank, priceall, roomprice, bbccount, usernum)");
+			} 			
+			sb.append(" INTO reserve(reservenum, reservename, reservecount, reservememo, startday, ");
+			sb.append(" 			 endday, barbecue, bank, priceall, roomprice, bbccount, usernum)");
 			if(m_dto.getUserNum()!=null) {	//회원
-				sb.append(" 	VALUES(res_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, client_seq.CURRVAL)");
+				sb.append(" 	VALUES(res_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			} else {		// 비회원
 				sb.append(" 	VALUES(res_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, client_seq.CURRVAL)");
 			}
@@ -50,8 +50,9 @@ public class ReserveDAO {
 				pstmt.setInt(8, r_dto.getPrice());
 				pstmt.setInt(9, r_dto.getRoomPrice());
 				pstmt.setInt(10,  r_dto.getBbcCount());
-				pstmt.setInt(11, rm_dto.getRoomNum());
-				
+				pstmt.setString(11, m_dto.getUserNum());
+				pstmt.setInt(12, rm_dto.getRoomNum());
+
 			} else {
 				pstmt.setString(1, m_dto.getUserPwd());
 				pstmt.setString(2, m_dto.getTel());
@@ -150,7 +151,7 @@ public class ReserveDAO {
 	}
 	
 	// 회원 예약조회
-	public ReserveDTO readMemReserve(String userid){
+	public ReserveDTO readMemReserve(String usernum){
 		ReserveDTO r_dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -166,7 +167,7 @@ public class ReserveDAO {
 			sb.append(" WHERE r.usernum=?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setString(1, userid);
+			pstmt.setString(1, usernum);
 			
 			rs = pstmt.executeQuery();
 			
@@ -298,7 +299,7 @@ public class ReserveDAO {
 				ReserveDTO r_dto = new ReserveDTO();
 				
 				r_dto.setReserveNum(rs.getString("reservenum"));
-				r_dto.setReserveDate(rs.getString("reservedate"));
+				r_dto.setReserveDate(rs.getDate("reservedate").toString());
 				r_dto.setReserveCount(rs.getInt("reservecount"));
 				r_dto.setBank(rs.getString("bank"));
 				r_dto.setBarbecue(rs.getInt("barbecue"));

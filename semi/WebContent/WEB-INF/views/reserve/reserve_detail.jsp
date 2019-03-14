@@ -136,6 +136,10 @@
 						<th>요청사항</th>
 						<td colspan="3">${r_dto.reserveMemo}</td>
 					</tr>
+					<tr>
+						<th>입금 계좌번호</th>
+						<td colspan="3">국민은행 94814092756</td>
+					</tr>
 				</table>
 				<div class="reserve_btn">
 					<button type="button" onclick="">메인으로</button>

@@ -118,43 +118,47 @@ function sendOk(){
 		var num = parseInt($("form select[name=barbecue1]").val());    // ex) 1, 2, 3
 		var price = 20000;
 		document.getElementById("bar01").innerHTML = num*price + "원";
+		
 	}
 	
-	function roomPrice(){
-		var num = parseInt($("form select[name=room]").val());
+	function roomPrice(){		
+		var num = parseInt($("form select[name=room]").val());    // ex) 1, 2, 3
 		document.getElementById("roomPrice").innerHTML = num + "원";
+		
 		
 		var room1 = ["1","2","3","4","5","6"];
 		var room2 = ["1","2","3","4","5","6","7","8"];
 		var room3 = ["1","2","3","4","5","6","7","8","9","10"];
-		var room4 = ["1","2","3","4"]
+		var room4 = ["1","2","3","4","5","6","7"]
 			
 		var selectRoom = $("#room").val();
 		
 		var changePerson;
 		
-		if(selectRoom == 1){
+		if(selectRoom == 100000){
 			changePerson = room1;
-		} else if(selectRoom == 2){
+		} else if(selectRoom == 150000){
 			changePerson = room2;
-		} else if(selectRoom == 3){
+		} else if(selectRoom == 150000){
 			changePerson = room3;
-		} else if(selectRoom == 4){
+		} else if(selectRoom == 200000){
 			changePerson = room4;
 		}
 		
 		$("#adult").empty();
 		
-		for(var i=0; i<changePerson.length; i++){
-			var option = $("<option value="+changePerson[i]+">"+changePerson[i]+"명"+"</option>");
-			$("#adult").append(option);
+		if($("form select[name=room]").val()!=0){
+			for(var i=0; i<changePerson.length; i++){
+				var option = $("<option value="+changePerson[i]+">"+changePerson[i]+"명"+"</option>");
+				$("#adult").append(option);
+			}
 		}
 		
 	}
 	
 	function price(){
 		var num = 0;
-		var num1 = parseInt($("form select[name=room]").val());
+		var num1 = parseInt($("form select[name=room]").val()); 
 		var num2 = parseInt($("form select[name=barbecue1]").val());
 		var price2 = 20000;
 		var result = num1 + num2*price2;
@@ -165,7 +169,16 @@ function sendOk(){
 			return;
 		}
 		
+		if($("form select[name=room]").on("change",function(){
+			price();
+			})
+		)
+		
 		document.getElementById("priceALl").innerHTML = result + "원";
+	}
+	
+	function resultPrice(){
+		
 	}
 	
 </script>
@@ -190,13 +203,12 @@ function sendOk(){
 						<th>객실명</th>
 						<td><select id="room" name="room" onchange="roomPrice();">
 								<option value="0">선택</option>
-								<option value="1">현무</option>
-								<option value="2">주작</option>
-								<option value="3">청룡</option>
-								<option value="4">백호</option>
+							<c:forEach var="dto" items="${roomList}">
+								<option value="${dto.price}">${dto.roomName}</option>
+							</c:forEach>
 						</select></td>
 						<th>가격</th>
-						<td id="roomPrice">원</td>
+						<td id="roomPrice">0원</td>
 					</tr>
 				</table>
 				<p class="mt10 mb10">예약 날짜</p>
@@ -297,12 +309,8 @@ function sendOk(){
 					</tr>
 					<tr>
 						<th>이메일</th>
-						<c:if test="${sessionScope.member.userId==null}">
 						<td colspan="3"><input type="text" name="useremail" style="width:520px;"></td>
-						</c:if>
-						<c:if test="${sessionScope.member.userId!=null}">
-						<td colspan="3"><input type="text" name="useremail" value="${r_dto.email}" style="width:520px; border: none;" readonly="readonly"></td>
-						</c:if>
+						
 					</tr>
 					<tr>
 						<th>연락처</th>

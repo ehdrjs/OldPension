@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.member.MemberDAO;
 import com.member.MemberDTO;
 import com.member.SessionInfo;
+import com.room.RoomDAO;
 import com.room.RoomDTO;
 import com.util.DBConn;
 import com.util.MyServlet;
@@ -65,6 +66,14 @@ public class ReserveServlet extends MyServlet {
 
 	protected void reserve(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 예약 폼
+		RoomDAO room_dao = new RoomDAO();
+		List<RoomDTO> roomList;
+		
+		roomList = room_dao.listRoom();
+		
+		req.setAttribute("roomList", roomList);
+		
+		
 		forward(req, resp, "/WEB-INF/views/reserve/reserve.jsp");
 	}
 
@@ -80,7 +89,9 @@ public class ReserveServlet extends MyServlet {
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
 
+		
 		r_dto.setReserveNum(req.getParameter("reserveNum"));
 		r_dto.setReserveName(req.getParameter("reservename"));
 		r_dto.setReserveCount(
@@ -95,8 +106,10 @@ public class ReserveServlet extends MyServlet {
 		rm_dto.setRoomNum(Integer.parseInt(req.getParameter("room")));
 
 		if (info != null) { // 회원
-			// r_dto.setTel(req.getParameter("usertel"));
-			// r_dto.setEmail(req.getParameter("useremail"));
+			// 아이디 가져오기
+			String id = info.getUserId();
+			MemberDAO m_dao = new MemberDAO();
+			m_dto=m_dao.readMember(id);
 
 		} else { // 비회원
 			m_dto.setUserPwd(req.getParameter("pwd"));
@@ -125,13 +138,6 @@ public class ReserveServlet extends MyServlet {
 
 		ReserveDAO dao = new ReserveDAO();
 
-		/*
-		 * if(info!=null) { String usernum = info.getUserNum();
-		 * System.out.print(usernum); String query2 = "usernum="+usernum;
-		 * 
-		 * resp.sendRedirect(cp + "/reserve/reserve_detail.do?"+ query2); }
-		 */
-
 		String reserveNum = "";
 		ReserveDTO dto1 = dao.readReserve(reserveNum);
 		reserveNum = dto1.getReserveNum();
@@ -143,23 +149,22 @@ public class ReserveServlet extends MyServlet {
 	protected void reserve_confirm2(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// 예약확인 보기 전 로그인 여부 확인
-		String cp = req.getContextPath();
-
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		ReserveDAO r_dao = new ReserveDAO();
 		
-		if (info != null) {
+		String cp = req.getContextPath();
+
+		if (info!= null) {
 			String usernum = info.getUserNum();
-			System.out.print(usernum);
+
+			List<ReserveDTO> list = r_dao.listReserve(usernum);
 			String query2 = "usernum=" + usernum;
 
-			List<ReserveDTO> list = r_dao.listReserve(usernum); 
-			  
-			  req.setAttribute("list", list); 
-			  req.setAttribute("query2", query2);
-			  
-			resp.sendRedirect(cp + "/reserve/reserveList.do?" + query2);
+			req.setAttribute("list", list); 
+			req.setAttribute("query2", query2);
+			
+			resp.sendRedirect(cp + "/reserve/reserveList.do");
 		}
 
 	}
@@ -189,12 +194,11 @@ public class ReserveServlet extends MyServlet {
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
-		String userId = info.getUserId();
 		String usernum = info.getUserNum();
 		String query = "usernum=" + usernum;
 
-		ReserveDTO r_dto = r_dao.readMemReserve(userId);
-		MemberDTO m_dto = m_dao.readMember(userId);
+		ReserveDTO r_dto = r_dao.readMemReserve(usernum);
+		MemberDTO m_dto = m_dao.readMember(usernum);
 
 		req.setAttribute("r_dto", r_dto);
 		req.setAttribute("m_dto", m_dto);
@@ -207,28 +211,26 @@ public class ReserveServlet extends MyServlet {
 	  throws ServletException, IOException { 
 		// 예약 리스트
 	  ReserveDAO r_dao = new ReserveDAO();
-	  //MemberDAO m_dao = new MemberDAO();
-	  MemberDTO m_dto = new MemberDTO();
-	  //String cp = req.getContextPath();
+	  MemberDAO m_dao = new MemberDAO();
+	  MemberDTO m_dto = null;
 	  
 	  HttpSession session = req.getSession();
-	  //SessionInfo info = (SessionInfo) session.getAttribute("member");
+	  SessionInfo info = (SessionInfo) session.getAttribute("member");
+	  
+	  if(info!=null) {
+		  m_dto = m_dao.readMember(info.getUserId()); 
+	  
 	  String usernum = m_dto.getUserNum();
 	  
 	  List<ReserveDTO> list = r_dao.listReserve(usernum); 
+	  req.setAttribute("list", list); 
+	  
 	  
 	  String query = "usernum=" + usernum; 
-	  
-	  
-	  //String paging = util.paging(current_page, total_page, listUrl);
-	  
-	  req.setAttribute("list", list); 
 	  req.setAttribute("query", query);
-	  //req.setAttribute("page", current_page); req.setAttribute("total_page", total_page); 
-	  //req.setAttribute("articleUrl", articleUrl);
-	  //req.setAttribute("paging", paging);
-	  
+	  }
 	  forward(req, resp, "/WEB-INF/views/reserve/reserveList.jsp"); 
+	  
 	  }
 
 }
