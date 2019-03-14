@@ -122,7 +122,7 @@
 							<li class="list-group-item" style="width: 15%">${dto.listNum}</li>
 							<li class="list-group-item" style="width: 40%; text-align: left;">
 							<c:forEach var="n" begin="1" end="${dto.depth}">&nbsp;&nbsp;&nbsp;&nbsp;</c:forEach>
-							<c:if test="${dto.depth!=0}">[Re] </c:if>
+							<c:if test="${dto.depth!=0}"><strong style="color:red">[Re]</strong> </c:if>
 							<a href="${articleUrl}&qnaNum=${dto.num}"; style="text-decoration: none;">${dto.subject}</a></li>
 							<li class="list-group-item" style="width: 20%">${dto.userId}</li>
 							<li class="list-group-item" style="width: 15%">${dto.created}</li>

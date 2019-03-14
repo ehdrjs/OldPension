@@ -56,7 +56,7 @@ function deleteQna(num) {
 					<div>
 						<ul style="display: inline-block; width: 100%;">
 							<li style="clear:both;line-height: 40px;float:left;width: 580px; padding:0px 0px 0px 5px;">작성자&nbsp;${dto.userId}</li>
-						<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='first'}">    
+						<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userRole=='admin'}">    
 						<li style="float: left; width:49px">
 						<button type="button" class="btn btn-info btn-sm"
 							style="margin-top: 3px; clean:both;" onclick="javascript:location.href='<%=cp%>/qna/update.do?qnaNum=${dto.num}&${query}';">수정</button>
@@ -85,7 +85,7 @@ function deleteQna(num) {
                   </c:if></li>
 					</ul>
 					<div style="width:100%; text-align: center;">
-						<c:if test="${sessionScope.member.userId=='first'}">   
+						<c:if test="${sessionScope.member.userRole=='admin'}">   
 						<button type="button" class="btn btn-info btn-sm"
 							style="margin-top: 3px; clean:both;" onclick="javascript:location.href='<%=cp%>/qna/reply.do?qnaNum=${dto.num}&page=${page}';">답변</button>
 						</c:if>
