@@ -31,25 +31,23 @@
 		| 스페셜 글
 	</div>
 	
-	<table class="s_tb">
-		<tr>
-			<td colspan="4"> ${dto.specialSubject} </td>
+	<table class="s_tb" border="1">
+		<tr style="background: #eeeeee;">
+			<td colspan="3" style="text-align: center"> ${dto.specialSubject} </td>
+			<td colspan="3" style="text-align: center"> [ ${dto.specialStart} ~ ${dto.specialEnd} ]</td>
 		</tr>
-		<tr>
-			<td style="text-align: right;">작성자 ${dto.userId}
-			</td>
-			<td style="float: right; padding-right: 30px;"> 조회수 ${dto.specialCount}
-			</td>
-			<td style="float: right; padding-right: 30px;"> 등록일자  ${dto.specialDate }
-			</td>
-			<td style="float: right; padding-right: 30px;"> 축제일자 : ${dto.specialStart} ~ ${dto.specialEnd}
-			</td>
+		<tr style="text-align: center">
+			<td colspan="2">작성자 ${dto.userId}</td>
+			<td colspan="2"> 등록일자 ${dto.specialDate}</td>
+			<td colspan="2"> 조회수 ${dto.specialCount}</td>
 		</tr>
+		<c:forEach var="vo" items="${listImage}">
 		<tr>
-			<td colspan="4" style="text-align: center;"><img src="<%=cp%>/uploads/photo/${dto.imageFileName}"></td>
+			<td colspan="6" style="text-align: center;padding : 50px;"><img src="<%=cp%>/uploads/photo/${vo.imageFileName}"></td>
 		</tr>
+		</c:forEach>
 		<tr>
-			<td colspan="4">${dto.specialContent }</td>
+			<td colspan="6" style="padding : 50px">${dto.specialContent}</td>
 		</tr>
 	</table>
 	
@@ -61,9 +59,6 @@
 		</c:if>
 	</div>
 </div>
-
-
-
 
 
 <div class="footer">
