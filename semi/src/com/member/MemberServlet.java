@@ -1,6 +1,7 @@
 package com.member;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import com.reserve.ReserveDAO;
 import com.reserve.ReserveDTO;
 import com.util.MyServlet;
+
+import net.sf.json.JSONObject;
 
 @WebServlet("/member/*")
 public class MemberServlet extends MyServlet{
@@ -35,6 +38,8 @@ public class MemberServlet extends MyServlet{
 			signIn(req, resp);
 		}else if(uri.indexOf("nonMemLogin_ok.do")!=-1) {
 			nonMemLoginSubmit(req, resp);
+		}else if(uri.indexOf("test.do")!=-1) {
+			testId(req, resp);
 		}
 	}
 	
@@ -90,7 +95,7 @@ public class MemberServlet extends MyServlet{
 	private void signInForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = "/WEB-INF/views/member/member.jsp";
 		
-		req.setAttribute("title", "�쉶�썝媛��엯");
+		req.setAttribute("title", "회원가입");
 		req.setAttribute("mode", "created");
 		
 		forward(req, resp, path);
@@ -110,7 +115,7 @@ public class MemberServlet extends MyServlet{
 		dto.setTel(req.getParameter("tel"));
 		dto.setEmail(req.getParameter("email"));
 		dto.setIp(ip);
-		dto.setUserRole(req.getParameter("userRole"));
+		dto.setUserRole("user");
 		
 		int result = dao.insertMember(dto);
 		if(result == 0) {
@@ -144,5 +149,23 @@ public class MemberServlet extends MyServlet{
 		forward(req, resp, "/WEB-INF/views/member/login.jsp");
 	}
 
+	private void testId(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String state = "possible";
+		MemberDAO dao = new MemberDAO();
+		
+		String id = req.getParameter("id");
+		int count = dao.testIdO(id);
+		
+		if(count != 0) {
+			state = "Impossible";
+		}
+		
+		JSONObject job = new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter	out = resp.getWriter();
+		out.print(job.toString());
+	}
 
 }

@@ -53,6 +53,15 @@ body {
 	text-align:center;
 	border-bottom:1px solid green;
 }
+.nBtn{
+	border: 1px solid orange;
+	border-radius: 2px;
+	background: #FFF3DA;
+	color : #FF7A12;
+	width: 100px;
+	height: 40px;
+	cursor: pointer
+}
 .board .num {width:50px;}
 .board .subject {width:410px;cursor: pointer;}
 .board .name {width:95px;}
@@ -77,9 +86,11 @@ function article(){
 </div>
 
 
-<h3>|공지사항</h3>
+
+
 <div class="board">
 	<div class="list-title">
+		<h3 style="padding-bottom: 10px">|공지사항</h3>
 			<ul>
 				<li class="num">번호</li>
 				<li class="subject">제목</li>
@@ -114,7 +125,7 @@ function article(){
 	</form>
 		<c:if test = "${sessionScope.member.userRole.equals('admin')}">
 		<div align="right" style="margin-top: 10">
-			<button type="button" name = "createdBtn" onclick = "javascript:location.href ='<%=cp%>/notice/created.do?page=${page }'">등록하기</button>
+			<button class = "nBtn" type="button" name = "createdBtn" onclick = "javascript:location.href ='<%=cp%>/notice/created.do?page=${page }'">등록하기</button>
 		</div>
 		</c:if>
 	<div align="center">

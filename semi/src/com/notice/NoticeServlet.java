@@ -72,7 +72,7 @@ public class NoticeServlet extends MyServlet{
 		MyUtil util = new MyUtil();
 		
 		int dataCount = dao.dataCount();
-		int rows = 2;
+		int rows = 10;
 		int total_page = util.pageCount(rows, dataCount);
 		int current_page = 1;
 		if(req.getParameter("page") != null) {
