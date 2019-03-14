@@ -72,6 +72,7 @@ function sendOk() {
 		return;
 	}
 	
+	/*
 	var str = $("#upload").val();
 	if(!/(\.gif|\.png|\.jpg|\.jpeg)/i.test(str)){
 		var s = "이미지 파일을 업로드해주세요."
@@ -79,7 +80,7 @@ function sendOk() {
 		$("#upload").parent().parent().find("p:first-child").html(s);
 		return;
 	}
-	
+	*/
 
 	
 	// 이미지파일만 가능하게 유효성검사 
@@ -144,12 +145,18 @@ function sendOk() {
 						<th>이미지파일</th>
 						<td colspan="3">
 							<p class="s_upload"></p>
-							<p><input type="file" name="upload" id="upload" class="boxTF" accept="image/*" ></p>
+							<p><input type="file" name="upload1" id="upload1" class="boxTF" accept="image/*" ></p>
 						</td>
-					</tr>			
+					</tr>		
+					<tr>
+						<th>이미지파일</th>
+						<td colspan="3">
+							<p class="s_upload"></p>
+							<p><input type="file" name="upload2" id="upload2" class="boxTF" accept="image/*" ></p>
+						</td>
+					</tr>		
 					<c:if test="${mode == 'update'}">
 						<input type="hidden" name="specialNum" value="${dto.specialNum}">
-						<input type="hidden" name="imageFileName" value="${dto.imageFileName}">
 						<input type="hidden" name="userId" value="${dto.userId}">
 						<input type="hidden" name="page" value="${page}">
 					</c:if>

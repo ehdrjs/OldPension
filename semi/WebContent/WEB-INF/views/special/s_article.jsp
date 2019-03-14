@@ -38,14 +38,16 @@
 		</tr>
 		<tr style="text-align: center">
 			<td colspan="2">작성자 ${dto.userId}</td>
-			<td colspan="2"> 등록일자 ${dto.specialDate }</td>
+			<td colspan="2"> 등록일자 ${dto.specialDate}</td>
 			<td colspan="2"> 조회수 ${dto.specialCount}</td>
 		</tr>
+		<c:forEach var="vo" items="${listImage}">
 		<tr>
-			<td colspan="6" style="text-align: center;padding : 50px;"><img src="<%=cp%>/uploads/photo/${dto.imageFileName}"></td>
+			<td colspan="6" style="text-align: center;padding : 50px;"><img src="<%=cp%>/uploads/photo/${vo.imageFileName}"></td>
 		</tr>
+		</c:forEach>
 		<tr>
-			<td colspan="6" style="padding : 50px">${dto.specialContent }</td>
+			<td colspan="6" style="padding : 50px">${dto.specialContent}</td>
 		</tr>
 	</table>
 	

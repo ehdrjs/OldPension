@@ -1,5 +1,7 @@
 package com.special;
 
+import java.util.Map;
+
 public class SpecialDTO {
 	private int listNum;
 	private int specialNum;
@@ -13,10 +15,17 @@ public class SpecialDTO {
 	
 	private int fileNum; // specialFile_seq
 	private String imageFileName;
-	private long imageFileSize;
+	
+	private Map<String, Long> imageMap;
 	
 	private long gap;
 	
+	public Map<String, Long> getImageMap() {
+		return imageMap;
+	}
+	public void setImageMap(Map<String, Long> imageMap) {
+		this.imageMap = imageMap;
+	}
 	
 	public long getGap() {
 		return gap;
@@ -89,12 +98,6 @@ public class SpecialDTO {
 	}
 	public void setImageFileName(String imageFileName) {
 		this.imageFileName = imageFileName;
-	}
-	public long getImageFileSize() {
-		return imageFileSize;
-	}
-	public void setImageFileSize(long imageFileSize) {
-		this.imageFileSize = imageFileSize;
 	}
 	
 }

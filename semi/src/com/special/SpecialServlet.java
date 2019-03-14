@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -106,7 +108,7 @@ public class SpecialServlet extends MyServlet {
 				endDate = cal.getTime();
 
 				if (date.compareTo(endDate) < 0) { // 현재 날짜 마지막날짜 순일 때
-					int gap = startDate.compareTo(date) < 0 ? 1 : 2; // 시작날짜 현재날짜 순이면 1 아니면 0값을 넣는다
+					int gap = startDate.compareTo(date) < 0 ? 1 : 2; // 시작날짜 현재날짜 순이면 1 아니면 2값을 넣는다
 					dto.setGap(gap);
 				}
 
@@ -165,22 +167,30 @@ public class SpecialServlet extends MyServlet {
 			return;
 		}
 
-		if (mreq.getFile("upload") != null) {
-			dto.setUserId(info.getUserId());
+		dto.setUserId(info.getUserId());
 
-			dto.setSpecialSubject(mreq.getParameter("subject"));
-			dto.setSpecialContent(mreq.getParameter("content"));
-			dto.setSpecialStart(mreq.getParameter("specialStart"));
-			dto.setSpecialEnd(mreq.getParameter("specialEnd"));
+		dto.setSpecialSubject(mreq.getParameter("subject"));
+		dto.setSpecialContent(mreq.getParameter("content"));
+		dto.setSpecialStart(mreq.getParameter("specialStart"));
+		dto.setSpecialEnd(mreq.getParameter("specialEnd"));
 
-			String saveFileName = mreq.getFilesystemName("upload");
+		String saveFileName;
+		Map<String, Long> map = new HashMap<String, Long>();
+		if (mreq.getFile("upload1") != null) {
+			saveFileName = mreq.getFilesystemName("upload1");
 			saveFileName = FileManager.doFilerename(pathname, saveFileName);
-			dto.setImageFileName(saveFileName);
-			dto.setImageFileSize(mreq.getFile("upload").length());
-
-			dao.insertSpecial(dto);
-
+			map.put(saveFileName, mreq.getFile("upload1").length());
+			// 키값으로 saveFileName
 		}
+		if (mreq.getFile("upload2") != null) {
+			saveFileName = mreq.getFilesystemName("upload2");
+			saveFileName = FileManager.doFilerename(pathname, saveFileName);
+			map.put(saveFileName, mreq.getFile("upload2").length());
+		}
+
+		dto.setImageMap(map);
+
+		dao.insertSpecial(dto);
 
 		resp.sendRedirect(cp + "/special/s_calendar.do");
 
@@ -201,10 +211,18 @@ public class SpecialServlet extends MyServlet {
 			return;
 		}
 
-		dto.setSpecialContent(dto.getSpecialContent().replaceAll("\n", "<br>"));
+		List<SpecialDTO> listImage = dao.readImage(specialNum);
+		if (listImage.size() == 0) {
+			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
+			return;
+		}
 
+		
+		dto.setSpecialContent(dto.getSpecialContent().replaceAll("\n", "<br>"));
+		
 		req.setAttribute("dto", dto);
 		req.setAttribute("page", page);
+		req.setAttribute("listImage", listImage);
 
 		forward(req, resp, "/WEB-INF/views/special/s_article.jsp");
 	}
@@ -219,8 +237,8 @@ public class SpecialServlet extends MyServlet {
 
 		String page = req.getParameter("page");
 		int specialNum = Integer.parseInt(req.getParameter("specialNum"));
-		SpecialDTO dto = dao.readSpecial(specialNum);
 
+		SpecialDTO dto = dao.readSpecial(specialNum);
 		if (dto == null) {
 			resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
 			return;
@@ -263,16 +281,25 @@ public class SpecialServlet extends MyServlet {
 		dto.setSpecialEnd(mreq.getParameter("specialEnd"));
 		// dto.setImageFileName(mreq.getParameter("imageFileName"));
 
-		if (mreq.getFile("upload") != null) {
-			FileManager.doFiledelete(pathname, dto.getImageFileName());
 
-			String saveFileName = mreq.getFilesystemName("upload");
 
+		String saveFileName;
+		Map<String, Long> map = new HashMap<>();
+		if (mreq.getFile("upload1") != null) {
+			saveFileName = mreq.getFilesystemName("upload1");
 			saveFileName = FileManager.doFilerename(pathname, saveFileName);
-
-			dto.setImageFileName(saveFileName);
+			map.put(saveFileName, mreq.getFile("upload1").length());
+			System.out.println(saveFileName);
 		}
 
+		if (mreq.getFile("upload2") != null) {
+			saveFileName = mreq.getFilesystemName("upload2");
+			saveFileName = FileManager.doFilerename(pathname, saveFileName);
+			map.put(saveFileName, mreq.getFile("upload2").length());
+			System.out.println(saveFileName);
+		}
+
+		dto.setImageMap(map);
 		dao.updateSpecial(dto);
 
 		resp.sendRedirect(cp + "/special/s_article.do?page=" + page + "&specialNum=" + dto.getSpecialNum());
@@ -300,11 +327,19 @@ public class SpecialServlet extends MyServlet {
 			return;
 		}
 
-		FileManager.doFiledelete(pathname, dto.getImageFileName());
+		List<SpecialDTO> list = dao.readImage(dto.getSpecialNum());
+		for (SpecialDTO vo : list) {
+			String imageFile = vo.getImageFileName();
+			FileManager.doFiledelete(pathname, imageFile);
+		}
+		
+//		FileManager.doFiledelete(pathname, dto.getImageFileName());
 
 		dao.deleteSpecial(specialNum);
 
 		resp.sendRedirect(cp + "/special/s_calendar.do?page=" + page);
+		
+		
 
 	}
 
