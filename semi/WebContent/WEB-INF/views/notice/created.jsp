@@ -53,6 +53,15 @@ a:hover, a:active {
 	color: tomato;
 	text-decoration: underline;
 }
+.nBtn{
+	border: 1px solid orange;
+	border-radius: 2px;
+	background: #FFF3DA;
+	color : #FF7A12;
+	width: 100px;
+	height: 40px;
+	cursor: pointer
+}
 
 </style>
 <script type="text/javascript">
@@ -97,11 +106,12 @@ function updateNotice(){
 	<jsp:include page = "/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 
-<h3>|공지사항 등록하기</h3>
+
 
 <c:if test="${mode=='created' }">
 <form name = "ncreatedForm" method="post" action="" enctype="multipart/form-data">
 <div class = "createN">
+	<h3>|공지사항 등록하기</h3>
 	<ul>
 		<li class = "nN">공지 제목</li>
 		<li class = "nT"><input type = "text" name = "subject" style="width: 585px;height: 20px"></li>
@@ -126,7 +136,7 @@ function updateNotice(){
 		</li>
 	</ul>
 	<div align="right">
-	<p><br><button type="submit" onclick="updateNotice();">등록하기</button></p>
+	<p><br><button class = "nBtn" type="submit" onclick="updateNotice();">등록하기</button></p>
 	</div>
 </div>
 
@@ -171,7 +181,7 @@ function updateNotice(){
 		</ul>
 		
 		<div align = "right">
-			<p><button type="button" onclick="sendUpdate();">수정하기</button></p>
+			<p><button class = "nBtn" type="button" onclick="sendUpdate();">수정하기</button></p>
 		</div>
 </div>
 </form>

@@ -21,7 +21,7 @@ body{
 	color: black;
 }
 #nArticle{
-	width:800px;
+	width:600px;
 	margin: 30px auto 0;
 	clear: both;
 }
@@ -31,9 +31,12 @@ body{
 	border-collapse: collapse;
 	list-style: none;
 	text-align: center;
-	align-contents : center;
+	align-content: center;
+	
 }
 #nTitle ul li{
+	align-content: center;
+	align-item : center;
 	float: left;
 }
 .nTitleName{
@@ -60,6 +63,7 @@ body{
 	color : #FF7A12;
 	width: 100px;
 	height: 40px;
+	cursor: pointer
 }
 #nContent ul{
 	clear: both;
@@ -80,6 +84,13 @@ body{
 	border-bottom: 1px solid black;
 	width : 795px;
 }
+a:hover, a:active {
+	color: tomato;
+	text-decoration: underline;
+}
+#noticeArticleFile a{
+color : blue;
+}
 
 </style>
 
@@ -97,52 +108,56 @@ function ndeleteOk(){
 	<jsp:include page = "/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 
-<h3>| 공지 내용</h3>
-<div id = "nArticle">
+<div style="background:#E3F5DE; margin: 30px auto 0; z-index: 3">
+<div id = "nArticle" style="padding-top 20px;border: 1px solid black; border-radius: 10px; box-shadow: #eee; background: white; z-index: 1">
 	<div id = "nTitle">
-		<ul>
-			<li class = "nTitleName" style="border-top: 1px solid black">글쓴이</li>
-			<li class = "nTitleContent" style="border-top: 1px solid black">${dto.userId }</li>
-		</ul>
-		<ul>
-			<li class = "nTitleName">제목</li>
-			<li class = "nTitleContent">${dto.noticeSubject }</li>
-		</ul>
-		<ul>
-			<li class = "nTitleName">날짜</li>
-			<li class = "nTitleContent">${dto.noticeDate }</li>
-		</ul>
+		<h3 style="padding-bottom: 10px"> 공지 내용</h3>
+		<div align="center" style="margin-bottom: 10px; height: 50px; border-bottom: 2px solid black">
+			<h1>${dto.noticeSubject }</h1>
+		</div>
+
+		<div align="right">
+			<div style="width: 150px" align = "left">
+				<b>글쓴이 :&nbsp</b>${dto.userId }
+			</div>	
+		</div>
+		<div align="right">
+			<div style="width: 150px" align = "left">
+			<b>날짜 :&nbsp</b>${dto.noticeDate }
+			</div>
+		</div>
 	</div>
-	
-	<div id = "nContent">
-	
-		<ul style = "border-bottom: 1px solid black">
-			<li>${dto.noticeContent}
-			<br>
-			<c:if test="${not empty image }">
-				<img alt="" src="<%=cp%>/uploaded/notice/${image}" width="30%" height="30%">
-			</c:if>
-			</li>
-		</ul>
+	<div align="center" style="height: 320px; border-bottom: 1px solid black;">
+		<div id = "nContent" style="border: 1px solid black; border-radius:5px ;width:500px;height: 300px;text-align: left;" align="left">
+				${dto.noticeContent}
+				<br>
+				
+				<c:if test="${not empty image }">
+				<div align="center">
+					<img alt="" src="<%=cp%>/uploaded/notice/${image}" style="max-width: 100px; height: auto;">
+				</div>
+				</c:if>
+				
+		</div>
 	</div>
-	<div class = "nFiles">
+	<div id = "noticeArticleFile" style = "border-bottom: 1px solid black;" align="right">
 		<c:if test="${not empty dto.noticeSubject}">
-		<ul>
-			<li>
-				<a href = "<%=cp %>/notice/download_ok.do?listNum=${listNum }&page=${page}">${dto.originalFileName }</a>		
-			</li>
-		</ul>
+				<a href = "<%=cp %>/notice/download_ok.do?listNum=${listNum }&page=${page}" style="font-weight: bold;" onmouseup="">${dto.originalFileName }</a>		
 		</c:if>
 	</div>
-	<div align="right" style="padding-top: 20px">
+	
+	<div align="right" style="z-index: 2; padding-right: 10px; padding-top:10px; padding-bottom: 10px" >
 	<c:if test="${sessionScope.member.userRole.equals('admin')}">
 			<button type = "button" class = "nBtn" onclick = "javascript:location.href='<%=cp%>/notice/update.do?page=${page }&listNum=${listNum }'">수정</button>	
 			<button type = "button" class = "nBtn" onclick = "ndeleteOk();">삭제</button>
 	</c:if>
 	<button type = "button" class = "nBtn" onclick = "javascript:location.href='<%=cp%>/notice/list.do?page=${page }'">리스트</button>
 	</div>
+	
 </div>
 
+	
+</div>
 <div class = "footer">
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </div>

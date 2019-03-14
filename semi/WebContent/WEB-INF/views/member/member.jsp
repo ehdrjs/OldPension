@@ -10,7 +10,42 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
+
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	$("#signInId").change(function(){
+		
+		var f = document.signId;
+		
+		var query="id="+$("#signInId").val();
+		var url="<%=cp%>/member/test.do";
+		  
+		  $.ajax({
+			  type:"post"
+			  ,url:url
+			  ,data:query
+			  ,dataType:"json"
+			  ,success:function(data) {
+				  var state = data.state;
+				  var out = "";
+				  if(state=="Impossible") {
+					  out += "아이디가 <span style='color: red;'>중복 </span> 됩니다";
+				  }else{
+					  out += "아이디가 <span style='color: blue;'>사용 가능 </span> 합니다.";  
+				  }		  
+				  
+				  $("#idOverLayout").html(out);
+			
+			  }
+		      ,error:function(e) {
+		    	  console.log(e.responseText);
+		      }
+		  });
+	});
+	
+});
+
 function sendOk(){
 	var f = document.signIn;
 	var str;
@@ -30,12 +65,12 @@ function sendOk(){
 	str = f.userPwd.value;
 	if(!str){
 		alert("비밀번호를 입력하세요.");
-		f.userPwd.value();
+		f.userPwd.focus();
 		return;
 	}
 	if(str != f.userPwdCheck.value){
 		alert("비밀번호가 일치하지 않습니다.");
-		f.userPwdCheck.value();
+		f.userPwdCheck.focus();
 		return;
 	}
 	
@@ -76,21 +111,33 @@ function isValidEmail(data){
 
 
 </script>
-
+<style type="text/css">
+.nBtn{
+	border: 1px solid orange;
+	border-radius: 2px;
+	background: #FFF3DA;
+	color : #FF7A12;
+	width: 100px;
+	height: 40px;
+	cursor: pointer
+}
+</style>
 </head>
 <body>
+<div style="margin : 30px auto 0;width: 450px; height : 400px; border : 1px solid black; border-radius: 5px" align="center">
 <form name = "signIn" method = "post">
-<p>${title }</p>
-<p>아이디 :<input type = "text" name = "userId"> </p>
-<p>비밀번호 :<input type = "password" name = "userPwd"> </p>
-<p>비밀번호 :<input type = "password" name = "userPwdCheck"> </p>
-<p>이름 :<input type = "text" name = "userName"> </p>
-<p>전화번호 : <input type = "text" name = "tel"> </p>
-<p>이메일<input type = "text" name = "email"> </p>
-<p><input type = "radio" name = "userRole" value = "admin">관리자</p>
-<p><input type = "radio" name = "userRole" value = "user">사용자</p>
-<button type = "button" onclick = "sendOk();">${mode=="created"?"회원가입":"수정완료" }</button>
-
+<h2 style ="font-weight: bold">회원가입</h2>
+<div style="width:400px; text-align: left" >
+	<p>아이디 :<input id = "signInId" type = "text" name = "userId"> </p>
+	<div id ="idOverLayout">아아디는 영문자로 시작하는 3~5글자 이어야합니다.</div> 
+	<p>비밀번호 :<input type = "password" name = "userPwd"> </p>
+	<p>비밀번호 :<input type = "password" name = "userPwdCheck"> </p>
+	<p>이름 :<input type = "text" name = "userName"> </p>
+	<p>전화번호 : <input type = "text" name = "tel"> </p>
+	<p>이메일<input type = "text" name = "email"> </p>
+</div>
+<button class = "nBtn" type = "button" onclick = "sendOk();">${mode=="created"?"회원가입":"수정완료" }</button>
 </form>
+</div>
 </body>
 </html>

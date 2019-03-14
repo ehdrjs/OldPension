@@ -93,4 +93,29 @@ public class MemberDAO {
 		
 		return result;
 	}
+	
+	public int testIdO(String id) {
+		int count = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		
+		try {
+			sql = "SELECT COUNT(*) FROM member WHERE userid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count =  rs.getInt(1); 
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	} 
 }
