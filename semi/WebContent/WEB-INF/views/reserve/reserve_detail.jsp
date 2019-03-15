@@ -28,7 +28,7 @@
 <div class="header">
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
-	<div class="reserve">
+	<div class="reserve" >
 		<div>
 		<form name="reserve_form1" method="post">
 			<p class="mt10 mb10">객실</p>

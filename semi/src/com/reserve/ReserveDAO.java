@@ -37,7 +37,7 @@ public class ReserveDAO {
 			sb.append(" select * from dual");
 			
 			pstmt = conn.prepareStatement(sb.toString());
-			
+			System.out.println(sb);
 			if(m_dto.getUserNum()!=null) {	//회원	
 				
 				pstmt.setString(1, r_dto.getReserveName());
@@ -293,6 +293,75 @@ public class ReserveDAO {
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setString(1, usernum);
 
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ReserveDTO r_dto = new ReserveDTO();
+				
+				r_dto.setReserveNum(rs.getString("reservenum"));
+				r_dto.setReserveDate(rs.getDate("reservedate").toString());
+				r_dto.setReserveCount(rs.getInt("reservecount"));
+				r_dto.setBank(rs.getString("bank"));
+				r_dto.setBarbecue(rs.getInt("barbecue"));
+				r_dto.setBbcCount(rs.getInt("bbcCount"));
+				r_dto.setPrice(rs.getInt("barbecue")+rs.getInt("price"));
+				r_dto.setRoomPrice(rs.getInt("price"));
+				r_dto.setStartDay(rs.getDate("startday").toString());
+				r_dto.setEndDay(rs.getDate("endday").toString());
+				r_dto.setReserveMemo(rs.getString("reservememo"));
+				
+				r_dto.setTel(rs.getString("usertel"));
+				r_dto.setEmail(rs.getString("useremail"));
+				r_dto.setReserveName(rs.getString("reservename"));
+				
+				r_dto.setRoomNum(rs.getInt("roomnum"));
+				r_dto.setRoomName(rs.getString("roomname"));
+				
+				list.add(r_dto);
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return list;
+	}
+	
+	public List<ReserveDTO> listReserve() { // 예약번호에 따른 예약 리스트
+		List<ReserveDTO> list = new ArrayList<ReserveDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuffer sb = new StringBuffer();
+
+		try {
+
+			sb.append("SELECT r.reservenum, r.reservename, c.usernum, rd.roomnum, rm.roomname, r.priceall,");
+			sb.append("     rp.price, r.reservedate, r.reservecount, r.startday, r.endday,");
+			sb.append("     r.reservememo, r.barbecue, r.bbccount, r.bank, ");
+			sb.append("     c.usertel, c.useremail");
+			sb.append("  FROM reserve r");
+			sb.append("  JOIN client c ON r.usernum = c.usernum");
+			sb.append("  JOIN reservedetail rd ON r.reservenum = rd.reservenum");
+			sb.append("  JOIN room rm ON rd.roomnum = rm.roomnum");
+			sb.append("  JOIN roomprice rp ON rp.roomnum = rm.roomnum ");
+			sb.append("	ORDER BY reservenum ASC");
+
+
+			pstmt = conn.prepareStatement(sb.toString());
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
