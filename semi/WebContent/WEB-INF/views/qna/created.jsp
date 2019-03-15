@@ -60,7 +60,7 @@
 		<div class="header">
 			<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 		</div>
-		<div class="container">
+		<div class="container" style="margin-top:20px; margin-bottom:10px">
 			<div>
 				<h5 style="font-weight: bold">
 					<span>|&nbsp;</span>고객문의 글작성

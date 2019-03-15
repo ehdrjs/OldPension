@@ -57,10 +57,10 @@ body{
 	height: 40px;
 }
 .nBtn{
-	border: 1px solid orange;
-	border-radius: 2px;
-	background: #FFF3DA;
-	color : #FF7A12;
+	
+	border-radius: 4px;
+	background: #eee;
+	color : black;
 	width: 100px;
 	height: 40px;
 	cursor: pointer
@@ -108,7 +108,7 @@ function ndeleteOk(){
 	<jsp:include page = "/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 
-<div style="background:#E3F5DE; margin: 30px auto 0; z-index: 3">
+<div style="background:#eee; margin: 30px auto 0; z-index: 3">
 <div id = "nArticle" style="padding-top 20px;border: 1px solid black; border-radius: 10px; box-shadow: #eee; background: white; z-index: 1">
 	<div id = "nTitle">
 		<h3 style="padding-bottom: 10px"> 공지 내용</h3>

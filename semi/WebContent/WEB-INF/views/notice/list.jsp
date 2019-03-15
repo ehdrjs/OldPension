@@ -32,8 +32,8 @@ body {
 	clear:both;
 	list-style:none;
 	height:35px;
-	background-color: green;
-	color: #ffffff;
+	background-color: #dddddd;
+	color: #000000;
 }
 .list-title li {
 	float:left;
@@ -51,15 +51,15 @@ body {
 	height:35px;
 	line-height:35px;
 	text-align:center;
-	border-bottom:1px solid green;
+	border-bottom:1px solid black;
 }
 .nBtn{
-	border: 1px solid orange;
-	border-radius: 2px;
-	background: #FFF3DA;
-	color : #FF7A12;
-	width: 100px;
-	height: 40px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background: #ddd;
+	color : #000;
+	width: 80px;
+	height: 35px;
 	cursor: pointer
 }
 .board .num {width:50px;}
@@ -124,8 +124,8 @@ function article(){
 		
 	</form>
 		<c:if test = "${sessionScope.member.userRole.equals('admin')}">
-		<div align="right" style="margin-top: 10">
-			<button class = "nBtn" type="button" name = "createdBtn" onclick = "javascript:location.href ='<%=cp%>/notice/created.do?page=${page }'">등록하기</button>
+		<div align="right" style="padding-top: 50px">
+			<button  class = "nBtn" type="button" name = "createdBtn" onclick = "javascript:location.href ='<%=cp%>/notice/created.do?page=${page }'">등록하기</button>
 		</div>
 		</c:if>
 	<div align="center">

@@ -35,9 +35,9 @@ body{
 	
 }
 .nN{
-	background:green;
+	background:#eee;
 	font-size: 15px;
-	color: white;
+	color: black;
 	width: 100px;
 	border: 1px solid black;
 	text-align: center;
@@ -54,10 +54,10 @@ a:hover, a:active {
 	text-decoration: underline;
 }
 .nBtn{
-	border: 1px solid orange;
-	border-radius: 2px;
-	background: #FFF3DA;
-	color : #FF7A12;
+
+	border-radius: 4px;
+	background: #eee;
+	color : #000;
 	width: 100px;
 	height: 40px;
 	cursor: pointer
