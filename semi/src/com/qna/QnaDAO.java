@@ -445,7 +445,7 @@ public class QnaDAO {
 				}
 				sb.append("		((groupNum= ? AND orderNo > ? ) ");
 				sb.append("		OR (groupNum < ? )) ");
-				sb.append("		ORDER BY groupNum ASC, orderNo DESC) tb WHERE ROWNUM =1 ");
+				sb.append("		ORDER BY groupNum DESC, orderNo ASC) tb WHERE ROWNUM =1 ");
 
 				pstmt = conn.prepareStatement(sb.toString());
 
@@ -458,7 +458,7 @@ public class QnaDAO {
 				sb.append("		SELECT qnaNum, qnaSubject FROM qna q JOIN member m ON q.userId=m.userId ");
 				sb.append("		WHERE (groupNum= ? AND orderNo > ? ) ");
 				sb.append("		OR (groupNum < ? ) ");
-				sb.append("		ORDER BY groupNum ASC, orderNo DESC) tb WHERE ROWNUM =1 ");
+				sb.append("		ORDER BY groupNum DESC, orderNo ASC) tb WHERE ROWNUM =1 ");
 
 				pstmt = conn.prepareStatement(sb.toString());
 				pstmt.setInt(1, groupNum);
