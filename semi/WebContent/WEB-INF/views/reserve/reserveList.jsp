@@ -32,7 +32,7 @@
 		<div class="header">
 			<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 		</div>
-		<div class="container">
+		<div class="container" style="height:720px;">
 			<div>
 				<h5 style="font-weight: bold">
 					<span>|&nbsp;</span>예약조회

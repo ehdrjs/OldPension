@@ -68,12 +68,11 @@ public class ReserveServlet extends MyServlet {
 		// 예약 폼
 		RoomDAO room_dao = new RoomDAO();
 		List<RoomDTO> roomList;
-		
+
 		roomList = room_dao.listRoom();
-		
+
 		req.setAttribute("roomList", roomList);
-		
-		
+
 		forward(req, resp, "/WEB-INF/views/reserve/reserve.jsp");
 	}
 
@@ -89,9 +88,7 @@ public class ReserveServlet extends MyServlet {
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		
 
-		
 		r_dto.setReserveNum(req.getParameter("reserveNum"));
 		r_dto.setReserveName(req.getParameter("reservename"));
 		r_dto.setReserveCount(
@@ -101,7 +98,8 @@ public class ReserveServlet extends MyServlet {
 		r_dto.setEndDay(req.getParameter("endDay"));
 		r_dto.setBarbecue(Integer.parseInt(req.getParameter("barbecue1")) * 20000); // 바베큐 가격
 		r_dto.setBbcCount(Integer.parseInt(req.getParameter("barbecue1"))); // 바베큐 수량
-		r_dto.setPrice(Integer.parseInt(req.getParameter("barbecue1")) + Integer.parseInt(req.getParameter("room")));
+		r_dto.setPrice(
+				Integer.parseInt(req.getParameter("barbecue1")) * 20000 + Integer.parseInt(req.getParameter("room")));
 		r_dto.setBank(req.getParameter("bank"));
 		rm_dto.setRoomNum(Integer.parseInt(req.getParameter("room")));
 
@@ -109,7 +107,7 @@ public class ReserveServlet extends MyServlet {
 			// 아이디 가져오기
 			String id = info.getUserId();
 			MemberDAO m_dao = new MemberDAO();
-			m_dto=m_dao.readMember(id);
+			m_dto = m_dao.readMember(id);
 
 		} else { // 비회원
 			m_dto.setUserPwd(req.getParameter("pwd"));
@@ -152,18 +150,18 @@ public class ReserveServlet extends MyServlet {
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		ReserveDAO r_dao = new ReserveDAO();
-		
+
 		String cp = req.getContextPath();
 
-		if (info!= null) {
+		if (info != null) {
 			String usernum = info.getUserNum();
 
 			List<ReserveDTO> list = r_dao.listReserve(usernum);
 			String query2 = "usernum=" + usernum;
 
-			req.setAttribute("list", list); 
+			req.setAttribute("list", list);
 			req.setAttribute("query2", query2);
-			
+
 			resp.sendRedirect(cp + "/reserve/reserveList.do");
 		}
 
@@ -177,7 +175,7 @@ public class ReserveServlet extends MyServlet {
 		String query = "reserveNum=" + reserveNum;
 
 		ReserveDTO r_dto = r_dao.readReserve(reserveNum);
-		
+
 		req.setAttribute("r_dto", r_dto);
 		req.setAttribute("query", query);
 
@@ -207,30 +205,32 @@ public class ReserveServlet extends MyServlet {
 		forward(req, resp, "/WEB-INF/views/reserve/reserve_detail.jsp");
 	}
 
-	protected void reserveList(HttpServletRequest req, HttpServletResponse resp)
-	  throws ServletException, IOException { 
+	protected void reserveList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 예약 리스트
-	  ReserveDAO r_dao = new ReserveDAO();
-	  MemberDAO m_dao = new MemberDAO();
-	  MemberDTO m_dto = null;
-	  
-	  HttpSession session = req.getSession();
-	  SessionInfo info = (SessionInfo) session.getAttribute("member");
-	  
-	  if(info!=null) {
-		  m_dto = m_dao.readMember(info.getUserId()); 
-	  
-	  String usernum = m_dto.getUserNum();
-	  
-	  List<ReserveDTO> list = r_dao.listReserve(usernum); 
-	  req.setAttribute("list", list); 
-	  
-	  
-	  String query = "usernum=" + usernum; 
-	  req.setAttribute("query", query);
-	  }
-	  forward(req, resp, "/WEB-INF/views/reserve/reserveList.jsp"); 
-	  
-	  }
+		ReserveDAO r_dao = new ReserveDAO();
+		MemberDAO m_dao = new MemberDAO();
+		MemberDTO m_dto = null;
+
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		if (info != null) {
+			m_dto = m_dao.readMember(info.getUserId());
+
+			String usernum = m_dto.getUserNum();
+
+			if (info.getUserRole()!="admin") {
+				List<ReserveDTO> list = r_dao.listReserve(usernum);
+				req.setAttribute("list", list);
+
+				String query = "usernum=" + usernum;
+				req.setAttribute("query", query);
+			} else {
+				List<ReserveDTO> list = r_dao.listReserve();
+				req.setAttribute("list", list);
+			}
+			forward(req, resp, "/WEB-INF/views/reserve/reserveList.jsp");
+		}
+	}
 
 }

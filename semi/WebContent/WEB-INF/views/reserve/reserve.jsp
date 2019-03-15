@@ -122,9 +122,9 @@ function sendOk(){
 	}
 	
 	function roomPrice(){		
-		var num = parseInt($("form select[name=room]").val());    // ex) 1, 2, 3
+		var num = parseInt($("form input[id=roomNum]").val());   
 		document.getElementById("roomPrice").innerHTML = num + "원";
-		
+		//document.getElementsByName("roomPrice").innerHTML = num + "원";
 		
 		var room1 = ["1","2","3","4","5","6"];
 		var room2 = ["1","2","3","4","5","6","7","8"];
@@ -135,13 +135,13 @@ function sendOk(){
 		
 		var changePerson;
 		
-		if(selectRoom == 100000){
+		if(selectRoom == 1){
 			changePerson = room1;
-		} else if(selectRoom == 150000){
+		} else if(selectRoom == 2){
 			changePerson = room2;
-		} else if(selectRoom == 150000){
+		} else if(selectRoom == 3){
 			changePerson = room3;
-		} else if(selectRoom == 200000){
+		} else if(selectRoom == 4){
 			changePerson = room4;
 		}
 		
@@ -158,7 +158,7 @@ function sendOk(){
 	
 	function price(){
 		var num = 0;
-		var num1 = parseInt($("form select[name=room]").val()); 
+		var num1 = parseInt($("form input[id=roomNum]").val()); 
 		var num2 = parseInt($("form select[name=barbecue1]").val());
 		var price2 = 20000;
 		var result = num1 + num2*price2;
@@ -204,9 +204,12 @@ function sendOk(){
 						<td><select id="room" name="room" onchange="roomPrice();">
 								<option value="0">선택</option>
 							<c:forEach var="dto" items="${roomList}">
-								<option value="${dto.price}">${dto.roomName}</option>
+								<option value="${dto.roomNum}">${dto.roomName}</option>
 							</c:forEach>
 						</select></td>
+						<c:forEach var="dto" items="${roomList}">
+								<input type="hidden" value="${dto.price}" id="roomNum" name="${dto.roomNum}">
+						</c:forEach>
 						<th>가격</th>
 						<td id="roomPrice">0원</td>
 					</tr>
@@ -273,7 +276,7 @@ function sendOk(){
 							<option value="2">2개</option>
 							<option value="3">3개</option>
 						</select></td>
-							<td>0원</td>
+							<td>20000원</td>
 							<td id="bar01">0원</td>
 						</tr>
 					</tbody>
@@ -332,7 +335,6 @@ function sendOk(){
 				<div class="reserve_btn">
 				<input type="hidden" value="${rm_dto.roomNum}" id="roomNum" name="roomNum">
 				<input type="hidden" value="${r_dto.reserveNum}" id="reserveNum" name="reserveNum">
-				
 					<button type="button" onclick="getDate();" id="btn">예약하기</button>
 				</div>
 			</form>
